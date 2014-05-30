@@ -21,3 +21,13 @@ Liens utiles
 [Documentation](http://silex.sensiolabs.org/documentation) - Documentation utilisateur de Silex
 
 [The Cookbook](http://symfony.com/) - Astuces, tutoriels et articles à propos de Symfony
+
+Installation
+----------------
+En ligne de commande pour installer les dépendances :
+    composer.phar install
+
+Pour configurer la connection à la base de données :
+    Copier config.yml.dist en config.yml
+
+En ligne de commande donner les droits d'écriture dans les dossier var/cache et var/logs.

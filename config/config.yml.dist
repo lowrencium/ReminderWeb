@@ -1,0 +1,16 @@
+db:
+    driver:   "pdo_mysql"
+    host:     "localhost"
+    dbname:   "dbname"
+    user:     "user"
+    password: "password"
+mail:
+    host: "smtp.gmail.com"
+    port: 465
+    username: "xxx@gmail.com"
+    password: "xxxxxx"
+    encryption: "ssl"
+    auth_mode: "LOGIN"
+    from:
+        "noreply@mydomain.com": "FROMNAME"
+    to: ["xxx@gmail.com"]
