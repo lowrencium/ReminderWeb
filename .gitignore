@@ -1,21 +1,20 @@
-# User specific & automatically generated files #
-#################################################
-/app/Config/database.php
-/app/tmp
-/lib/Cake/Console/Templates/skel/tmp/
-/plugins
-/vendors
-/build
-/dist
-/tags
+# IDE Files
 
-# OS generated files #
-######################
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-Icon?
-ehthumbs.db
-Thumbs.db
+
+# Library and cache/log
+/vendor/
+/cache/*
+/logs/*
+silex.log
+
+# Content Folder
+/web/uploads/*
+
+# Config Files
+dandelion.yml
+composer.lock
+composer.phar
+config.yml
+
+# Git file
+!.gitkeep
