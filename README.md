@@ -24,10 +24,17 @@ Liens utiles
 
 Installation
 ----------------
-En ligne de commande pour installer les dépendances :
+1. En ligne de commande pour installer les dépendances :
     composer.phar install
 
-Pour configurer la connection à la base de données :
+2. Pour configurer la connection à la base de données :
     Copier config.yml.dist en config.yml
 
-En ligne de commande donner les droits d'écriture dans les dossier var/cache et var/logs.
+3. En ligne de commande créez les tables de la BDD et ajoutez un utilisateur :
+
+```php
+composer install
+php console orm:schema-tool:create
+php console user:add
+
+4. En ligne de commande donner les droits d'écriture dans les dossier var/cache et var/logs.
