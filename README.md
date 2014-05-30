@@ -11,15 +11,13 @@ L'interface web doit permettre à l'utilisateur d'accéder à l'ensemble des fon
 
 Les technologies
 ----------------
-Ce site web sera réalisée en **PHP** et utilisera le framework **CakePHP**. La gestion des données nécessitera l'emploi de **services web**. Pendant la phase de développement le site sera hébergé sur un serveur web **Lighttpd**.
+Ce site web sera réalisée en **PHP** et utilisera le framework **Silex**. La gestion des données nécessitera l'emploi de **services web**. Pendant la phase de développement le site sera hébergé sur un serveur web chez **Gandi**.
 
 Liens utiles
 ----------------
 
-[CakePHP](http://www.cakephp.org) - Site du framework CakePHP
+[Silex](http://silex.sensiolabs.org) - Site du framework Silex
 
-[CookBook](http://book.cakephp.org) - Documentation utilisateur de CakePHP
+[Documentation](http://silex.sensiolabs.org/documentation) - Documentation utilisateur de Silex
 
-[API](http://api.cakephp.org) - API de CakePHP
-
-[The Bakery](http://bakery.cakephp.org) - Astuces, tutoriels et articles à propos de CakePHP
+[The Cookbook](http://symfony.com/) - Astuces, tutoriels et articles à propos de Symfony
