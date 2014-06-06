@@ -25,7 +25,8 @@ Liens utiles
 Installation
 ----------------
 1. En ligne de commande pour installer les dépendances :
-    composer.phar install
+	curl -sS https://getcomposer.org/installer | php
+    php composer.phar install
 
 2. Pour configurer la connection à la base de données :
     Copier config.yml.dist en config.yml
