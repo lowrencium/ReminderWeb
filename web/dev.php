@@ -8,6 +8,6 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 $app = new App\Application(true);
 $app->register(new \Silex\Provider\MonologServiceProvider(), array(
-  'monolog.logfile' => __DIR__ . '/../logs/dev.log',
+  'monolog.logfile' => __DIR__ . '/../var/logs/dev.log',
 ));
 $app->run();
