@@ -1,0 +1,16 @@
+/* 
+    Created on : 4 juin 2014, 23:17:11
+    Author     : franckmazzolo
+*/
+
+.fa-fw {
+    width: 2em;
+}
+
+.nav li{
+    cursor: pointer;
+}
+
+.navbar-brand{
+    cursor: pointer;
+}
