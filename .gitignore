@@ -11,7 +11,7 @@ silex.log
 dandelion.yml
 composer.lock
 composer.phar
-config.yml
+Config/config.yml
 
 # Git file
 !.gitkeep
