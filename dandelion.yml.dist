@@ -1,0 +1,10 @@
+# Required
+scheme: sftp
+host: host
+username: user
+
+# Optional
+path: /path/to/deploy
+exclude:
+- dandelion.yml
+- .gitignore
