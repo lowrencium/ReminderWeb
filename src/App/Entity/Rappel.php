@@ -1,30 +1,37 @@
 <?php
 namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\@Table(name="information")
+ * @ORM\Entity
+ * @ORM\Table(name="rappel")
  */
 class Rappel implements \Serializable {
     /**
-     * @ORM\@Id 
-     * @ORM\@Column(type="integer")
-     * @ORM\@GeneratedValue
+     * @ORM\Id 
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
     /** 
-     * @ORM\@Column(type="string", length=255) 
+     * @ORM\Column(type="string", length=255) 
      */
     private $description;
     
     /** 
-     * @ORM\@Column(type="string", length=255) 
+     * @ORM\Column(type="string", length=255) 
      */
     private $cycle;
+    
+    /** 
+     * @ORM\Column(type="string", length=255) 
+     */
+    private $lieu;
 
     /** 
-     * @ORM\@ManyToMany(targetEntity="User",mappedBy="informations") 
+     * @ORM\ManyToMany(targetEntity="User",mappedBy="informations") 
      */
     private $users;
 
@@ -113,6 +120,27 @@ class Rappel implements \Serializable {
     public function getCycle()
     {
         return $this->cycle;
+    }
+    
+    /**
+     * Set lieu
+     * @param string $lieu
+     * @return Lieu
+     */
+    public function setLieu($lieu)
+    {
+        $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    /**
+     * Get lieu
+     * @return string 
+     */
+    public function getLieu()
+    {
+        return $this->lieu;
     }
 
     /**

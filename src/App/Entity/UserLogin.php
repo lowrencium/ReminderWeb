@@ -30,12 +30,12 @@ class UserLogin
     protected $created;
     
     /**
-     * @Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255)
      */
     private $action;
     
     /**
-     * @Column(type="string", length=30)
+     * @ORM\Column(type="string", length=30)
      */
     private $context;
     

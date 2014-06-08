@@ -1,37 +1,39 @@
 <?php
 namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\@Table(name="device")
+ * @ORM\Entity
+ * @ORM\Table(name="device")
  */
 class Device implements \Serializable {
     /**
-     * @ORM\@Id 
-     * @ORM\@Column(type="integer")
-     * @ORM\@GeneratedValue
+     * @ORM\Id 
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
-    private $id;
+    protected $id;
 
     /** 
-     * @ORM\@Column(type="string", length=128, unique=true) 
+     * @ORM\Column(type="string", length=128, unique=true) 
      */
-    private $serial;
+    protected $serial;
 
     /** 
-     * @ORM\@Column(type="string", length=64) 
+     * @ORM\Column(type="string", length=64) 
      */
-    private $name;
+    protected $name;
 
     /** 
-     * @ORM\@Column(type="string", length=64) 
+     * @ORM\Column(type="string", length=64) 
      */
-    private $constructor;
+    protected $constructor;
 
     /** 
-     * @ORM\@ManyToMany(targetEntity="User",mappedBy="devices") 
+     * @ORM\ManyToMany(targetEntity="User",mappedBy="devices") 
      */
-    private $users;
+    protected $users;
 
     /**
      * Constructor

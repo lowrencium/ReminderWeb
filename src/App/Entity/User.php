@@ -94,8 +94,8 @@ class User implements AdvancedUserInterface, \Serializable
     protected $logins;
 
     /**
-     * @ORM\@ManyToMany(targetEntity="Device",cascade="persist",inversedBy="users")
-     * @ORM\@JoinTable(name="users_devices")
+     * @ORM\ManyToMany(targetEntity="Device",cascade="persist",inversedBy="users")
+     * @ORM\JoinTable(name="users_devices")
      */
     protected $devices;
     
