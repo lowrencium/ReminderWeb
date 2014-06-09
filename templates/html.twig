@@ -10,6 +10,34 @@
     <link href="css/general.css" rel="stylesheet" type="text/css">
     <link href="css/contacts.css" rel="stylesheet" type="text/css">
 
+</head>
+<body>
+    {% include 'top_menu.twig' %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                {% include 'left_menu.twig' %}
+            </div>
+            <div id="ajaxContent" class="col-md-10 well">
+                {% block content %}{% endblock %}
+                {# Temporary #}
+                {% include 'remindme.twig' %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Javascript -->
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="http://ericwenn.se/kalendar/free/"></script>
@@ -19,16 +47,5 @@
     <script type="text/JavaScript" src="js/forms.js"></script> 
     <script src="js/jquery.confirm.min.js"></script>
     <script src="js/functions.js"></script>
-</head>
-<body>
-   
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2">
-                
-            </div>
-            <div id="ajaxContent" class="col-md-10 well"></div>
-        </div>
-    </div>
 </body>
 </html>

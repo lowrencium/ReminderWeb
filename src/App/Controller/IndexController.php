@@ -17,7 +17,7 @@ class IndexController implements ControllerProviderInterface
     public function index(Application $app)
     {
         $vars = array('hello' => 'world');
-        return $app['twig']->render('index.twig', $vars);
+        return $app['twig']->render('html.twig', $vars);
     }
 
     /**
