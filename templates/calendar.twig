@@ -1,0 +1,62 @@
+{% extends "html.twig" %}
+
+{% block title %}Agenda{% endblock %}
+
+{% block content %}
+    <div id="loadCalendar"></div>
+
+    <script>
+        var options = {
+            color: "green",
+            events: [{
+                    title: "Faire le projet Commun",
+                    location: "A la maison",
+                    start: {
+                        date: "20140601", time: "17.00"
+                    },
+                    end: {
+                        date: "20140816", time: "17.00"
+                    }
+                }, {
+                    title: "Partiels",
+                    location: "A la maison",
+                    start: {
+                        date: "20140610", time: "17.00"
+                    },
+                    end: {
+                        date: "20140623", time: "17.00"
+                    }
+                }],
+            firstDayOfWeek: "Monday",
+            showDays: false,
+            dayHuman: [
+                ["D", "Dimanche"],
+                ["L", "Lundi"],
+                ["M", "Mardi"],
+                ["M", "Mercredi"],
+                ["J", "Jeudi"],
+                ["V", "Vendredi"],
+                ["S", "Samedi"]
+            ],
+            monthHuman: [
+                ["Janv", "Janvier"],
+                ["Fevr", "Février"],
+                ["Mars", "Mars"],
+                ["Avr", "Avril"],
+                ["Mai", "Mai"],
+                ["Juin", "Juin"],
+                ["Juill", "Juillet"],
+                ["Août", "Août"],
+                ["Sept", "Septembre"],
+                ["Oct", "Octobre"],
+                ["Nov", "Novembre"],
+                ["Dec", "Décembre"]
+            ],
+            onDayShow: function() {
+                alert("A specific day is being viewed!");
+            }
+        };
+        $("#loadCalendar").kalendar(options);
+    </script>
+{% endblock %}
+

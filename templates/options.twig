@@ -1,0 +1,23 @@
+{% extends "html.twig" %}
+
+{% block title %}Options{% endblock %}
+
+{% block content %}
+    <form id="add-contact" role="form" action="" method="post" >
+        <h2>Changer de langue</h2>
+        <div class="radio">
+            <label class="radio">
+                <input type="radio" name="optionsRadios" id="lgEnglish" value="english" checked>
+                Anglais
+            </label>
+        </div>
+        <div class="radio">
+            <label class="radio">
+                <input type="radio" name="optionsRadios" id="lgFrench" value="french">
+                Français
+            </label>
+        </div>
+        <input type="submit" name="submit" id="submit" value="Mettre à jour les préférences" class="btn btn-info">
+    </form>
+
+{% endblock %}
