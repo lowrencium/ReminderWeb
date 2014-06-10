@@ -23,10 +23,67 @@
                     <div class="form-group">
                         <input type="password" class="form-control" name="password" placeholder="Mot de passe">
                     </div>
-                    <button id="login" type="button" class="btn btn-primary">Se connecter</button>
-                    <button id="register" type="button" class="btn btn-warning">S'inscrire</button>
+                    <button id="login" type="submit" class="btn btn-primary ladda-button" data-style="zoom-out">Se connecter</button>
+                    <button id="register" data-toggle="modal" data-target="#registerModal" type="button" class="btn btn-warning">S'inscrire</button>
                 </form>
             </div>
         </center>
     </div>
 </div>
+
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <form role="form">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h2>Inscription sur le site</h2>
+                            <hr class="colorgraph">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" name="first_name" id="first_name" class="form-control input-lg" placeholder="Prénom" tabindex="1">
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" name="last_name" id="last_name" class="form-control input-lg" placeholder="Nom" tabindex="2">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email" tabindex="4">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control input-lg">
+                                    <option>Utilisateur</option>
+                                    <option>Administration</option>
+                                </select>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Mot de passe" tabindex="5">
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-lg" placeholder="Confirmer" tabindex="6">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="colorgraph">
+                            <div class="row">
+                                <div class="col-xs-12"><button type="submit" id="do_register" class="btn btn-primary btn-block btn-lg ladda-button" data-style="zoom-out" data-spinner-size="40"><span class="ladda-label">Submit</span></button></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
