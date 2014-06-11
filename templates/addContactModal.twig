@@ -1,0 +1,14 @@
+{% extends "modal.twig" %}
+
+{% block idModal %}addContactModal{% endblock %}
+{% block titleModal %}Ajouter un contact{% endblock %}
+{% block idFormModal %}formAddContact{% endblock %}
+{% block bodyModal %}
+    {% include 'inputModal.twig' with {'label': 'Nom', 'idInput' : 'name', 'type' : 'text'} %}
+    {% include 'inputModal.twig' with {'label': 'Mail', 'idInput' : 'mail', 'type' : 'mail'} %}
+    {% include 'inputModal.twig' with {'label': 'Téléphone', 'idInput' : 'phone', 'type' : 'text'} %}
+    {% include 'inputModal.twig' with {'label': 'Adresse', 'idInput' : 'addresse', 'type' : 'text'} %}
+
+{% endblock %}
+
+{% block idSubmitModal %}do_addContact{% endblock %}

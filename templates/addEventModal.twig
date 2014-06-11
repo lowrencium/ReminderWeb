@@ -1,0 +1,14 @@
+{% extends "modal.twig" %}
+
+{% block idModal %}addEventModal{% endblock %}
+{% block titleModal %}Ajouter un évènement{% endblock %}
+{% block idFormModal %}formAddEvent{% endblock %}
+{% block bodyModal %}
+
+    {% include 'inputModal.twig' with {'label': 'Titre', 'idInput' : 'title', 'type' : 'text'} %}
+    {% include 'inputModal.twig' with {'label': 'Lieu', 'idInput' : 'location', 'type' : 'text'} %}
+    {% include 'inputModal.twig' with {'label': 'Nom', 'idInput' : 'name', 'type' : 'text'} %}
+
+{% endblock %}
+
+{% block idSubmitModal %}do_addEvent{% endblock %}
