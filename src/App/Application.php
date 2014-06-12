@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Doctrine\Common\Persistence\ManagerRegistry;
+use App\Doctrine\Persistence\ManagerRegistry;
 use App\Entity\UserRepository;
 use App\Routing\Generator\UrlGenerator;
 use Silex\Application as SilexApplication;
@@ -150,17 +150,17 @@ class Application extends SilexApplication
                         'pattern' => '^/',
                         'anonymous' => array(),
                         'form' => array(
-                            'login_path' => "/login",
+                            'login_path' => "/user/login",
                             'check_path' => "/user/dologin",
                             "default_target_path" => "/",
                             //"always_use_default_target_path" => true,
-                            'username_parameter' => 'login[mail]',
+                            'username_parameter' => 'login[username]',
                             'password_parameter' => 'login[password]',
                             "csrf_parameter" => "login[_token]",
-                            "failure_path" => "/login",
+                            "failure_path" => "/user/login",
                         ),
                         'logout' => array(
-                            'logout_path' => "/logout",
+                            'logout_path' => "/user/logout",
                             "target" => '/',
                             "invalidate_session" => true,
                             "delete_cookies" => array()
@@ -171,8 +171,7 @@ class Application extends SilexApplication
                     ),
                 ),
                 'security.access_rules' => array(
-                    array('^/login', 'IS_AUTHENTICATED_ANONYMOUSLY'),
-                    array('^/register', 'IS_AUTHENTICATED_ANONYMOUSLY'),
+                    array('^/user/login', 'IS_AUTHENTICATED_ANONYMOUSLY'),
                     array('^/password', 'IS_AUTHENTICATED_ANONYMOUSLY'),
                     array('^/logout', 'IS_AUTHENTICATED_ANONYMOUSLY'),
                     array('^/admin/$', 'ROLE_ADMIN'),
@@ -201,6 +200,7 @@ class Application extends SilexApplication
     function setRoutes() {
         // Frontend
         $this->mount("/", new \App\Controller\IndexController());
+        $this->mount("/user", new \App\Controller\UserController());
 
         // Backend
         $this->mount("/admin", new \App\Controller\Admin\AdminController());

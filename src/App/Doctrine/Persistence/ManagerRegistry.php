@@ -1,5 +1,5 @@
 <?php
-namespace App\Doctrine\Common\Persistence;
+namespace App\Doctrine\Persistence;
 
 use Doctrine\Common\Persistence\AbstractManagerRegistry;
 use Silex\Application;
