@@ -17,41 +17,45 @@
         {% include 'top_menu.twig' %}
         <div class="container">
             <div class="row">
-                <div class="col-xs-12 col-md-2">
-                    {% include 'left_menu.twig' %}
-                </div>
-                <div class="col-xs-12 col-md-10 well">
-                    {% block content %}{% endblock %}
-                    {# Temporary #}
-                    {#{% include 'remindme.twig' %}#}
-                </div>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <div class="col-xs-12 col-md-2">
+                        {% include 'left_menu.twig' %}
+                    </div>
+                    <div class="col-xs-12 col-md-10 well">
+                        {% block content %}{% endblock %}
+                        {# Temporary #}
+                        {#{% include 'remindme.twig' %}#}
+                    </div>
+                {% else %}
+                    {% include 'remindme.twig' %}
+                {% endif %}
             </div>
         </div>
 
-    <!-- Javascript -->
-    <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
-        _gaq.push(['_trackPageview']);
+        <!-- Javascript -->
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
+            _gaq.push(['_trackPageview']);
 
-        (function() {
-            var ga = document.createElement('script');
-            ga.type = 'text/javascript';
-            ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
-    <script src="{{ asset('/js/jquery-1.10.2.min.js') }}"></script>
-    <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('/js/kalendar.js') }}"></script>
-    <script src="{{ asset('js/jquery.soap.js') }}"></script>
-    <script src="{{ asset('js/SoapManager.js') }}"></script>
-    <script src="{{ asset('/js/jquery.searchable-1.0.0.min.js') }}"></script>
-    <script src="{{ asset('/js/jquery.confirm.min.js') }}"></script>
-    <script src="{{ asset('/js/spin.min.js') }}"></script>
-    <script src="{{ asset('/js/ladda.min.js') }}"></script>
-    <script src="{{ asset('/js/functions.js') }}"></script>
-</body>
+            (function() {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+        <script src="{{ asset('/js/jquery-1.10.2.min.js') }}"></script>
+        <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('/js/kalendar.js') }}"></script>
+        <script src="{{ asset('/js/jquery.soap.js') }}"></script>
+        <script src="{{ asset('/js/SoapManager.js') }}"></script>
+        <script src="{{ asset('/js/jquery.searchable-1.0.0.min.js') }}"></script>
+        <script src="{{ asset('/js/jquery.confirm.min.js') }}"></script>
+        <script src="{{ asset('/js/spin.min.js') }}"></script>
+        <script src="{{ asset('/js/ladda.min.js') }}"></script>
+        <script src="{{ asset('/js/functions.js') }}"></script>
+    </body>
 </html>
