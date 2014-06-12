@@ -9,9 +9,6 @@ $(document).ready(function() {
     });
 
     $("#do_register").on("click", function() {
-        $('button[type=submit]').on("click", function(e) {
-            e.preventDefault();
-        });
         console.log("do_register");
     });
 
