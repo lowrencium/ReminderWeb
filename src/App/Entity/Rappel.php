@@ -25,21 +25,48 @@ class Rappel implements \Serializable {
      */
     private $cycle;
     
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $begin;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $end;
+    
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type;
+    
     /** 
      * @ORM\Column(type="string", length=255) 
      */
     private $lieu;
+    
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $lastUpdate;
 
     /** 
-     * @ORM\ManyToMany(targetEntity="User",mappedBy="informations") 
+     * @ORM\ManyToMany(targetEntity="User",mappedBy="rappels") 
      */
     private $users;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Place",cascade="persist",inversedBy="rappels")
+     * @ORM\JoinTable(name="rappels_places")
+     */
+    protected $places;
 
     /**
      * Constructor
      */
     public function __construct(){
         $this->users = new ArrayCollection();
+        $this->places = new ArrayCollection();
     }
 
     /**
