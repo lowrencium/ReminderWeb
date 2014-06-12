@@ -39,7 +39,7 @@ https://github.com/doedje/jquery.soap/blob/1.3.8/README.md
 	var enableLogging;
 	var globalConfig = { // this setup once, defaults go here
 		appendMethodToURL: true,
-		async: true,
+		async: false,
 		enableLogging: false,
 		noPrefix: false,
 		soap12: false
