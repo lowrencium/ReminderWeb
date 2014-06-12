@@ -112,9 +112,8 @@ https://github.com/doedje/jquery.soap/blob/1.3.8/README.md
 					config.error(new SOAPResponse(textStatus, jqXHR));
 				}
 			}).always(function(data, textStatus, jqXHR) {
-                    var response = new SOAPResponse("", data);
                     if ($.isFunction(config.success)) {
-                        config.success(response);
+                        config.success(data.responseText);
                     }
                 });
 		}
