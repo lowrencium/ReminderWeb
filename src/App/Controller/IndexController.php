@@ -16,8 +16,7 @@ class IndexController implements ControllerProviderInterface
      */
     public function index(Application $app)
     {
-        $vars = array('hello' => 'world');
-        return $app['twig']->render('html.twig', $vars);
+        return $app['twig']->render('html.twig');
     }
 
     /**
@@ -28,6 +27,12 @@ class IndexController implements ControllerProviderInterface
     {
         $index = $app['controllers_factory'];
         $index->match("/", array($this, "index"))->bind('index');
+        $index->match("/calendar", array($this, "calendar"))->bind('calendar');
         return $index;
+    }
+    
+     public function calendar(Application $app)
+    {
+        return $app['twig']->render('calendar.twig');
     }
 }
