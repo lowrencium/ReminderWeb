@@ -16,14 +16,14 @@
                     <li><a id="aboutUs" role="button">A propos</a>
                     </li>
                 </ul>
-                <form  action="#" class="navbar-form navbar-right" role="search">
+                <form  action="{{ path('user_dologin') }}" class="navbar-form navbar-right" method="POST">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="username" placeholder="Nom d'utilisateur">
+                        {{form_widget(form.username,{ 'attr': {'placeholder': 'Nom d\'utilisateur' } })}}
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" name="password" placeholder="Mot de passe">
+                        {{form_widget(form.password,{ 'attr': {'placeholder': 'Mot de passe' } })}}
                     </div>
-                    <button id="login" type="submit" class="btn btn-primary ladda-button" data-style="zoom-out">Se connecter</button>
+                    <button type="submit" class="btn btn-primary ladda-button" data-style="zoom-out">Se connecter</button>
                     <button id="register" data-toggle="modal" data-target="#registerModal" type="button" class="btn btn-warning">S'inscrire</button>
                 </form>
             </div>

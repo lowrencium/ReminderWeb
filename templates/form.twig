@@ -1,0 +1,85 @@
+{% use "form_div_layout.html.twig" %}
+
+{# rows #}
+
+{% block form_row %}
+{% spaceless %}
+    <div class="form-group{{ form.vars.errors|length>0 ? " has-error" : "" }}">
+        {{ form_label(form) }}
+        <div class="col-sm-10">
+            {{ form_widget(form) }}
+            {{ form_errors(form) }}
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock form_row %}
+
+{# Labels #}
+{% block form_label %}
+    {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' col-sm-2 control-label')|trim}) %}
+    {% set label = required ? label ~ " *" : label %}
+    {{ parent() }}
+{% endblock form_label %}
+
+{% block form_widget_simple %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' form-control')|trim}) %}
+    {{ parent() }}
+{% endblock form_widget_simple %}
+
+{% block choice_widget_collapsed %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' form-control')|trim}) %}
+    {{ parent() }}
+{% endblock choice_widget_collapsed %}
+
+{% block textarea_widget %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' form-control')|trim}) %}
+    {{ parent() }}
+{% endblock textarea_widget %}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% for error in errors %}
+            <div><div class="label label-danger">{{
+                error.messagePluralization is null
+                ? error.messageTemplate|trans(error.messageParameters, 'validators')
+                : error.messageTemplate|transchoice(error.messagePluralization, error.messageParameters, 'validators')
+                }}</div></div>
+        {% endfor %}
+    {% endspaceless %}
+{% endblock form_errors %}
+
+{% block checkbox_row %}
+{% spaceless %}
+    <div class="form-group{{ form.vars.errors|length>0 ? " has-error" : "" }}">
+        {{ form_label(form) }}
+        <div class="col-sm-10">
+            <div class="checkbox">
+                <label>
+                    {{ form_widget(form) }}
+                </label>
+             </div>
+            {{ form_errors(form) }}
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock checkbox_row %}
+
+{% block choice_widget_expanded %}
+    {% spaceless %}
+        <div {{ block('widget_container_attributes') }}>
+            {% for child in form %}
+                {% if form.vars.choices is defined and form.vars.expanded %}
+                    <div class="checkbox">
+                        <label>
+                            {{ form_widget(child) }}
+                            {{ child.vars.label }}
+                        </label>
+                    </div>
+                {% else %}
+                    {{ form_widget(child) }}
+                    {{ form_label(child) }}
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endspaceless %}
+{% endblock choice_widget_expanded %}

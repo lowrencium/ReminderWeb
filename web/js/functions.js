@@ -3,15 +3,15 @@ $(document).ready(function() {
     Ladda.bind('button[type=submit]', {timeout: 2000});
 
     // Disable default behaviour of submit buttons
-    $('button[type=submit]').on("click", function(e) {
-        e.preventDefault();
-    });
 
     $("#login").on("click", function() {
         console.log("login");
     });
 
     $("#do_register").on("click", function() {
+        $('button[type=submit]').on("click", function(e) {
+            e.preventDefault();
+        });
         console.log("do_register");
     });
 
