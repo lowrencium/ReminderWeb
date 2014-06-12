@@ -8,6 +8,7 @@ function SoapManager(fonction, donnees) {
         method: fonction,
         data: donnees,
         success: function (soapResponse) {
+            console.log(soapResponse);
             return soapResponse;
         },
         error: function (soapResponse) {
