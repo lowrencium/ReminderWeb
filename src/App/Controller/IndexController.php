@@ -16,7 +16,13 @@ class IndexController implements ControllerProviderInterface
      */
     public function index(Application $app)
     {
-        return $app['twig']->render('html.twig');
+        // Building the form
+        $form = $app['form.factory']->createNamedBuilder('login', 'form')
+          ->add('username', 'text')
+          ->add('password', 'password')
+          ->getForm();
+        
+        return $app['twig']->render('html.twig',array('form' => $form->createView()));
     }
 
     /**
