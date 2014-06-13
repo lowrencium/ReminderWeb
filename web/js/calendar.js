@@ -32,20 +32,30 @@ $(document).ready(function() {
             end: {
                 date: "20140623", time: "17.00"
             }
+        }, {
+            id: 15,
+            title: "Partiels",
+            location: "A la maison",
+            start: {
+                date: "20140610", time: "17.00"
+            },
+            end: {
+                date: "20140623", time: "17.00"
+            }
         }
     ];
 
     contacts = [{
             id: 1,
-            nom: "didier jacob",
+            name: "didier jacob",
             mail: "dj@gmail.com"
         }, {
             id: 2,
-            nom: "Jean Noel",
+            name: "Jean Noel",
             mail: "jn@gmail.com"
         }, {
             id: 3,
-            nom: "Fred Lamouche",
+            name: "Fred Lamouche",
             mail: "fl@tele2.fr"
         }
     ];
@@ -99,31 +109,46 @@ $(document).ready(function() {
     $('button#shareEvent').on('click', function(e)
     {
         var dayEvents = getDayEvents(selectedDate);
-        var shareContentModal = $("#shareEventContent #tableShareEvents tbody");
+        var shareContentTableModal = $("#shareEventContent #tableShareEvents tbody");
+        var shareEventsContacts = ("#shareEventContent #shareEventsContacts tbody")
         var buttonShareEvent = $("button#do_shareEvent");
         var eventsTable = $("div#shareEventsTable");
-        var contactsShare = $("div#shareEventsContacts");
+
         e.preventDefault();
-        contactsShare.hide();
+
+        $("#shareEventsContacts").hide();
+
         eventsTable.show();
-        
-        shareContentModal.empty(); //cleaning before append
+
+        shareContentTableModal.empty(); //cleaning before append
 
         for (var i = 0; i < dayEvents.length; i++) {
             var templateEvent = getRowEvent(dayEvents[i]);
-            shareContentModal.append(templateEvent);
+            shareContentTableModal.append(templateEvent);
         }
 
-        
+
         buttonShareEvent.html('Passer à la sélection des contacts');
 
         $(buttonShareEvent).on("click", function(e) {
             e.preventDefault();
-            
-            
-            eventsTable.hide();
-            
-            contactsShare.fadeIn();
+            if (isAtLeastOneCheckedBoxChecked('tableShareEvents')) {
+                $("input:checkbox:not(:checked)").each(function()
+                {
+                    //remove from the DOM
+                    $(this).closest("tr").remove();
+                    //Launch WS to remove an event
+
+                });
+                buttonShareEvent.html('Partager');
+                $("div#shareEventsContacts tbody").empty();
+                for (var i = 0; i < contacts.length; i++) {
+                    var templateContact = getRowContact(contacts[i]);
+
+                    $("div#shareEventsContacts tbody").append(templateContact);
+                }
+                $("div#shareEventsContacts").fadeIn();
+            }
         });
     });
 
@@ -143,22 +168,18 @@ $(document).ready(function() {
 
     $("#formAddEvent").on("submit", function(e) {
         e.preventDefault();
-        var rawStartDate = new Date($(this.startDate).val());
-        var rawEndDate = new Date($(this.endDate).val());
+        var startDate = new Date($(this.startDate).val());
+        var endDate = new Date($(this.endDate).val());
         if (startDate > endDate) {
             var errorMsg = "La date de fin doit être supérieure ou égale à la date de début";
             var templateError = '<p class="bg-danger col-xs-12">' + errorMsg + '</p>';
             $("#contentAddEvent").prepend(templateError);
         }
         else {
-//            var startDate = getFancyDate(rawStartDate);
-//            var endDate = getFancyDate(rawEndDate);
-//            var startHours = getRawHours(rawStartDate);
-//            var endHours = getRawHours(rawEndDate);
             var title = $(this.title).val();
             var location = $(this.location).val();
 
-            location.reload();
+            document.location.reload();
         }
 
     });
@@ -167,14 +188,12 @@ $(document).ready(function() {
         e.preventDefault();
         $("input:checkbox:checked").each(function()
         {
-
             //remove from the DOM
             $(this).closest("tr").remove();
-
             //Launch WS to remove an event
 
         });
-        location.reload();
+        document.location.reload();
     });
 });
 
@@ -223,6 +242,15 @@ function getRowEvent(event) {
     return templateEvent;
 }
 
-function getListContactsForSharing(){
-    
+function getRowContact(contact) {
+    var checkbox = '<input id=' + contact.id + ' type="checkbox">';
+    var name = contact.name;
+    var email = contact.mail;
+    var templateContact = "<tr><td>" + checkbox + "</td><td>" + name + "</td><td>" + email + "</td></tr>";
+    return templateContact;
+}
+
+function isAtLeastOneCheckedBoxChecked(containerId) {
+    var atLeastOneIsChecked = $('#' + containerId + ' :checkbox:checked').length > 0;
+    return atLeastOneIsChecked;
 }
