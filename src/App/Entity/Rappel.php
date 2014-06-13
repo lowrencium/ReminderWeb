@@ -26,12 +26,12 @@ class Rappel implements \Serializable {
     private $cycle;
     
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $begin;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $end;
     
@@ -46,7 +46,7 @@ class Rappel implements \Serializable {
     private $lieu;
     
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $lastUpdate;
 

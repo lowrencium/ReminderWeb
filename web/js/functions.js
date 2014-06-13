@@ -1,5 +1,4 @@
-$(document).ready(function() {
-
+$(document).ready(function () {
     Ladda.bind('button[type=submit]', {timeout: 2000});
 
     $("#login").on("click", function() {
@@ -11,8 +10,7 @@ $(document).ready(function() {
         e.preventDefault();
         //$(this).delay(1000).modal('toggle');
     });
-
-
+    
     //EVENT NAVTAB
     $('#navCalendarEvent a').click(function(e) {
         e.preventDefault();
@@ -84,4 +82,29 @@ $(document).ready(function() {
     });
 });
 
-
+function getRappels(id, sessionId)
+{
+    var result = SoapManager("RecupererRappel", {"id": id, "token": sessionId});
+    var resultat = result.find("Resultat");
+    var erreur = result.find("Erreur");
+    if(resultat.text() == true && erreur.text() != "")
+    {
+        var array = new Array();
+        result.find("Rappels").find("item").each(function(index) {
+            array.push(
+                {
+                    "id": $(this).find('Id'),
+                    "titre": $(this).find('Titre'),
+                    "lieu": $(this).find('Lieu'),
+                    "debut": $(this).find('Debut'),
+                    "fin": $(this).find('Fin'),
+                    "derniereModif": $(this).find('DerniereModification')
+                }
+            );
+        });
+    }
+    else
+    {
+        //Erreur
+    }
+}
