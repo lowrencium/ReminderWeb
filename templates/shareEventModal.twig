@@ -1,0 +1,51 @@
+{% extends "modal.twig" %}
+
+{% block idModal %}shareEventModal{% endblock %}
+{% block titleModal %}Partager des évènements{% endblock %}
+{% block idFormModal %}formShareEvent{% endblock %}
+{% block idContentModal %}shareEventContent{% endblock %}
+{% block bodyModal %}  
+
+    <div id='shareEventsTable' class="table-responsive">
+        <table id="tableShareEvents" class="table table-hover">
+            <thead>
+                <tr class="filters">
+                    <th><i class="fa fa-share"></i></th>
+                    <th>Titre</th>
+                    <th>Début</th>
+                    <th>Fin</th>
+                    <th>Lieu</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <div hidden id='shareEventsContacts' class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="filters">
+                            <th><i class="fa fa-share"></i></th>
+                            <th>Nom</th>
+                            <th>Mail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+            </div>
+            <textarea class="form-control" placeholder="Entrer des adresses Emails, séparer-les par une virgule."></textarea>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block idSubmitModal %}do_shareEvent{% endblock %}
+{# empty Twig template #}

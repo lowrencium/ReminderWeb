@@ -1,6 +1,6 @@
 var dmn = "",
-    api = "";
-(function (e, t, n, r) {
+        api = "";
+(function(e, t, n, r) {
     function o(t, n) {
         n = {
             A: n.startMonth,
@@ -68,24 +68,25 @@ var dmn = "",
         return d
     }
 
-    function a(e, t) {
-        var n = function (e) {
+    // retourne une date
+    function a(e, format) {
+        var n = function(e) {
             return e < 10 ? 0 + "" + e : e
         };
-        if (t == "YYYYMMDD") {
+        if (format == "YYYYMMDD") {
             var r = e.getFullYear(),
-                i = n(e.getMonth() + 1),
-                s = n(e.getDate());
+                    i = n(e.getMonth() + 1),
+                    s = n(e.getDate());
             return r + "" + i + "" + s
-        } else if (t == "HH.MM") {
+        } else if (format == "HH.MM") {
             var o = n(e.getHours() + 1),
-                u = n(e.getMinutes() + 1);
+                    u = n(e.getMinutes() + 1);
             return o + "." + u
         }
     }
 
     function f(t, n) {
-        var r = function (e, t, n) {
+        var r = function(e, t, n) {
             var n = !!n ? n : t.start.date;
             var r = {
                 A: t.title,
@@ -120,12 +121,12 @@ var dmn = "",
                 r(t, n)
             } else {
                 var i = u(n.start.date, "YYYYMMDD"),
-                    s = u(n.end.date, "YYYYMMDD"),
-                    o = (s.getTime() - i.getTime()) / 864e5;
+                        s = u(n.end.date, "YYYYMMDD"),
+                        o = (s.getTime() - i.getTime()) / 864e5;
                 for (var f = 0; f <= o; f++) {
                     var l = e.extend(true, {}, n),
-                        c = new Date(i.getTime() + 864e5 * f),
-                        h = a(c, "YYYYMMDD");
+                            c = new Date(i.getTime() + 864e5 * f),
+                            h = a(c, "YYYYMMDD");
                     if (f == 0) {
                         r(t, l, h)
                     } else if (f == o) {
@@ -137,12 +138,13 @@ var dmn = "",
                 }
             }
         }
-        return t
+        return t;
     }
     var i = n.domain;
-    e.fn.kalendar = function (t) {
+    e.fn.kalendar = function(t) {
         t = typeof t == "undefined" ? {} : t;
-        return this.each(function () {
+        var toto = t;
+        return this.each(function() {
             if (t.events !== r) {
                 t.eventsParsed = [];
                 for (var n = 0; n < t.events.length; n++) {
@@ -150,12 +152,12 @@ var dmn = "",
                     i.end.date = i.end.date == r ? i.start.date : i.end.date;
                     i.start.d = u([i.start.date, i.start.time], "YYYYMMDDHHMM");
                     i.end.d = u([i.end.date, i.end.time], "YYYYMMDDHHMM");
-                    t.eventsParsed = f(t.eventsParsed, i)
+                    t.eventsParsed = f(t.eventsParsed, i);
                 }
             }
             var s = new o(e(this), t);
-            e(this).data("kalendar-instance", s)
-        })
+            e(this).data("kalendar-instance", s);
+        });
     };
     var s = {
         A: (new Date).getMonth(),
@@ -199,7 +201,7 @@ var dmn = "",
             ["F", "Friday"],
             ["S", "Saturday"]
         ],
-        L: function (e) {
+        L: function(e) {
             var t = [];
             t["Sunday"] = 0;
             t["Monday"] = 1;
@@ -211,15 +213,21 @@ var dmn = "",
             return t[e]
         },
         M: "View on Web",
-        N: function () {},
-        O: function () {},
-        P: function () {},
-        Q: function () {},
-        R: function () {},
-        S: function (e) {},
+        N: function() {
+        },
+        O: function() {
+        },
+        P: function() {
+        },
+        Q: function() {
+        },
+        R: function() {
+        },
+        S: function(e) {
+        },
         T: []
     };
-    o.prototype.Q = function () {
+    o.prototype.Q = function() {
         if (dmn == "") {
             console.warn("This is an invalid API-key (" + api + ")")
         } else if (dmn !== "" && dmn !== i) {
@@ -246,7 +254,7 @@ var dmn = "",
             };
             var r = "http://www.ericwenn.se/php/trackingkalendar.php";
             var s = 0;
-            e.each(n, function (e, t) {
+            e.each(n, function(e, t) {
                 r += (s == 0 ? "?" : "&") + e + "=" + encodeURIComponent(t);
                 s++
             });
@@ -254,32 +262,32 @@ var dmn = "",
             this.H()
         }
     };
-    o.prototype.H = function () {
-        var t = function (t, r) {
+    o.prototype.H = function() {
+        var t = function(t, r) {
             e.ajax({
                 url: "https://www.googleapis.com/calendar/v3/calendars/" + t + "/events?key=" + r,
                 dataType: "json",
                 async: false,
-                success: function (e) {
+                success: function(e) {
                     for (var t = 0; t < e.items.length; t++) {
                         var r = e.items[t];
                         if (typeof r.start !== "undefined" && typeof r.end !== "undefined" && typeof r.start.dateTime !== "undefined" && typeof r.end.dateTime !== "undefined") {
                             var i = new Date(r.start.dateTime),
-                                s = new Date(r.end.dateTime),
-                                o = {
-                                    title: r.summary,
-                                    location: r.location,
-                                    start: {
-                                        date: a(i, "YYYYMMDD"),
-                                        time: a(i, "HH.MM"),
-                                        d: new Date(r.start.dateTime)
-                                    },
-                                    end: {
-                                        date: a(s, "YYYYMMDD"),
-                                        time: a(s, "HH.MM"),
-                                        d: new Date(r.end.dateTime)
-                                    }
-                                };
+                                    s = new Date(r.end.dateTime),
+                                    o = {
+                                        title: r.summary,
+                                        location: r.location,
+                                        start: {
+                                            date: a(i, "YYYYMMDD"),
+                                            time: a(i, "HH.MM"),
+                                            d: new Date(r.start.dateTime)
+                                        },
+                                        end: {
+                                            date: a(s, "YYYYMMDD"),
+                                            time: a(s, "HH.MM"),
+                                            d: new Date(r.end.dateTime)
+                                        }
+                                    };
                             n = f(n, o)
                         }
                     }
@@ -300,7 +308,7 @@ var dmn = "",
         this.L();
         !!this.A.U ? this.A.O() : null
     };
-    o.prototype.L = function () {
+    o.prototype.L = function() {
         this.B.html(this.A.H);
         this.B.attr("kalendar", "");
         this.B.attr("color", this.A.E);
@@ -317,9 +325,9 @@ var dmn = "",
         if (this.B.outerWidth() < 400) {
             this.B.addClass("small")
         }
-        this.R = function (e) {
+        this.R = function(e) {
             var t = ["th", "st", "nd", "rd"],
-                n = e % 100;
+                    n = e % 100;
             return e + (t[(n - 20) % 10] || t[n] || t[0])
         };
         this.M();
@@ -333,7 +341,7 @@ var dmn = "",
         }, this.N);
         this.A.N()
     };
-    o.prototype.N = function (e) {
+    o.prototype.N = function(e) {
         var t = e.data.self;
         var n = e.data.dir;
         t.C += n == "prev" ? -1 : 1;
@@ -342,7 +350,7 @@ var dmn = "",
         t.D = t.E.getFullYear();
         t.M()
     };
-    o.prototype.M = function () {
+    o.prototype.M = function() {
         var t = this.J.D;
         t.html("");
         this.J.A.html(this.A.J[this.E.getMonth()][1] + " " + this.E.getFullYear());
@@ -356,8 +364,8 @@ var dmn = "",
             t.append($dayView)
         }
         var s = new Date(this.E),
-            o = s.getDay() - this.K[0],
-            u = {};
+                o = s.getDay() - this.K[0],
+                u = {};
         o += o < 1 ? 7 : 0;
         s.setDate(s.getDate() - o);
         for (var n = 0; n < 42; n++) {
@@ -371,18 +379,20 @@ var dmn = "",
                 $day.addClass("other-month");
                 $day.on("click", {
                     info: "other-month",
+                    event: t,
                     date: u[n]
                 }, this.A.S)
             } else if (s.getTime() == this.F.getTime()) {
                 $day.addClass("this-day");
                 $day.on("click", {
                     info: "this-day",
-                    test: "ici la liste des events",
+                    event: t,
                     date: u[n]
                 }, this.A.S)
             } else {
                 $day.on("click", {
                     info: "this-month",
+                    event: t,
                     date: u[n]
                 }, this.A.S)
             }
@@ -406,11 +416,11 @@ var dmn = "",
         }
         this.A.P(this.E)
     };
-    o.prototype.O = function (t) {
+    o.prototype.O = function(t) {
         var n = t.data.day,
-            r = t.data.self,
-            i = new Date(t.data.date),
-            s = t.data.strtime;
+                r = t.data.self,
+                i = new Date(t.data.date),
+                s = t.data.strtime;
         r.B.addClass("spec-day");
         r.J.F.html(r.A.K[i.getDay()][1]);
         r.J.G.html(i.getDate());
@@ -420,9 +430,9 @@ var dmn = "",
         for (var o = 0; o < n.length; o++) {
             ev = n[o];
             var u = "",
-                a = "",
-                f = "",
-                l = "";
+                    a = "",
+                    f = "",
+                    l = "";
             if (!!ev.G) {
                 var c = r.A.V[ev.G];
                 if (!!c) {
@@ -432,20 +442,20 @@ var dmn = "",
                     l = !!c.background ? 'style="background-color:' + c.background + '"' : ""
                 }
             }
-            $event = e('<div class="s-event" ' + l + "></div>");
+            $event = e('<div id="s-event[' + o + ']" class="s-event" ' + l + "></div>");
             $event.append("<h5 " + u + ">" + ev.A + "</h5>");
             var h = {
-                    date: ev.C.C.getDate() == ev.D.C.getDate() ? "" : r.R(ev.C.C.getDate()),
-                    month: ev.C.C.getMonth() == ev.D.C.getMonth() ? "" : r.A.J[ev.C.C.getMonth()][1],
-                    year: ev.C.C.getFullYear() == ev.D.C.getFullYear() ? "" : ev.C.C.getFullYear()
-                },
-                p = {
-                    date: ev.C.C.getDate() == ev.D.C.getDate() ? "" : r.R(ev.D.C.getDate()),
-                    month: ev.C.C.getMonth() == ev.D.C.getMonth() ? "" : r.A.J[ev.D.C.getMonth()][1],
-                    year: ev.C.C.getFullYear() == ev.D.C.getFullYear() ? "" : ev.D.C.getFullYear()
-                };
+                date: ev.C.C.getDate() == ev.D.C.getDate() ? "" : r.R(ev.C.C.getDate()),
+                month: ev.C.C.getMonth() == ev.D.C.getMonth() ? "" : r.A.J[ev.C.C.getMonth()][1],
+                year: ev.C.C.getFullYear() == ev.D.C.getFullYear() ? "" : ev.C.C.getFullYear()
+            },
+            p = {
+                date: ev.C.C.getDate() == ev.D.C.getDate() ? "" : r.R(ev.D.C.getDate()),
+                month: ev.C.C.getMonth() == ev.D.C.getMonth() ? "" : r.A.J[ev.D.C.getMonth()][1],
+                year: ev.C.C.getFullYear() == ev.D.C.getFullYear() ? "" : ev.D.C.getFullYear()
+            };
             var h = h.date + " " + h.month + " " + h.year + " " + ev.C.B,
-                p = p.date + " " + p.month + " " + p.year + " " + ev.D.B;
+                    p = p.date + " " + p.month + " " + p.year + " " + ev.D.B;
             $event.append("<p " + a + ">" + h + " - " + p + "</p>");
             !!ev.E ? $event.append("<p " + a + ">" + ev.E + "</p>") : null;
             !!ev.url ? $event.append("<p><a " + f + ' href="' + ev.B + '">' + r.options.urlText + "</a></p>") : null;
@@ -453,7 +463,7 @@ var dmn = "",
         }
         r.A.Q
     };
-    o.prototype.P = function (e) {
+    o.prototype.P = function(e) {
         var t = e.data.self;
         t.B.removeClass("spec-day");
         t.J.H.html("");
@@ -471,3 +481,4 @@ if (style.styleSheet) {
 }
 var h = document.getElementsByTagName("head")[0];
 h.appendChild(style);
+

@@ -1,0 +1,27 @@
+{% extends "modal.twig" %}
+
+{% block idModal %}deleteEventModal{% endblock %}
+{% block titleModal %}Supprimer des évènements{% endblock %}
+{% block idFormModal %}formDeleteEvent{% endblock %}
+{% block idContentModal %}deleteEventContent{% endblock %}
+{% block bodyModal %}  
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr class="filters">
+                <th><i class="fa fa-trash-o"></i></th>
+                <th>Titre</th>
+                <th>Début</th>
+                <th>Fin</th>
+                <th>Lieu</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+{% block idSubmitModal %}do_deleteEvent{% endblock %}

@@ -5,10 +5,11 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, maximum-scale=1.0">
 
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
         <link href="{{ asset('/css/flatly.min.css') }}" rel="stylesheet">
         <link href="{{ asset('/css/font-awesome.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('/css/jquery.datetimepicker.css') }}" rel="stylesheet">
         <link href="{{ asset('/css/ladda-themeless.min.css') }}" rel="stylesheet" type="text/css">
-
         <link href="{{ asset('/css/general.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('/css/register.css') }}" rel="stylesheet" type="text/css">
 
@@ -21,12 +22,12 @@
                     {% include 'left_menu.twig' %}
                 </div>
                 <div class="col-xs-12 col-md-10 well">
-                    {% block content %}{% endblock %}
-                    {# Temporary #}
-                    {#{% include 'remindme.twig' %}#}
-                </div>
+                {% block content %}{% endblock %}
+                {# Temporary #}
+                {% include 'calendar.twig' %}
             </div>
         </div>
+    </div>
 
     <!-- Javascript -->
     <script type="text/javascript">
@@ -43,7 +44,12 @@
             s.parentNode.insertBefore(ga, s);
         })();
     </script>
+
+
     <script src="{{ asset('/js/jquery-1.10.2.min.js') }}"></script>
+    <script src="{{ asset('/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('/js/jquery.datetimepicker.js') }}"></script>
+    <script src="{{ asset('/js/datepicker-fr.js') }}"></script>
     <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('/js/kalendar.js') }}"></script>
     <script src="{{ asset('js/jquery.soap.js') }}"></script>
@@ -52,6 +58,7 @@
     <script src="{{ asset('/js/jquery.confirm.min.js') }}"></script>
     <script src="{{ asset('/js/spin.min.js') }}"></script>
     <script src="{{ asset('/js/ladda.min.js') }}"></script>
+    <script src="{{ asset('/js/calendar.js') }}"></script>
     <script src="{{ asset('/js/functions.js') }}"></script>
 </body>
 </html>

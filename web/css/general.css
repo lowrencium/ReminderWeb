@@ -14,3 +14,5 @@
 .navbar-brand{
     cursor: pointer;
 }
+
+.ui-datepicker{z-index: 10000 !important;}

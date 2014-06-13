@@ -9,7 +9,9 @@
                             <h2>{% block titleModal %}{% endblock %}</h2>
                             <hr class="colorgraph">
                             
-                            {% block bodyModal %}{% endblock %}
+                            <div id="{% block idContentModal %}{% endblock %}">
+                                {% block bodyModal %}{% endblock %}
+                            </div>
                             
                             <hr class="colorgraph">
                             <div class="row">

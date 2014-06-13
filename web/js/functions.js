@@ -1,78 +1,20 @@
-$(document).ready(function() {
-    // Same as the above but automatically stops after two seconds
-    Ladda.bind('button[type=submit]', {timeout: 2000});
+$(document).ready(function () {
 
-    // Disable default behaviour of submit buttons
+
+
+
+    Ladda.bind('button[type=submit]', {timeout: 2000});
 
     $("#login").on("click", function() {
         console.log("login");
     });
 
-    $("#do_register").on("click", function() {
-        $('button[type=submit]').on("click", function(e) {
-            e.preventDefault();
-        });
+    $("#do_register").on("click", function(e) {
+        e.preventDefault();
         console.log("do_register");
     });
 
-
-    //CALENDAR & EVENT
-    var options = {
-        onDayClick: function(e) {
-            $("#shareEvent").removeAttr("disabled");
-            $("#deleteEvent").removeAttr("disabled");
-        },
-        onGridShow: function(e) {
-            $("#shareEvent").attr("disabled", "disabled");
-            $("#deleteEvent").attr("disabled", "disabled");
-        },
-        color: "green",
-        events: [{
-                title: "Faire le projet Commun",
-                location: "A la maison",
-                start: {
-                    date: "20140601", time: "17.00"
-                },
-                end: {
-                    date: "20140816", time: "17.00"
-                }
-            }, {
-                title: "Partiels",
-                location: "A la maison",
-                start: {
-                    date: "20140610", time: "17.00"
-                },
-                end: {
-                    date: "20140623", time: "17.00"
-                }
-            }],
-        firstDayOfWeek: "Monday",
-        showDays: true,
-        dayHuman: [
-            ["D", "Dimanche"],
-            ["L", "Lundi"],
-            ["M", "Mardi"],
-            ["M", "Mercredi"],
-            ["J", "Jeudi"],
-            ["V", "Vendredi"],
-            ["S", "Samedi"]
-        ],
-        monthHuman: [
-            ["Janv", "Janvier"],
-            ["Fevr", "Février"],
-            ["Mars", "Mars"],
-            ["Avr", "Avril"],
-            ["Mai", "Mai"],
-            ["Juin", "Juin"],
-            ["Juill", "Juillet"],
-            ["Août", "Août"],
-            ["Sept", "Septembre"],
-            ["Oct", "Octobre"],
-            ["Nov", "Novembre"],
-            ["Dec", "Décembre"]
-        ]
-    };
-    $("#loadCalendar").kalendar(options);
+    
 
     //EVENT NAVTAB
     $('#navCalendarEvent a').click(function(e) {
@@ -95,7 +37,7 @@ $(document).ready(function() {
     });
 
 
-    $(".delete").confirm({
+    $("#contactList .delete").confirm({
         text: "Voulez-vous vraiment supprimer ce contact?",
         title: "Confirmation requise",
         confirm: function(button) {
@@ -120,7 +62,7 @@ $(document).ready(function() {
     });
 
     // lorsque je soumets le formulaire
-    $('#add-contact').on('submit', function(e) {
+    $('#add-contact').on('submit', function (e) {
 
         // je récupère les valeurs
         var nom = $('#InputName').val();
@@ -144,4 +86,5 @@ $(document).ready(function() {
         $(this).css('margin-top', $(this).parent().height() - $(this).height() - 23);
     });
 });
+
 
