@@ -82,6 +82,10 @@ $(document).ready(function() {
     });
 });
 
+function getFullPartDate(number) {
+    return ((number + 1) < 10 ? "0" + (number + 1) : (number + 1));
+}
+
 function getRappels(id, sessionId)
 {
     var result = SoapManager("RecupererRappel", {"id": id, "token": sessionId});
@@ -117,6 +121,3 @@ function getRappels(id, sessionId)
     }
 }
 
-function getFullPartDate(number) {
-    return ((number + 1) < 10 ? "0" + (number + 1) : (number + 1));
-}
