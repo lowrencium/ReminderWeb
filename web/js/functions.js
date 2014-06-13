@@ -87,18 +87,18 @@ function getRappels(id, sessionId)
     var result = SoapManager("RecupererRappel", {"id": id, "token": sessionId});
     var resultat = result.find("Resultat");
     var erreur = result.find("Erreur");
-    if(resultat.text() == true && erreur.text() != "")
+    if(resultat.text() == "true" && erreur.text() == "")
     {
         var array = new Array();
         result.find("Rappels").find("item").each(function(index) {
-            var debut = new Date($(this).find('Debut')+"0000");
-            var fin = new Date($(this).find('Fin')+"0000");
+            var debut = new Date($(this).find('Debut').text()+"0000");
+            var fin = new Date($(this).find('Fin').text()+"0000");
             
             array.push(
                 {
-                    "id": $(this).find('Id'),
-                    "title": $(this).find('Titre'),
-                    "location": $(this).find('Lieu'),
+                    "id": $(this).find('Id').text(),
+                    "title": $(this).find('Titre').text(),
+                    "location": $(this).find('Lieu').text(),
                     "start": {
                         date: debut.getFullYear()+(debut.getMonth()+1)+debut.getDate(),
                         time: debut.getHours()+":"+debut.getMinutes() ,
