@@ -24,12 +24,12 @@ class UserRappel
     protected $rappel;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     protected $beginShare;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     protected $endShare;
 
