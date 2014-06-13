@@ -100,7 +100,7 @@ function getRappels(id, sessionId)
                         "title": $(this).find('Titre').text(),
                         "location": $(this).find('Lieu').text(),
                         "start": {
-                            date: debut.getFullYear() + "" + (debut.getMonth() + 1) + "" + debut.getDate(),
+                            date: debut.getFullYear() + "" + ((debut.getMonth() + 1) < 10 ? "0"+(debut.getMonth() + 1) : (debut.getMonth() + 1)) + "" + debut.getDate(),
                             time: debut.getHours() + ":" + debut.getMinutes(),
                         },
                         "end": {
