@@ -254,3 +254,4 @@ function isAtLeastOneCheckedBoxChecked(containerId) {
     var atLeastOneIsChecked = $('#' + containerId + ' :checkbox:checked').length > 0;
     return atLeastOneIsChecked;
 }
+

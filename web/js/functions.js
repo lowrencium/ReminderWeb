@@ -91,14 +91,22 @@ function getRappels(id, sessionId)
     {
         var array = new Array();
         result.find("Rappels").find("item").each(function(index) {
+            var debut = new Date($(this).find('Debut')+"0000");
+            var fin = new Date($(this).find('Fin')+"0000");
+            
             array.push(
                 {
                     "id": $(this).find('Id'),
-                    "titre": $(this).find('Titre'),
-                    "lieu": $(this).find('Lieu'),
-                    "debut": $(this).find('Debut'),
-                    "fin": $(this).find('Fin'),
-                    "derniereModif": $(this).find('DerniereModification')
+                    "title": $(this).find('Titre'),
+                    "location": $(this).find('Lieu'),
+                    "start": {
+                        date: debut.getFullYear()+(debut.getMonth()+1)+debut.getDate(),
+                        time: debut.getHours()+":"+debut.getMinutes() ,
+                    },
+                    "end": {
+                        date: fin.getFullYear()+(fin.getMonth()+1)+fin.getDate(),
+                        time: debut.getHours()+":"+debut.getMinutes() ,
+                    },
                 }
             );
         });
