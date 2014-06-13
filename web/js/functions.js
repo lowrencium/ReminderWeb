@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function() {
     Ladda.bind('button[type=submit]', {timeout: 2000});
 
     $("#login").on("click", function() {
@@ -10,7 +10,7 @@ $(document).ready(function () {
         e.preventDefault();
         //$(this).delay(1000).modal('toggle');
     });
-    
+
     //EVENT NAVTAB
     $('#navCalendarEvent a').click(function(e) {
         e.preventDefault();
@@ -87,27 +87,27 @@ function getRappels(id, sessionId)
     var result = SoapManager("RecupererRappel", {"id": id, "token": sessionId});
     var resultat = result.find("Resultat");
     var erreur = result.find("Erreur");
-    if(resultat.text() == "true" && erreur.text() == "")
+    if (resultat.text() == "true" && erreur.text() == "")
     {
         var array = new Array();
         result.find("Rappels").find("item").each(function(index) {
-            var debut = new Date($(this).find('Debut').text()+"0000");
-            var fin = new Date($(this).find('Fin').text()+"0000");
-            
+            var debut = new Date($(this).find('Debut').text() * 1000);
+            var fin = new Date($(this).find('Fin').text() * 1000);
+
             array.push(
-                {
-                    "id": $(this).find('Id').text(),
-                    "title": $(this).find('Titre').text(),
-                    "location": $(this).find('Lieu').text(),
-                    "start": {
-                        date: debut.getFullYear()+(debut.getMonth()+1)+debut.getDate(),
-                        time: debut.getHours()+":"+debut.getMinutes() ,
-                    },
-                    "end": {
-                        date: fin.getFullYear()+(fin.getMonth()+1)+fin.getDate(),
-                        time: debut.getHours()+":"+debut.getMinutes() ,
-                    },
-                }
+                    {
+                        "id": $(this).find('Id').text(),
+                        "title": $(this).find('Titre').text(),
+                        "location": $(this).find('Lieu').text(),
+                        "start": {
+                            date: debut.getFullYear() + "" + (debut.getMonth() + 1) + "" + debut.getDate(),
+                            time: debut.getHours() + ":" + debut.getMinutes(),
+                        },
+                        "end": {
+                            date: fin.getFullYear() + "" + (fin.getMonth() + 1) + "" + fin.getDate(),
+                            time: debut.getHours() + ":" + debut.getMinutes(),
+                        },
+                    }
             );
         });
     }
