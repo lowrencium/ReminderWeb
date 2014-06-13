@@ -157,7 +157,7 @@ class Application extends SilexApplication
                             'username_parameter' => 'login[username]',
                             'password_parameter' => 'login[password]',
                             "csrf_parameter" => "login[_token]",
-                            "failure_path" => "/user/login",
+                            "failure_path" => "/",
                         ),
                         'logout' => array(
                             'logout_path' => "/user/logout",
@@ -172,8 +172,9 @@ class Application extends SilexApplication
                 ),
                 'security.access_rules' => array(
                     array('^/user/login', 'IS_AUTHENTICATED_ANONYMOUSLY'),
-                    array('^/password', 'IS_AUTHENTICATED_ANONYMOUSLY'),
-                    array('^/logout', 'IS_AUTHENTICATED_ANONYMOUSLY'),
+                    array('^/user/register', 'IS_AUTHENTICATED_ANONYMOUSLY'),
+                    array('^/user/password', 'IS_AUTHENTICATED_ANONYMOUSLY'),
+                    array('^/user/logout', 'IS_AUTHENTICATED_ANONYMOUSLY'),
                     array('^/admin/$', 'ROLE_ADMIN'),
                     array('^.*$', 'IS_AUTHENTICATED_ANONYMOUSLY'),
                 )

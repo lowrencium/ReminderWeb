@@ -1,4 +1,4 @@
-$(document).ready(function () {
+﻿$(document).ready(function () {
 
 
 
@@ -9,9 +9,9 @@ $(document).ready(function () {
         console.log("login");
     });
 
+
     $("#do_register").on("click", function(e) {
         e.preventDefault();
-        console.log("do_register");
     });
 
     

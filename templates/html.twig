@@ -15,25 +15,30 @@
 
     </head>
     <body>
-        {% include 'top_menu.twig' %}
+        {% include 'blocks/top_menu.twig' %}
         <div class="container">
             <div class="row">
-                <div class="col-xs-12 col-md-2">
-                    {% include 'left_menu.twig' %}
-                </div>
-                <div class="col-xs-12 col-md-10 well">
-                {% block content %}{% endblock %}
-                {# Temporary #}
-                {% include 'calendar.twig' %}
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <div class="col-xs-12 col-md-2">
+                        {% include 'blocks/left_menu.twig' %}
+                    </div>
+                    <div class="col-xs-12 col-md-10 well">
+                        {% block content %}{% endblock %}
+                        {# Temporary #}
+                        {#{% include 'remindme.twig' %}#}
+                    </div>
+                {% else %}
+                    {% include 'remindme.twig' %}
+                {% endif %}
             </div>
         </div>
     </div>
 
-    <!-- Javascript -->
-    <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
-        _gaq.push(['_trackPageview']);
+        <!-- Javascript -->
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
+            _gaq.push(['_trackPageview']);
 
         (function() {
             var ga = document.createElement('script');
