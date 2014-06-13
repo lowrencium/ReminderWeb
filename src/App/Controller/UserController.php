@@ -88,6 +88,53 @@ class UserController implements ControllerProviderInterface
         return new Response(json_encode($response), 200);
     }
     
+    /**
+     * @param Application $app
+     * @param Request $request
+     * @return mixed
+     */
+    public function signup(Application $app, Request $request)
+    {
+        $em = $app["orm.em"];
+        $response = array("tag" => "register", "success" => 0, "error" => 0);
+        if ($request->isMethod('GET'))
+        {
+            $data = $request->query->all();
+            $user = new User();
+            
+            // user
+            $user = new User();
+            $user->setFirstname($data['firstname']);
+            $user->setLastname($data['lastname']);
+            $user->setPhone('0000000');
+            $user->setActive(1);
+            $user->setUsername($data['email']);
+            $user->setEmail($data['email']);
+            
+            // encoding password
+            $user->setPassword($app['security.encoder_factory']
+                    ->getEncoder($user)
+                    ->encodePassword($data['password'],$user->getSalt())
+            );
+            
+            // Persist
+            $em->persist($user);
+            $em->flush();
+            
+            // return response
+            $response["success"] = 1;
+            $response["uid"] = "4f074ca1e3df49.06340261";
+            $response["user"]["name"] = $user->getFirstName();
+            $response["user"]["email"] = $user->getEmail();
+            $response["user"]["created_at"] = $user->getCreated()->format('Y-m-d H:i:s');
+            $response["user"]["updated_at"] = $user->getLastLogin();
+        } 
+        else {
+            $response["error"] = 1;
+            $response["error_msg"] = "Wrong credential";
+        }
+        return new Response(json_encode($response), 200);
+    }
     
     /**
      * @param Application $app
@@ -98,6 +145,8 @@ class UserController implements ControllerProviderInterface
         $index = $app['controllers_factory'];
         $index->match("/login", array($this, "login"))->bind('user.login');
         $index->match("/register", array($this, "register"))->bind('user.register');
+        $index->match("/signin", array($this, "signin"))->bind('user.signin');
+        $index->match("/signup", array($this, "signup"))->bind('user.signup');
         return $index;
     }
 }
