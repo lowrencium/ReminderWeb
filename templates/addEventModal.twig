@@ -1,4 +1,4 @@
-{% extends "modal.twig" %}
+{% extends "blocks/modal.twig" %}
 
 {% block idModal %}addEventModal{% endblock %}
 {% block titleModal %}Ajouter un évènement{% endblock %}
@@ -6,17 +6,17 @@
 {% block idContentModal %}contentAddEvent{% endblock %}
 {% block bodyModal %}
 
-    {% include 'inputModal.twig' with {'label': 'Titre',    'idInput' : 'title',        'type' : 'text'} %}
+    {% include 'blocks/inputModal.twig' with {'label': 'Titre',    'idInput' : 'title',        'type' : 'text'} %}
 <div class="row">
     <div class="col-xs-12 col-sm-6 col-md-6">
-        {% include 'inputModal.twig' with {'label': 'Début',    'idInput' : 'startDate',    'type' : 'text'} %}
+        {% include 'blocks/inputModal.twig' with {'label': 'Début',    'idInput' : 'startDate',    'type' : 'text'} %}
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6">
-        {% include 'inputModal.twig' with {'label': 'Fin',      'idInput' : 'endDate',      'type' : 'text'} %}
+        {% include 'blocks/inputModal.twig' with {'label': 'Fin',      'idInput' : 'endDate',      'type' : 'text'} %}
     </div>
 </div>
     
-    {% include 'inputModal.twig' with {'label': 'Lieu',     'idInput' : 'location',     'type' : 'text'} %}
+    {% include 'blocks/inputModal.twig' with {'label': 'Lieu',     'idInput' : 'location',     'type' : 'text'} %}
 
 {% endblock %}
 

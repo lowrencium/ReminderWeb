@@ -19,16 +19,18 @@
         <div class="container">
             <div class="row">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <div class="col-xs-12 col-md-2">
+                    <div class="col-xs-12 col-sm-2">
                         {% include 'blocks/left_menu.twig' %}
                     </div>
-                    <div class="col-xs-12 col-md-10 well">
+                    <div class="col-xs-12 col-sm-10 well">
                         {% block content %}{% endblock %}
                         {# Temporary #}
                         {#{% include 'remindme.twig' %}#}
                     </div>
                 {% else %}
-                    {% include 'remindme.twig' %}
+                    <div class="col-xs-12 col-md-10 col-sm-offset-2 well">
+                    {% include 'calendar.twig' %}
+                    </div>
                 {% endif %}
             </div>
         </div>

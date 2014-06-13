@@ -1,7 +1,4 @@
-﻿$(document).ready(function () {
-
-
-
+$(document).ready(function() {
 
     Ladda.bind('button[type=submit]', {timeout: 2000});
 
@@ -10,11 +7,11 @@
     });
 
 
-    $("#do_register").on("click", function(e) {
+    $("modal#registerModal").on("click", "button#do_register", function(e) {
         e.preventDefault();
+        //$(this).delay(1000).modal('toggle');
     });
 
-    
 
     //EVENT NAVTAB
     $('#navCalendarEvent a').click(function(e) {
@@ -62,7 +59,7 @@
     });
 
     // lorsque je soumets le formulaire
-    $('#add-contact').on('submit', function (e) {
+    $('#add-contact').on('submit', function(e) {
 
         // je récupère les valeurs
         var nom = $('#InputName').val();
@@ -83,7 +80,7 @@
 
     //for each element that is classed as 'pull-down', set its margin-top to the difference between its own height and the height of its parent
     $('.pull-down').each(function() {
-        $(this).css('margin-top', $(this).parent().height() - $(this).height() - 23);
+        $(this).css('margin-top', $(this).parent().height() - $(this).height() - 18);
     });
 });
 
