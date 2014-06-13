@@ -100,12 +100,12 @@ function getRappels(id, sessionId)
                         "title": $(this).find('Titre').text(),
                         "location": $(this).find('Lieu').text(),
                         "start": {
-                            date: debut.getFullYear() + "" + ((debut.getMonth() + 1) < 10 ? "0"+(debut.getMonth() + 1) : (debut.getMonth() + 1)) + "" + debut.getDate(),
-                            time: debut.getHours() + ":" + debut.getMinutes(),
+                            date: debut.getFullYear() + "" + getFullPartDate(debut.getMonth() + 1) + "" + getFullPartDate(debut.getDate() + 1),
+                            time: getFullPartDate(debut.getHours()) + ":" + getFullPartDate(debut.getMinutes()),
                         },
                         "end": {
-                            date: fin.getFullYear() + "" + (fin.getMonth() + 1) + "" + fin.getDate(),
-                            time: debut.getHours() + ":" + debut.getMinutes(),
+                            date: fin.getFullYear() + "" + getFullPartDate(fin.getMonth() + 1) + "" + getFullPartDate(fin.getDate() + 1),
+                            time: getFullPartDate(fin.getHours()) + ":" + getFullPartDate(fin.getMinutes()),
                         },
                     }
             );
@@ -115,4 +115,8 @@ function getRappels(id, sessionId)
     {
         //Erreur
     }
+}
+
+function getFullPartDate(number) {
+    return ((number + 1) < 10 ? "0" + (number + 1) : (number + 1));
 }
