@@ -1,64 +1,9 @@
 $(document).ready(function() {
 
-    events = [{
-            id: 12,
-            title: "Faire le projet Commun",
-            location: "A la maison",
-            start: {
-                date: "20140601", time: "17:00"
-            },
-            end: {
-                date: "20140816", time: "17:00"
-            }
-        },
-        {
-            id: 13,
-            title: "Partiels",
-            location: "A la maison",
-            start: {
-                date: "20140610", time: "17.00"
-            },
-            end: {
-                date: "20140623", time: "17.00"
-            }
-        },
-        {
-            id: 14,
-            title: "Partiels",
-            location: "A la maison",
-            start: {
-                date: "20140610", time: "17.00"
-            },
-            end: {
-                date: "20140623", time: "17.00"
-            }
-        }, {
-            id: 15,
-            title: "Partiels",
-            location: "A la maison",
-            start: {
-                date: "20140610", time: "17.00"
-            },
-            end: {
-                date: "20140623", time: "17.00"
-            }
-        }
-    ];
+    var idUser = 1;
+    var tokenUser = "token";
 
-    contacts = [{
-            id: 1,
-            name: "didier jacob",
-            mail: "dj@gmail.com"
-        }, {
-            id: 2,
-            name: "Jean Noel",
-            mail: "jn@gmail.com"
-        }, {
-            id: 3,
-            name: "Fred Lamouche",
-            mail: "fl@tele2.fr"
-        }
-    ];
+    events = getRappels(idUser, tokenUser);
 
     var selectedDate;
 
@@ -253,5 +198,47 @@ function getRowContact(contact) {
 function isAtLeastOneCheckedBoxChecked(containerId) {
     var atLeastOneIsChecked = $('#' + containerId + ' :checkbox:checked').length > 0;
     return atLeastOneIsChecked;
+}
+
+function getFullPartDate(number) {
+    return ((number + 1) < 10 ? "0" + (number + 1) : (number + 1));
+}
+
+function getRappels(id, sessionId)
+{
+    var result = SoapManager("RecupererRappel", {"id": id, "token": sessionId});
+    var resultat = result.find("Resultat");
+    var erreur = result.find("Erreur");
+    if (resultat.text() == "true" && erreur.text() == "")
+    {
+        var array = new Array();
+        result.find("Rappels").find("item").each(function(index) {
+            console.log("test");
+            var debut = new Date($(this).find('Debut').text() * 1000);
+            var fin = new Date($(this).find('Fin').text() * 1000);
+
+            array.push(
+                    {
+                        "id": $(this).find('Id').text(),
+                        "title": $(this).find('Titre').text(),
+                        "location": $(this).find('Lieu').text(),
+                        "start": {
+                            date: debut.getFullYear() + "" + getFullPartDate(debut.getMonth() + 1) + "" + getFullPartDate(debut.getDate() + 1),
+                            time: getFullPartDate(debut.getHours()) + ":" + getFullPartDate(debut.getMinutes()),
+                        },
+                        "end": {
+                            date: fin.getFullYear() + "" + getFullPartDate(fin.getMonth() + 1) + "" + getFullPartDate(fin.getDate() + 1),
+                            time: getFullPartDate(fin.getHours()) + ":" + getFullPartDate(fin.getMinutes()),
+                        }
+                    }
+            );
+        });
+        
+    }
+    else
+    {
+        //Erreur
+        console.log(erreur.text());
+    }
 }
 
