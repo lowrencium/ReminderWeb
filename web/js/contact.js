@@ -1,7 +1,7 @@
 $(document).ready(function() {
-    
-    
-    
+
+
+
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-toggle="modal"]').tooltip();
 
@@ -17,17 +17,20 @@ $(document).ready(function() {
     });
 
 
-    $("ul#contact-list .delete").confirm({
-        text: "Voulez-vous vraiment supprimer ce contact?",
-        title: "Confirmation requise",
-        confirm: function(button) {
-            var contact = $(button).closest("li");
-            var mailContact = contact.find('[data-role="email"]');
-            contact.remove();
-        },
-        confirmButton: "Oui",
-        cancelButton: "Non",
-        post: true
+    $("ul#contact-list").on("click",  ".delete", function(e) {
+        var button = $(this);
+        $.confirm({
+            text: "Voulez-vous vraiment supprimer ce contact?",
+            title: "Confirmation requise",
+            confirm: function() {
+                var contact = $(button).closest("li");
+                var mailContact = contact.find('[data-role="email"]');
+                contact.remove();
+            },
+            confirmButton: "Oui",
+            cancelButton: "Non",
+            post: true
+        });
     });
 
 
@@ -66,6 +69,9 @@ $(document).ready(function() {
         var context = contact;
         var html = template(context);
 
-        $("#contact-list").prepend(html);
+        $("#addContactModal").modal("toggle");
+
+        $("#contact-list").fadeIn().prepend(html);
+
     });
 });
