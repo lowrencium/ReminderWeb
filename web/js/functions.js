@@ -43,11 +43,11 @@ function getRappels(id, sessionId)
                         "title": $(this).find('Titre').text(),
                         "location": $(this).find('Lieu').text(),
                         "start": {
-                            date: debut.getFullYear() + "" + getFullPartDate(debut.getMonth() ) + "" + getFullPartDate(debut.getDate()),
+                            date: debut.getFullYear() + "" + getFullPartDate(debut.getMonth() ) + "" + getFullPartDate(debut.getDate() - 1),
                             time: getFullPartDate(debut.getHours()) + ":" + getFullPartDate(debut.getMinutes())
                         },
                         "end": {
-                            date: fin.getFullYear() + "" + getFullPartDate(fin.getMonth()) + "" + getFullPartDate(fin.getDate()).toString(),
+                            date: fin.getFullYear() + "" + getFullPartDate(fin.getMonth()) + "" + getFullPartDate(fin.getDate() - 1).toString(),
                             time: (getFullPartDate(fin.getHours()) + ":" + getFullPartDate(fin.getMinutes())).toString()
                         }
                     }
@@ -121,6 +121,21 @@ function getContacts(id, sessionId)
 function addContact(id, sessionId, name, email, phone, location)
 {
     var result = SoapManager("AjouterContact", {"id": id, "token": sessionId, "nom": name, "email": email, "telephone": phone, "adresse": location});
+    var resultat = result.find("Resultat");
+    var erreur = result.find("Erreur");
+    if (resultat.text() == "true" && erreur.text() == "")
+    {
+        //Ok
+    }
+    else
+    {
+        //Erreur
+    }
+}
+
+function removeContact(id, sessionId, email)
+{
+    var result = SoapManager("SupprimerContact", {"id": id, "token": sessionId, "email": email});
     var resultat = result.find("Resultat");
     var erreur = result.find("Erreur");
     if (resultat.text() == "true" && erreur.text() == "")
