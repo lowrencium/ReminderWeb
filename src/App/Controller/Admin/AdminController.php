@@ -5,7 +5,6 @@ use Silex\ControllerProviderInterface;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityRepository;
-use App\Controller\StatisticsController;
 
 class AdminController implements ControllerProviderInterface
 {
