@@ -48,7 +48,7 @@ $(document).ready(function() {
     $("#loadCalendar").kalendar(options); //Load the calendar
     $("#startDate, #endDate").datetimepicker();
 
-    $("#addEvent shareEvent deleteEvent").on("click", function() {
+    $("#addEvent").on("click", function() {
         $("#formAddEvent").find(".alert").remove();
     });
 
@@ -56,7 +56,6 @@ $(document).ready(function() {
         e.preventDefault();
         var begin = new Date($(this.startDate).val()).getTime();
         var end = new Date($(this.endDate).val()).getTime();
-        console.log(begin);
         var source;
         var context;
         if (begin > end) {
@@ -139,7 +138,6 @@ $(document).ready(function() {
             var templateEvent = getRowEvent(dayEvents[i]);
 
             deleteContentModal.append(templateEvent);
-
         }
     });
 
@@ -193,12 +191,13 @@ function getRawHours(date) {
 
 function getRowEvent(event) {
     var checkbox = '<input id=' + event.id + ' type="checkbox">';
+    var id = event.id;
     var title = event.title;
     var startDate = getFancyDate((event.start.d));
     var endDate = getFancyDate(event.end.d);
     var location = event.location;
-    var templateEvent = "<tr><td>" + checkbox + "</td><td>" + title + "</td><td>" + startDate + "</td><td>" + endDate + "</td><td>" + location + "</td></tr>";
-    return templateEvent;
+    var templateEvent = "<tr id='"+id+"'><td>" + checkbox + "</td><td>" + title + "</td><td>" + startDate + "</td><td>" + endDate + "</td><td>" + location + "</td></tr>";
+            return templateEvent;
 }
 
 function getRowContact(contact) {
