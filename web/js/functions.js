@@ -18,3 +18,112 @@ $(document).ready(function() {
     });
 });
 
+function getFullPartDate(number) {
+    return ((number + 1) < 10 ? "0" + (number + 1) : (number + 1));
+}
+
+function getRappels(id, sessionId)
+{
+    var result = SoapManager("RecupererRappel", {"id": id, "token": sessionId});
+    var resultat = result.find("Resultat");
+    var erreur = result.find("Erreur");
+    if (resultat.text() == "true" && erreur.text() == "")
+    {
+        var array = new Array();
+        result.find("Rappels").find("item").each(function(index) {
+            var debut = new Date($(this).find('Debut').text() * 1000);
+            var fin = new Date($(this).find('Fin').text() * 1000);
+
+            array.push(
+                    {
+                        "id": $(this).find('Id').text(),
+                        "title": $(this).find('Titre').text(),
+                        "location": $(this).find('Lieu').text(),
+                        "start": {
+                            date: debut.getFullYear() + "" + getFullPartDate(debut.getMonth() + 1) + "" + getFullPartDate(debut.getDate() + 1),
+                            time: getFullPartDate(debut.getHours()) + ":" + getFullPartDate(debut.getMinutes())
+                        },
+                        "end": {
+                            date: fin.getFullYear() + "" + getFullPartDate(fin.getMonth() + 1) + "" + getFullPartDate(fin.getDate() + 1),
+                            time: getFullPartDate(fin.getHours()) + ":" + getFullPartDate(fin.getMinutes())
+                        }
+                    }
+            );
+        });
+    }
+    else
+    {
+        //Erreur
+    }
+}
+
+function addRappel(id, sessionsId, title, location, begin, end)
+{
+    var result = SoapManager("CreerRappel", {"id": id, "token": sessionsId, "titre": title, "lieu": location, "debut": begin, "fin": end});
+    var resultat = result.find("Resultat");
+    var erreur = result.find("Erreur");
+    if (resultat.text() == "true" && erreur.text() == "")
+    {
+        //Ok
+    }
+    else
+    {
+        //Erreur
+    }
+}
+
+function removeRappel(id, sessionId, rappelId)
+{
+    var result = SoapManager("SupprimerRappel", {"id": id, "token": sessionId, "rappelId": rappelId});
+    var resultat = result.find("Resultat");
+    var erreur = result.find("Erreur");
+    if (resultat.text() == "true" && erreur.text() == "")
+    {
+        //Ok
+    }
+    else
+    {
+        //Erreur
+    }
+}
+
+function getContacts(id, sessionId)
+{
+    var result = SoapManager("RecupererContacts", {"id": id, "token": sessionId});
+    var resultat = result.find("Resultat");
+    var erreur = result.find("Erreur");
+    if (resultat.text() == "true" && erreur.text() == "")
+    {
+        var array = new Array();
+        result.find("Contacts").find("item").each(function(index) {
+            array.push(
+                {
+                    "name": $(this).find('Nom').text(),
+                    "email": $(this).find('Email').text(),
+                    "phone": $(this).find('Telephone').text(),
+                    "location": $(this).find('Adresse').text()
+                }
+            );
+        });
+        return array;
+    }
+    else
+    {
+        //Erreur
+    }
+}
+
+function addContact(id, sessionId, name, email, phone, location)
+{
+    var result = SoapManager("AjouterContact", {"id": id, "token": sessionId, "nom": name, "email": email, "telephone": phone, "adresse": location});
+    var resultat = result.find("Resultat");
+    var erreur = result.find("Erreur");
+    if (resultat.text() == "true" && erreur.text() == "")
+    {
+        //Ok
+    }
+    else
+    {
+        //Erreur
+    }
+}
