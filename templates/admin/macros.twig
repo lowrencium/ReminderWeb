@@ -1,0 +1,8 @@
+{% macro menu_link(label, path, icon) %}
+<li class="{{ app.request.attributes.get('_route')|slice(0, path|length) == path ? "active" : "" }}">    
+    <a href="{{ path(path) }}">
+        {% if icon is defined %}<span class="glyphicon glyphicon-{{ icon }}"></span> {% endif %}
+        {{ label }}
+    </a>
+</li>
+{% endmacro %}
