@@ -11,20 +11,72 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class IndexController implements ControllerProviderInterface
 {
+    private $formLogin;
+    private $formRegister;
+    
     /**
      * @param \Silex\Application $app
      * @return mixed
      */
     public function index(Application $app)
     {
+        $this->generateForms($app);
+        
+        return $app['twig']->render(
+                'home.twig',
+                array(
+                    'formlogin' => $this->formLogin->createView(),
+                    'formregister' => $this->formRegister->createView(),
+                )
+        );
+    }
+
+    /**
+     * @param \Silex\Application $app
+     * @return mixed
+     */
+    public function contact(Application $app)
+    {
+        $this->generateForms($app);
+        
+        return $app['twig']->render(
+                'contactUs.twig',
+                array(
+                    'formlogin' => $this->formLogin->createView(),
+                    'formregister' => $this->formRegister->createView(),
+                )
+        );
+    }
+    
+    /**
+     * @param \Silex\Application $app
+     * @return mixed
+     */
+    public function about(Application $app)
+    {
+        $this->generateForms($app);
+        
+        return $app['twig']->render(
+                'aboutUs.twig',
+                array(
+                    'formlogin' => $this->formLogin->createView(),
+                    'formregister' => $this->formRegister->createView(),
+                )
+        );
+    }
+    
+    /**
+     * @param \Silex\Application $app
+     */
+    private function generateForms(Application $app){
         // Building the login form
-        $formLogin = $app['form.factory']->createNamedBuilder('login', 'form')
+        $this->formLogin = $app['form.factory']->createNamedBuilder('login', 'form')
           ->add('username', 'text')
           ->add('password', 'password')
           ->getForm();
         
         // Building the register form
-        $formRegister = $app['form.factory']->createBuilder('form')
+        $this->formRegister = $app['form.factory']->createBuilder('form')
             ->add('email', 'text',
               array(
                 'label' => 'E-mail',
@@ -45,16 +97,8 @@ class IndexController implements ControllerProviderInterface
                 'expanded' => true,
             ))
             ->getForm();
-        
-        return $app['twig']->render(
-                'html.twig',
-                array(
-                    'formlogin' => $formLogin->createView(),
-                    'formregister' => $formRegister->createView(),
-                )
-        );
     }
-
+    
     /**
      * @param \Silex\Application $app
      * @return mixed
