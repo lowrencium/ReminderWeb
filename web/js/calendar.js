@@ -7,7 +7,7 @@ $(document).ready(function() {
     var selectedDate;
 
     var options = {
-        onDayShow: function(e) {
+        onDayClick: function(e) {
             selectedDate = e.data.date;
             $("#shareEvent").removeAttr("disabled");
             $("#deleteEvent").removeAttr("disabled");
@@ -54,8 +54,9 @@ $(document).ready(function() {
 
     $("#formAddEvent").on("submit", function(e) {
         e.preventDefault();
-        var begin = new Date($(this.startDate).val());
-        var end = new Date($(this.endDate).val());
+        var begin = new Date($(this.startDate).val()).getTime();
+        var end = new Date($(this.endDate).val()).getTime();
+        console.log(begin);
         var source;
         var context;
         if (begin > end) {
@@ -63,7 +64,6 @@ $(document).ready(function() {
             context = {
                 message: "La date de fin doit être supérieure ou égale à la date de début"
             };
-
         }
         else {
             var title = $(this.title).val();
