@@ -187,7 +187,7 @@ class Application extends SilexApplication
                 return;
             }
 
-            $page = 404 == $code ? '404.twig' : '500.twig';
+            $page = 404 == $code ? 'errors/404.twig' : 'errors/500.twig';
             return new Response($app['twig']->render($page, array('code' => $code)), $code);
         });
 
@@ -202,6 +202,8 @@ class Application extends SilexApplication
         // Frontend
         $this->mount("/", new \App\Controller\IndexController());
         $this->mount("/user", new \App\Controller\UserController());
+        $this->mount("/calendar", new \App\Controller\RappelController());
+        $this->mount("/contact", new \App\Controller\ContactController());
 
         // Backend
         $this->mount("/admin", new \App\Controller\Admin\AdminController());
