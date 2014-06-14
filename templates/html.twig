@@ -23,15 +23,11 @@
                         {% include 'blocks/left_menu.twig' %}
                     </div>
                     <div class="col-xs-12 col-sm-10 well">
-                        {% block content %}{% endblock %}
-                        {# Temporary #}
-                        {#{% include 'remindme.twig' %}#}
-                    </div>
                 {% else %}
-                    <div class="col-xs-12 col-md-10 col-sm-offset-2 well">
-                    {% include 'calendar.twig' %}
-                    </div>
+                    <div class="well">
                 {% endif %}
+                        {% block content %}{% endblock %}
+                    </div>
             </div>
         </div>
     </div>
