@@ -4,7 +4,6 @@ $(document).ready(function() {
     var tokenUser = "token";
 
     events = getRappels(idUser, tokenUser);
-
     var selectedDate;
 
     var options = {

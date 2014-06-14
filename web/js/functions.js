@@ -31,22 +31,21 @@ function getRappels(id, sessionId)
     {
         var array = new Array();
         result.find("Rappels").find("item").each(function(index) {
-            console.log("test");
-            var debut = new Date($(this).find('Debut').text() * 1000);
-            var fin = new Date($(this).find('Fin').text() * 1000);
+            var debut = new Date($(this).find('Debut').text().trim() * 1000);
+            var fin = new Date($(this).find('Fin').text().trim() * 1000);
 
             array.push(
                     {
-                        "id": $(this).find('Id').text(),
+                        //"id": $(this).find('Id').text(),
                         "title": $(this).find('Titre').text(),
                         "location": $(this).find('Lieu').text(),
                         "start": {
-                            date: debut.getFullYear() + "" + getFullPartDate(debut.getMonth() + 1) + "" + getFullPartDate(debut.getDate() + 1),
-                            time: getFullPartDate(debut.getHours()) + ":" + getFullPartDate(debut.getMinutes()),
+                            date: debut.getFullYear() + "" + getFullPartDate(debut.getMonth() ) + "" + getFullPartDate(debut.getDate()),
+                            time: getFullPartDate(debut.getHours()) + ":" + getFullPartDate(debut.getMinutes())
                         },
                         "end": {
-                            date: fin.getFullYear() + "" + getFullPartDate(fin.getMonth() + 1) + "" + getFullPartDate(fin.getDate() + 1),
-                            time: getFullPartDate(fin.getHours()) + ":" + getFullPartDate(fin.getMinutes()),
+                            date: fin.getFullYear() + "" + getFullPartDate(fin.getMonth()) + "" + getFullPartDate(fin.getDate()).toString(),
+                            time: (getFullPartDate(fin.getHours()) + ":" + getFullPartDate(fin.getMinutes())).toString()
                         }
                     }
             );
