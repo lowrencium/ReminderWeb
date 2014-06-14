@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <ul class="list-group" id="contactList">
+            <ul class="list-group" id="contact-list">
                 <li class="list-group-item">
                     <div class="col-xs-12 col-sm-3">
                         <img src="/images/avatar_default.png" alt="No Picture" class="img-responsive img-thumbnail" />
@@ -79,11 +79,14 @@
                     <div class="clearfix"></div>
                 </li>            
                 <li class="list-group-item">
-                    <div class="col-xs-12 col-sm-3">
-                        <img src="/images/avatar_default.png" alt="Seth Frazier" class="img-responsive img-thumbnail" />
+                    <div class="col-xs-12 col-sm-3">               
+                        <img src="/images/avatar_default.png" alt="Naim Mahamdi" class="img-responsive img-thumbnail" />
                     </div>
                     <div class="col-xs-12 col-sm-7">
-                        <span class="name">Seth Frazier</span><br/>
+                        <span class="name">Clark Keint</span><br/>
+
+                        <span class="fa fa-map-marker text-muted c-info"></span>
+                        <span class="text-muted">7396 E North St</span><br/>
 
                         <span class="fa fa-phone text-muted c-info"></span>
                         <span> <span class="text-muted">(560) 180-4143</span><br/></span>
@@ -93,12 +96,14 @@
 
                     </div>
                     <div class="col-xs-12 col-sm-2">
-                        <a class="btn btn-danger btn-lg delete" role="button">
-                            <i class="fa fa-trash-o fa-lg"></i>
-                        </a>
+                        <div class="col-xs-6 col-sm-12">
+                            <a class="btn btn-danger btn-lg delete" role="button">
+                                <i class="fa fa-trash-o fa-lg"></i>
+                            </a>
+                        </div>
                     </div>
                     <div class="clearfix"></div>
-                </li>
+                </li>       
             </ul>
         </div>
     </div>
@@ -108,6 +113,8 @@
 </div>
 
 {% include 'contact/addContactModal.twig' %}
+
+{% include 'contact/templatesContact.html' %}
 
 {% endblock %}
 
