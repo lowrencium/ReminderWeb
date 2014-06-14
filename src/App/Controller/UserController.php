@@ -150,6 +150,20 @@ class UserController implements ControllerProviderInterface
     
     /**
      * @param Application $app
+    /**
+     * @param Application $app
+     * @param Request $request
+     * @return mixed
+     */
+    public function preferences(Application $app, Request $request)
+    {
+        /* Traitement */
+
+        return $app['twig']->render('user/preferences.twig');
+    }
+    
+    /**
+     * @param Application $app
      * @return mixed
      */
     public function connect(Application $app)
@@ -159,6 +173,7 @@ class UserController implements ControllerProviderInterface
         $index->match("/register", array($this, "register"))->bind('user.register');
         $index->match("/signin", array($this, "signin"))->bind('user.signin');
         $index->match("/signup", array($this, "signup"))->bind('user.signup');
+        $index->match("/preferences", array($this, "preferences"))->bind('user.preferences');
         return $index;
     }
 }

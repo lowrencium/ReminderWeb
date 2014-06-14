@@ -63,12 +63,9 @@ class IndexController implements ControllerProviderInterface
     {
         $index = $app['controllers_factory'];
         $index->match("/", array($this, "index"))->bind('index');
-        $index->match("/calendar", array($this, "calendar"))->bind('calendar');
+        $index->match("/contactus", array($this, "contact"))->bind('index.contact');
+        $index->match("/aboutus", array($this, "about"))->bind('index.about');
         return $index;
     }
     
-    public function calendar(Application $app)
-    {
-        return $app['twig']->render('calendar.twig');
-    }
 }
