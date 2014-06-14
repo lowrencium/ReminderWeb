@@ -132,3 +132,18 @@ function addContact(id, sessionId, name, email, phone, location)
         //Erreur
     }
 }
+
+function removeContact(id, sessionId, email)
+{
+    var result = SoapManager("SupprimerContact", {"id": id, "token": sessionId, "email": email});
+    var resultat = result.find("Resultat");
+    var erreur = result.find("Erreur");
+    if (resultat.text() == "true" && erreur.text() == "")
+    {
+        //Ok
+    }
+    else
+    {
+        //Erreur
+    }
+}
