@@ -11,9 +11,11 @@
         <center>
             <div class="navbar-collapse collapse" id="navbar-main">
                 <ul id="top_navbar" class="nav navbar-nav">
-                    <li><a id="contactUs" role="button">Nous contacter</a>
+                    <li>
+                        <a href="{{ path('index.contact') }}" id="contactUs" role="button">Nous contacter</a>
                     </li>
-                    <li><a id="aboutUs" role="button">A propos</a>
+                    <li>
+                        <a href="{{ path('index.about') }}" id="aboutUs" role="button">A propos</a>
                     </li>
                 </ul>
                 {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
@@ -40,4 +42,4 @@
     </div>
 </div>
 
-{% include 'registerModal.twig' %}
+{% include 'user/registerModal.twig' %}
