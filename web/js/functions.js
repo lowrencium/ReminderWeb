@@ -1,5 +1,9 @@
 $(document).ready(function() {
-    //Ladda.bind('button[type=submit]', {timeout: 2000});
+    
+    var idUser = 1;
+    var tokenUser = "token";
+    
+    Ladda.bind('button[type=submit]', {timeout: 2000});
 
     $("#login").on("click", function() {
         console.log("login");
@@ -36,7 +40,6 @@ function getRappels(id, sessionId)
 
             array.push(
                     {
-                        //"id": $(this).find('Id').text(),
                         "title": $(this).find('Titre').text(),
                         "location": $(this).find('Lieu').text(),
                         "start": {
@@ -69,12 +72,9 @@ function addRappel(id, sessionsId, title, location, begin, end)
     var erreur = result.find("Erreur");
     if (resultat.text() == "true" && erreur.text() == "")
     {
-        //Ok
+        return 1;
     }
-    else
-    {
-        //Erreur
-    }
+    return 0;
 }
 
 function removeRappel(id, sessionId, rappelId)
@@ -84,11 +84,11 @@ function removeRappel(id, sessionId, rappelId)
     var erreur = result.find("Erreur");
     if (resultat.text() == "true" && erreur.text() == "")
     {
-        //Ok
+        return 1;
     }
     else
     {
-        //Erreur
+        return 0;
     }
 }
 

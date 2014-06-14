@@ -1,9 +1,9 @@
 $(document).ready(function() {
 
     var idUser = 1;
-    var tokenUser = "token";
+    var sessionsId = "token";
 
-    events = getRappels(idUser, tokenUser);
+    events = getRappels(idUser, sessionsId);
     var selectedDate;
 
     var options = {
@@ -48,28 +48,62 @@ $(document).ready(function() {
     $("#loadCalendar").kalendar(options); //Load the calendar
     $("#startDate, #endDate").datetimepicker();
 
+    $("#addEvent shareEvent deleteEvent").on("click", function() {
+        $("#formAddEvent").find(".alert").remove();
+    });
+
+    $("#formAddEvent").on("submit", function(e) {
+        e.preventDefault();
+        var begin = new Date($(this.startDate).val());
+        var end = new Date($(this.endDate).val());
+        var source;
+        var context;
+        if (begin > end) {
+            source = $("#danger-template").html();
+            context = {
+                message: "La date de fin doit être supérieure ou égale à la date de début"
+            };
+
+        }
+        else {
+            var title = $(this.title).val();
+            var location = $(this.location).val();
+
+            if (addRappel(idUser, sessionsId, title, location, begin, end)) {
+                source = $("#success-template").html();
+                context = {
+                    message: "Le rappel a été ajouté avec succès"
+                };
+            }
+            else {
+                source = $("#danger-template").html();
+                context = {
+                    message: "Problème lors de l'ajout de l'évènement"
+                };
+            }
+        }
+        var template = Handlebars.compile(source);
+        var html = template(context);
+        $("#contentAddEvent").prepend(html);
+    });
 
     $('button#shareEvent').on('click', function(e)
     {
+        e.preventDefault();
         var dayEvents = getDayEvents(selectedDate);
         var shareContentTableModal = $("#shareEventContent #tableShareEvents tbody");
-        var shareEventsContacts = ("#shareEventContent #shareEventsContacts tbody")
         var buttonShareEvent = $("button#do_shareEvent");
         var eventsTable = $("div#shareEventsTable");
-
-        e.preventDefault();
 
         $("#shareEventsContacts").hide();
 
         eventsTable.show();
-
         shareContentTableModal.empty(); //cleaning before append
 
         for (var i = 0; i < dayEvents.length; i++) {
             var templateEvent = getRowEvent(dayEvents[i]);
             shareContentTableModal.append(templateEvent);
         }
-
 
         buttonShareEvent.html('Passer à la sélection des contacts');
 
@@ -81,13 +115,11 @@ $(document).ready(function() {
                     //remove from the DOM
                     $(this).closest("tr").remove();
                     //Launch WS to remove an event
-
                 });
                 buttonShareEvent.html('Partager');
                 $("div#shareEventsContacts tbody").empty();
                 for (var i = 0; i < contacts.length; i++) {
                     var templateContact = getRowContact(contacts[i]);
-
                     $("div#shareEventsContacts tbody").append(templateContact);
                 }
                 $("div#shareEventsContacts").fadeIn();
@@ -105,26 +137,10 @@ $(document).ready(function() {
 
         for (var i = 0; i < dayEvents.length; i++) {
             var templateEvent = getRowEvent(dayEvents[i]);
+
             deleteContentModal.append(templateEvent);
-        }
-    });
 
-    $("#formAddEvent").on("submit", function(e) {
-        e.preventDefault();
-        var startDate = new Date($(this.startDate).val());
-        var endDate = new Date($(this.endDate).val());
-        if (startDate > endDate) {
-            var errorMsg = "La date de fin doit être supérieure ou égale à la date de début";
-            var templateError = '<p class="bg-danger col-xs-12">' + errorMsg + '</p>';
-            $("#contentAddEvent").prepend(templateError);
         }
-        else {
-            var title = $(this.title).val();
-            var location = $(this.location).val();
-
-            document.location.reload();
-        }
-
     });
 
     $("#do_deleteEvent").on("click", function(e) {
@@ -132,15 +148,15 @@ $(document).ready(function() {
         $("input:checkbox:checked").each(function()
         {
             //remove from the DOM
-            $(this).closest("tr").remove();
+            if (removeRappel(id, sessionId, rappelId)) {
+                $(this).closest("tr").remove();
+            }
             //Launch WS to remove an event
 
         });
         document.location.reload();
     });
 });
-
-
 
 // return events of the day
 function getDayEvents(datePicked) {
