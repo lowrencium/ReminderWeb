@@ -36,15 +36,15 @@ function getRappels(id, sessionId)
 
             array.push(
                     {
-                        //"id": $(this).find('Id').text(),
+                        "id": $(this).find('Id').text(),
                         "title": $(this).find('Titre').text(),
                         "location": $(this).find('Lieu').text(),
                         "start": {
-                            date: debut.getFullYear() + "" + getFullPartDate(debut.getMonth() ) + "" + getFullPartDate(debut.getDate()),
+                            date: debut.getFullYear() + "" + getFullPartDate(debut.getMonth() ) + "" + getFullPartDate(debut.getDate() - 1),
                             time: getFullPartDate(debut.getHours()) + ":" + getFullPartDate(debut.getMinutes())
                         },
                         "end": {
-                            date: fin.getFullYear() + "" + getFullPartDate(fin.getMonth()) + "" + getFullPartDate(fin.getDate()).toString(),
+                            date: fin.getFullYear() + "" + getFullPartDate(fin.getMonth()) + "" + getFullPartDate(fin.getDate() - 1).toString(),
                             time: (getFullPartDate(fin.getHours()) + ":" + getFullPartDate(fin.getMinutes())).toString()
                         }
                     }
