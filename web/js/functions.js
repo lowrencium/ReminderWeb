@@ -40,6 +40,7 @@ function getRappels(id, sessionId)
 
             array.push(
                     {
+                        "id": $(this).find('Id').text(),
                         "title": $(this).find('Titre').text(),
                         "location": $(this).find('Lieu').text(),
                         "start": {
