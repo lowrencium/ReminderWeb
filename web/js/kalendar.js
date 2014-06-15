@@ -441,7 +441,7 @@ var dmn = "",
                     l = !!c.background ? 'style="background-color:' + c.background + '"' : ""
                 }
             }
-            $event = e('<div id="s-event[' + o + ']" class="s-event" ' + l + "></div>");
+            $event = e('<div id="" class="s-event" ' + l + "></div>");
             $event.append("<h5 " + u + ">" + ev.A + "</h5>");
             var h = {
                 date: ev.C.C.getDate() == ev.D.C.getDate() ? "" : r.R(ev.C.C.getDate()),
