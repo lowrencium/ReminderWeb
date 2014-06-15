@@ -3,7 +3,7 @@ $(document).ready(function() {
     var idUser = 1;
     var sessionId = "token";
 
-    var events = getRappels(idUser, sessionId);
+    events = getRappels(idUser, sessionId);
     
     var selectedDate;
 
