@@ -1,7 +1,7 @@
 $(document).ready(function() {
     
     var idUser = 1;
-    var tokenUser = "token";
+    var sessionId = "token";
     
     Ladda.bind('button[type=submit]', {timeout: 2000});
 
@@ -66,9 +66,9 @@ function getRappels(id, sessionId)
 
 
 
-function addRappel(id, sessionsId, title, location, begin, end)
+function addRappel(id, sessionId, title, location, begin, end)
 {
-    var result = SoapManager("CreerRappel", {"id": id, "token": sessionsId, "titre": title, "lieu": location, "debut": begin, "fin": end});
+    var result = SoapManager("CreerRappel", {"id": id, "token": sessionId, "titre": title, "lieu": location, "debut": begin, "fin": end});
     var resultat = result.find("Resultat");
     var erreur = result.find("Erreur");
     if (resultat.text() == "true" && erreur.text() == "")
@@ -126,11 +126,11 @@ function addContact(id, sessionId, name, email, phone, location)
     var erreur = result.find("Erreur");
     if (resultat.text() == "true" && erreur.text() == "")
     {
-        //Ok
+        return 1;
     }
     else
     {
-        //Erreur
+        return 0;
     }
 }
 
@@ -141,10 +141,10 @@ function removeContact(id, sessionId, email)
     var erreur = result.find("Erreur");
     if (resultat.text() == "true" && erreur.text() == "")
     {
-        //Ok
+        return 1;
     }
     else
     {
-        //Erreur
+        return 0;
     }
 }

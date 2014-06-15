@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    var idUser = 1;
+    var sessionId = "token";
 
 
     $('[data-toggle="tooltip"]').tooltip();
@@ -17,15 +19,17 @@ $(document).ready(function() {
     });
 
 
-    $("ul#contact-list").on("click",  ".delete", function(e) {
+    $("ul#contact-list").on("click", ".delete", function(e) {
         var button = $(this);
         $.confirm({
             text: "Voulez-vous vraiment supprimer ce contact?",
             title: "Confirmation requise",
             confirm: function() {
                 var contact = $(button).closest("li");
-                var mailContact = contact.find('[data-role="email"]');
-                contact.remove();
+                var email = contact.find('[data-role="email"]');
+                if (removeContact(idUser, sessionId, email)) {
+                    contact.remove();
+                }
             },
             confirmButton: "Oui",
             cancelButton: "Non",
@@ -46,18 +50,21 @@ $(document).ready(function() {
         }
     });
 
+    $('#addContact').on("click", function() {
+        $("#formAddContact").find('.alert').remove();
+    })
 
     $('form#formAddContact').on('submit', function(e) {
         e.preventDefault();
 
         // je récupère les valeurs
-        var nom = $('#name').val();
+        var name = $('#name').val();
         var email = $('#mail').val();
         var phone = $("#phone").val();
         var location = $("#location").val();
 
         var contact = {
-            name: nom,
+            name: name,
             email: email,
             phone: phone,
             location: location
@@ -69,9 +76,17 @@ $(document).ready(function() {
         var context = contact;
         var html = template(context);
 
-        $("#addContactModal").modal("toggle");
-
-        $("#contact-list").fadeIn().prepend(html);
+        if (addContact(idUser, sessionId, name, email, phone, location)) {
+            $("#addContactModal").modal("toggle");
+            $("#contact-list").fadeIn().prepend(html);
+        }
+        else {
+            var source = $("#danger-template").html();
+            var template = Handlebars.compile(source);
+            var context = {message: "Impossible d'ajouter l'utilisateur"};
+            var html = template(context);
+            $("#contentAddContact").prepend(html);
+        }
 
     });
 });
