@@ -2,8 +2,6 @@ $(document).ready(function() {
     
     var idUser = 1;
     var sessionId = "token";
-    
-    //Ladda.bind('button[type=submit]', {timeout: 2000});
 
     $("#login").on("click", function() {
         console.log("login");
@@ -173,7 +171,7 @@ function useTemplates(tmpl, context) {
 
 /**
  * 
- * @param {type} button
+ * @param {button} button
  * @returns {undefined}
  */
 function buttonBehaviourSubmitDefault(button) {
@@ -181,17 +179,38 @@ function buttonBehaviourSubmitDefault(button) {
     $(button).removeClass("btn-danger");
     $(button).addClass("btn-primary");
     $(button).html(message);
-    $(button).disable(false);
 }
 
 /**
  * 
  * @param {button} button
- * @param {string} error
+ * @param {String} error
  * @returns {undefined}
  */
 function buttonBehaviourSubmitError(button, error) {
     $(button).removeClass("btn-primary");
     $(button).addClass("btn-danger");
     $(button).html(error);
+}
+
+/**
+ * 
+ * @param {button} button
+ * @param {String} success
+ * @returns {undefined}
+ */
+function buttonBehaviourSubmitSuccess(button, success) {
+    $(button).removeClass("btn-primary");
+    $(button).addClass("btn-success");
+    $(button).html(success);
+}
+
+function buttonSubmitLoadStart(button) {
+    var l = Ladda.create(button[0]);
+    l.start();
+    return l;
+}
+
+function buttonSubmitLoadStop(l) {
+    l.stop();
 }
