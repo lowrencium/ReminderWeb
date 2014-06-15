@@ -5,14 +5,17 @@ $(function() {
 
     var modalAddContact = "#addContactModal";
     var contacts = getContacts(idUser, sessionId);
-    
-    var source = $("#contact-template").html();
-    for(var i=0; i< contacts.length; i++){
-        var context = contacts[i];
-        var html = useTemplates(source, context);
-    $("#contact-list").append(html);
+
+    if (typeof contacts != 'undefined') {
+        console.log("test");
+        var source = $("#contact-template").html();
+        for (var i = 0; i < contacts.length; i++) {
+            var context = contacts[i];
+            var html = useTemplates(source, context);
+            $("#contact-list").append(html);
+        }
     }
-    
+
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-toggle="modal"]').tooltip();
 
