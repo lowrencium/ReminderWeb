@@ -4,17 +4,7 @@ $(document).ready(function() {
     var sessionId = "token";
 
     events = getRappels(idUser, sessionId);
-    
-    events = [{
-        title: "Olympics",
-        location: "Sochi",
-        start: {
-            date: "20140607", time: "17.00"
-        },
-        end: {
-            date: "20140623", time: "17.00"
-        }}]
-    
+
     var selectedDate;
 
     var options = {
@@ -92,8 +82,18 @@ $(document).ready(function() {
     $('button#shareEvent').on('click', function(e)
     {
         e.preventDefault();
-        var button = $("#formShareEvent").find("button[type=submit]");
-        buttonBehaviourSubmitDefault(button);
+
+        var button = $('#do_shareEvent');
+        var button2 = $("#do_shareEventFinal");
+
+        button.parent().show();
+        button2.parent().hide();
+
+        var message = 'Sélectionner les contacts';
+        buttonBehaviourSubmitDefault(button, message);
+
+        var message = "Partager";
+        buttonBehaviourSubmitDefault(button2, message);
 
         var dayEvents = getDayEvents(selectedDate);
         var shareContentTableModal = $("#shareEventContent tbody");
@@ -108,93 +108,80 @@ $(document).ready(function() {
             var templateEvent = getRowEvent(dayEvents[i]);
             shareContentTableModal.append(templateEvent);
         }
+    });
 
-        var message = 'Sélectionner les contacts';
-        button.attr('id', 'shareFirstStep');
-        buttonBehaviourSubmitDefault(button, message);
+    $("#do_shareEvent").on("click", function(e){
+        e.preventDefault();
+        var button = $(this);
 
-        
-        $("button#shareFirstStep").on("click", function(e){
-            e.preventDefault();
-            console.log("test");
-            var button = $(this);
+        // At least one event is checked
+        if (isAtLeastOneCheckedBoxChecked('#tableShareEvents')) {
+            $("input:checkbox:not(:checked)").each(function()
+            {
+                $(this).closest("tr").remove();
+            });
 
-            // At least one event is checked
-            if (isAtLeastOneCheckedBoxChecked('#tableShareEvents')) {
-                $("input:checkbox:not(:checked)").each(function()
-                                                       {
-                                                           $(this).closest("tr").remove();
-                                                       });
-                $("div#shareEventsContacts tbody").empty();
-                $("div#shareEventsContacts").fadeIn(); // Display contacts
+            $("div#shareEventsContacts tbody").empty();
+            $("div#shareEventsContacts").fadeIn(); // Display contacts
 
-                var message = "Partager";
-                button.attr('id', 'shareSecondStep');
-                buttonBehaviourSubmitDefault(button, message);
+            var contacts = getContacts(idUser, sessionId);
 
-                var contacts = getContacts(idUser, sessionId);
-                contacts = [{
-                    id: 1,
-                    name: 'franck',
-                    email: 'test@lol'
-                }];
-                // if at leasts 1 contact
-                if (typeof contacts != 'undefined') {                  
-                    for (var i = 0; i < contacts.length; i++) {
-                        var templateContact = getRowContact(contacts[i]);
-                        $("table#tableShareContacts tbody").append(templateContact);
-                    }
-                    
-                    $("button#shareSecondStep").on("click", function(e) {
-                        e.preventDefault();
-
-                        if (isAtLeastOneCheckedBoxChecked('#shareEventsContacts')) {
-
-                            var status = true;
-                            $("#tableShareEvents input:checkbox:checked").each(function() { // each event
-                                console.log(this);
-                                $("#tableShareContacts input:checkbox:checked").each(function(){ // each contact
-                                    console.log("salut2");
-                                    var rappelId;
-                                    var contactId;
-                                    var contactType;
-                                    //if(!shareRappel(idUser, sessionId, rappelId, contactId, contactType)){
-                                    //  status = false;
-                                    //}
-                                });                           
-                            });   
-                            if(status){
-                                var message = "Rappels partagés avec succès";
-                                buttonBehaviourSubmitSuccess(button, message);
-                            }
-                            else{
-                                var error = "Echec du partage";
-                                buttonBehaviourSubmitError(button, error);
-                            }
-                        }
-                        else{ // No contact checked
-                            var error = "Aucun contact sélectionné";
-                            buttonBehaviourSubmitError(button, error);
-                        }
-                    });
-                }
-                else {
-                    $("div#shareEventsContacts table").remove();
-                    var error = "Aucun contact";
-                    buttonBehaviourSubmitError(button, error);
+            // if at leasts 1 contact
+            if (typeof contacts != 'undefined') {
+                for (var i = 0; i < contacts.length; i++) {
+                    var templateContact = getRowContact(contacts[i]);
+                    $("table#tableShareContacts tbody").append(templateContact);
                 }
 
+                $(button).parent().hide();
+                $("#do_shareEventFinal").parent().show();
 
             }
-            else { // No event checked
-                var error = "Sélectionner au moins un rappel";
+            else {
+                $("div#shareEventsContacts table").remove();
+                var error = "Aucun contact";
                 buttonBehaviourSubmitError(button, error);
             }
-        });
-        
+        }
+        else { // No event checked
+            var error = "Sélectionner au moins un rappel";
+            buttonBehaviourSubmitError(button, error);
+        }
+
     });
-    
-    
+
+    $("#do_shareEventFinal").on('click', function(e){
+        e.preventDefault();
+        var button = $(this);
+        if (isAtLeastOneCheckedBoxChecked('#shareEventsContacts')) {
+            var status = true;
+            $("#tableShareEvents input:checkbox:checked").each(function() { // each event
+                var event = $(this);
+                $("#tableShareContacts input:checkbox:checked").each(function(){ // each contact
+                    var contact = $(this);
+                    var rappelId = event.parent().parent().attr('id');
+                    var contactId = contact.parent().parent().attr('id');
+                    var contactType= contact.parent().parent().attr('data-type');
+                    if(!shareRappel(idUser, sessionId, rappelId, contactId, contactType)){
+                        status = false;
+                    }
+                });
+            });
+            if(status){
+                var message = "Rappels partagés avec succès";
+                buttonBehaviourSubmitSuccess(button, message);
+            }
+            else{
+                var error = "Echec du partage";
+                buttonBehaviourSubmitError(button, error);
+            }
+        }
+        else{ // No contact checked
+            var error = "Aucun contact sélectionné";
+            buttonBehaviourSubmitError(button, error);
+        }
+    });
+
 
 
     $('button#deleteEvent').on('click', function()
@@ -293,7 +280,8 @@ function getRowContact(contact) {
     var context = {
         id: contact.id,
         name: contact.name,
-        email: contact.email
+        email: contact.email,
+        type: contact.type
     }
     var template = Handlebars.compile(source);
     var html = template(context);
