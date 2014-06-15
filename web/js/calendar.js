@@ -1,9 +1,9 @@
 $(document).ready(function() {
 
     var idUser = 1;
-    var sessionsId = "token";
+    var sessionId = "token";
 
-    events = getRappels(idUser, sessionsId);
+    events = getRappels(idUser, sessionId);
     var selectedDate;
 
     var options = {
@@ -215,7 +215,7 @@ function getRowEvent(event) {
 function getRowContact(contact) {
     var checkbox = '<input id=' + contact.id + ' type="checkbox">';
     var name = contact.name;
-    var email = contact.mail;
+    var email = contact.email;
     var templateContact = "<tr><td>" + checkbox + "</td><td>" + name + "</td><td>" + email + "</td></tr>";
     return templateContact;
 }
