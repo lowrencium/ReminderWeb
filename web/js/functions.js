@@ -189,6 +189,22 @@ function getContactRequest(id, sessionId)
     }
 }
 
+function shareRappel(id, sessionId, rappelId, contactId, contactType)
+{
+    var result = SoapManager("PartagerRappel", {"id": id, "token": sessionId, "rappelId": rappelId, "contactId": contactId, "type": contactType});
+    var resultat = result.find("Resultat");
+    var erreur = result.find("Erreur");
+    if (resultat.text() == "true" && erreur.text() == "")
+    {
+        return 1;
+    }
+    else
+    {
+        console.log(erreur.html());
+        return 0;
+    }
+}
+
 function useTemplates(tmpl, context) {
     var template = Handlebars.compile(tmpl);
     var html = template(context);
