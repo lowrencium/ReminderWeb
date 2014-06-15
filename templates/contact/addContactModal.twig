@@ -3,6 +3,7 @@
 {% block idModal %}addContactModal{% endblock %}
 {% block titleModal %}Ajouter un contact{% endblock %}
 {% block idFormModal %}formAddContact{% endblock %}
+{% block idContentModal %}contentAddContact{% endblock %}
 {% block bodyModal %}
     {% include 'blocks/inputModal.twig' with {'label': 'Nom', 'idInput' : 'name', 'type' : 'text'} %}
     {% include 'blocks/inputModal.twig' with {'label': 'Mail', 'idInput' : 'mail', 'type' : 'mail'} %}
