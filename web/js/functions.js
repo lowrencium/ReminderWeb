@@ -134,9 +134,24 @@ function addContact(id, sessionId, name, email, phone, location)
     }
 }
 
-function removeContact(id, sessionId, email)
+function removeContact(id, sessionId, contactId, type)
 {
-    var result = SoapManager("SupprimerContact", {"id": id, "token": sessionId, "email": email});
+    var result = SoapManager("SupprimerContact", {"id": id, "token": sessionId, "contactId": contactId, "type": type});
+    var resultat = result.find("Resultat");
+    var erreur = result.find("Erreur");
+    if (resultat.text() == "true" && erreur.text() == "")
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+function validateContact(id, sessionId, contactId)
+{
+    var result = SoapManager("ValiderContact", {"id": id, "token": sessionId, "contactId": contactId});
     var resultat = result.find("Resultat");
     var erreur = result.find("Erreur");
     if (resultat.text() == "true" && erreur.text() == "")

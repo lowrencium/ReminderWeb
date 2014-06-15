@@ -86,11 +86,6 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(type="integer", name="nb_login")
      */
     protected $nbLogin = 0;
-
-    /**
-     * @ORM\Column(type="text", name="contacts")
-     */
-    protected $contacts;
     
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\UserLogin", mappedBy="user")
@@ -340,22 +335,6 @@ class User implements AdvancedUserInterface, \Serializable
     public function getNbLogin()
     {
         return $this->nbLogin;
-    }
-
-    /**
-     * @param string $contact
-     */
-    public function setContacts($contacts)
-    {
-        $this->contacts = $contacts;
-    }
-
-    /**
-     * @return string
-     */
-    public function getContacts()
-    {
-        return $this->contacts;
     }
 
     /**
