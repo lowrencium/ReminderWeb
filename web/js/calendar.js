@@ -3,7 +3,6 @@ $(document).ready(function() {
     var idUser = 1;
     var sessionId = "token";
 
-    events = getRappels(idUser, sessionId);
     var selectedDate;
 
     var options = {
@@ -97,7 +96,8 @@ $(document).ready(function() {
             shareContentTableModal.append(templateEvent);
         }
 
-        $(button).html('Passer à la sélection des contacts');
+        var message = 'Sélectionner les contacts';
+        buttonBehaviourSubmitDefault(button, message);
 
         $(button).on("click", function(e) {
             e.preventDefault();
@@ -107,20 +107,53 @@ $(document).ready(function() {
                     //remove from the DOM
                     $(this).closest("tr").remove();
                 });
-                button.html('Partager');
+                var message = "Partager";
+                buttonBehaviourSubmitDefault(button, message);
                 $("div#shareEventsContacts tbody").empty();
-                var contacts = getContacts(idUser, sessionId);
-                if (typeof contacts != 'undefined') {
+                // if at leasts 1 contact
+                if (typeof contacts != 'undefined') {                  
                     for (var i = 0; i < contacts.length; i++) {
                         var templateContact = getRowContact(contacts[i]);
                         $("div#shareEventsContacts tbody").append(templateContact);
                     }
+                    $("div#shareEventsContacts").fadeIn();
+                    $(button).on("click", function(e) {
+                  
+                        var status = true;
+                        $("#tableShareEvents input:checkbox:checked").each(function() {
+                            console.log($(this));
+                            $("#tableShareContacts input:checkbox:checked").each(function(){
+                                var rappelId;
+                                var contactId;
+                                var contactType;
+                                if(!shareRappel(idUser, sessionId, rappelId, contactId, contactType)){
+                                    status = false;
+                                }
+                            });                           
+                        });   
+                        if(status){
+                            var message = "Rappels partagés avec succès";
+                            buttonBehaviourSubmitSuccess(button, message);
+                        }
+                        else{
+                            var error = "Echec du partage";
+                            buttonBehaviourSubmitError(button, error);
+                        }
+                    });
+                   
+                   
                 }
-                else{
+                else {
                     $("div#shareEventsContacts table").remove();
+                    var error = "Aucun contact";
+                    buttonBehaviourSubmitError(button, error);
                 }
 
-                $("div#shareEventsContacts").fadeIn();
+                
+            }
+            else {
+                var error = "Sélectionner au moins un rappel";
+                buttonBehaviourSubmitError(button, error);
             }
         });
     });
@@ -145,22 +178,27 @@ $(document).ready(function() {
     $("#formDeleteEvent").on("submit", function(e) {
         e.preventDefault();
         var button = $(this).find('button[type=submit]');
-        $("input:checkbox:checked").each(function()
-        {
-            var event = $(this).closest("tr");
-            var rappelId = event.attr("id");
-            //remove from the DOM
-            if (removeRappel(idUser, sessionId, rappelId)) {
-                event.remove();
-                var message = "Veuillez recharger la page pour avoir le calendrier à jour";
-                buttonBehaviourSubmitSuccess(button, message);
-            }
-            else {
-                var error = "Les rappels n'ont pas pu être supprimés";
-                buttonBehaviourSubmitError(button, error);
-            }
-        });
-        //document.location.reload();
+        if (isAtLeastOneCheckedBoxChecked("tableDeleteEvent")) {
+            $("input:checkbox:checked").each(function()
+            {
+                var event = $(this).closest("tr");
+                var rappelId = event.attr("id");
+                //remove from the DOM
+                if (removeRappel(idUser, sessionId, rappelId)) {
+                    event.remove();
+                    var message = "Recharger la page pour avoir le calendrier à jour";
+                    buttonBehaviourSubmitSuccess(button, message);
+                }
+                else {
+                    var error = "Les rappels n'ont pas pu être supprimés";
+                    buttonBehaviourSubmitError(button, error);
+                }
+            });
+        }
+        else{
+            var error = "Sélectionner au moins un rappel";
+            buttonBehaviourSubmitError(button, error);
+        }
     });
 });
 
