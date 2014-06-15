@@ -3,19 +3,10 @@ $(function() {
     var idUser = 1;
     var sessionId = "token";
 
-    var contacts = getContacts(idUser, sessionId);
-
-    if (typeof contacts != 'undefined') {
-        var source = $("#contact-template").html();
-        for (var i = 0; i < contacts.length; i++) {
-            var context = contacts[i];
-            var html = useTemplates(source, context);
-            $("#contact-list").append(html);
-        }
-    }
+    loadContacts(idUser, sessionId);
 
     var demandes = getContactRequest(idUser, sessionId);
-    console.log(demandes);
+
     if(typeof demandes != 'undefined') {
         var source = $("#demande-template").html();
         for(var i = 0; i < demandes.length; i++) {
@@ -59,6 +50,36 @@ $(function() {
             cancelButton: "Non",
             post: true
         });
+    });
+
+    $("ul#demande-list").on("click", ".accept", function(e) {
+        var button = $(this);
+
+        var demande = $(button).closest("li");
+        var id = demande.attr('id');
+
+        if(validateContact(idUser, sessionId, id, true)) {
+            demande.remove();
+            $("#contact-list").html("");
+            loadContacts(idUser, sessionId);
+        }
+        else {
+            console.log("erreur SOAP removeContact");
+        }
+    });
+
+    $("ul#demande-list").on("click", ".decline", function(e) {
+        var button = $(this);
+
+        var demande = $(button).closest("li");
+        var id = demande.attr('id');
+
+        if(validateContact(idUser, sessionId, id, false)) {
+            demande.remove();
+        }
+        else {
+            console.log("erreur SOAP removeContact");
+        }
     });
 
     $('#contact-list').searchable({
@@ -115,4 +136,16 @@ $(function() {
     });
 });
 
+function loadContacts(idUser, sessionId)
+{
+    var contacts = getContacts(idUser, sessionId);
 
+    if (typeof contacts != 'undefined') {
+        var source = $("#contact-template").html();
+        for (var i = 0; i < contacts.length; i++) {
+            var context = contacts[i];
+            var html = useTemplates(source, context);
+            $("#contact-list").append(html);
+        }
+    }
+}

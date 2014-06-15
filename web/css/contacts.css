@@ -83,6 +83,11 @@ ul.c-controls li a:hover {
     font-weight: 700;
 }
 
+.name-demande {
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
 .c-info {
     padding: 5px 10px;
     font-size: 1.25em;
