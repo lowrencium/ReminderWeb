@@ -3,7 +3,7 @@ $(document).ready(function() {
     var idUser = 1;
     var sessionId = "token";
     
-    Ladda.bind('button[type=submit]', {timeout: 2000});
+    //Ladda.bind('button[type=submit]', {timeout: 2000});
 
     $("#login").on("click", function() {
         console.log("login");
@@ -162,4 +162,10 @@ function validateContact(id, sessionId, contactId)
     {
         return 0;
     }
+}
+
+function useTemplates(tmpl, context) {
+    var template = Handlebars.compile(tmpl);
+    var html = template(context);
+    return html;
 }
