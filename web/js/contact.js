@@ -115,11 +115,8 @@ $(function() {
         };
 
         if (addContact(idUser, sessionId, name, email, phone, location)) {
-            var source = $("#contact-template").html();
-            var context = contact;
-
-            $("#contact-list").fadeIn().append(useTemplates(source, context));
-            $("#contact-list li:last-child .gravatar").empty().html($.gravatar(contact.email, {size: 120}));
+            $("#contact-list").empty();
+            loadContacts(idUser, sessionId);
             //$(modalAddContact).modal('toggle');
             var message = "Contact créé avec succès";
             buttonBehaviourSubmitSuccess(button, message);
