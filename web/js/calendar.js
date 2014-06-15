@@ -121,6 +121,8 @@ $(document).ready(function() {
                 }
 
                 $("div#shareEventsContacts").fadeIn();
+
+
             }
         });
     });

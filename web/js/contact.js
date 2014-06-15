@@ -146,7 +146,9 @@ function loadContacts(idUser, sessionId)
         for (var i = 0; i < contacts.length; i++) {
             var context = contacts[i];
             var html = useTemplates(source, context);
+
             $("#contact-list").append(html);
+            $("#contact-list li[id="+contacts[i].id+"][data-type="+contacts[i].type+"] .gravatar").empty().html($.gravatar(contacts[i].email, {size: 120}));
         }
     }
 }
