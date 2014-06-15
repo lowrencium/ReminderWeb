@@ -3,6 +3,12 @@ $(document).ready(function() {
     var idUser = 1;
     var sessionId = "token";
 
+    var contacts = getContacts(idUser, sessionId);
+    var source = $("#contact-template").html();
+    var template = Handlebars.compile(source);
+    var context = contacts;
+    var html = template(context);
+    $("#contact-list").prepend(html);
 
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-toggle="modal"]').tooltip();
@@ -18,7 +24,6 @@ $(document).ready(function() {
         }
     });
 
-
     $("ul#contact-list").on("click", ".delete", function(e) {
         var button = $(this);
         $.confirm({
@@ -27,7 +32,7 @@ $(document).ready(function() {
             confirm: function() {
                 var contact = $(button).closest("li");
                 var email = contact.find('[data-role="email"]').html();
-                console.log(email);
+
                 if (removeContact(idUser, sessionId, email)) {
                     contact.remove();
                 }
@@ -37,7 +42,6 @@ $(document).ready(function() {
             post: true
         });
     });
-
 
     $('#contact-list').searchable({
         searchField: '#contact-list-search',
@@ -53,7 +57,10 @@ $(document).ready(function() {
 
     $('#addContact').on("click", function() {
         $("#formAddContact").find('.alert').remove();
-    })
+    });
+
+
+
 
     $('form#formAddContact').on('submit', function(e) {
         e.preventDefault();

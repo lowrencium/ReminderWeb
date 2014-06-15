@@ -60,7 +60,7 @@ function getRappels(id, sessionId)
     else
     {
         //Erreur
-        console.log(erreur.text());
+        console.log(erreur.html());
     }
 }
 
@@ -115,7 +115,7 @@ function getContacts(id, sessionId)
     }
     else
     {
-        //Erreur
+        console.log(erreur.html());
     }
 }
 
