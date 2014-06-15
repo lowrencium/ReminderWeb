@@ -207,6 +207,7 @@ class Application extends SilexApplication
 
         // Backend
         $this->mount("/admin", new \App\Controller\Admin\AdminController());
+        $this->mount("/admin/user", new \App\Controller\Admin\UserController());
 
     }   
 }
