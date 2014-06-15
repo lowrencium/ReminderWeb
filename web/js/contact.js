@@ -7,7 +7,6 @@ $(function() {
     var contacts = getContacts(idUser, sessionId);
 
     if (typeof contacts != 'undefined') {
-        console.log("test");
         var source = $("#contact-template").html();
         for (var i = 0; i < contacts.length; i++) {
             var context = contacts[i];
@@ -64,17 +63,12 @@ $(function() {
         }
     });
 
-    $('#addContact').on("click", function() {
-        $("#formAddContact").find('.alert').remove();
-    });
-
-
-
-
     $('form#formAddContact').on('submit', function(e) {
         e.preventDefault();
 
-        // je récupère les valeurs
+        var button = $(this).find('button[type=submit]');
+        var l = buttonSubmitLoadStart(button);
+
         var name = $('#name').val();
         var email = $('#mail').val();
         var phone = $("#phone").val();
@@ -87,23 +81,25 @@ $(function() {
             location: location
         };
 
-        // Use contact template for rendering
-        var source = $("#contact-template").html();
-        var template = Handlebars.compile(source);
-        var context = contact;
-        var html = template(context);
-
         if (addContact(idUser, sessionId, name, email, phone, location)) {
+            var source = $("#contact-template").html();
+            var context = contact;
+
             $("#addContactModal").modal("toggle");
-            $("#contact-list").fadeIn().prepend(html);
+            $("#contact-list").fadeIn().prepend(useTemplates(source, context));
+            $(modalAddContact).modal('toggle');
         }
         else {
-            var source = $("#danger-template").html();
-            var template = Handlebars.compile(source);
-            var context = {message: "Impossible d'ajouter l'utilisateur"};
-            var html = template(context);
-            $("#contentAddContact").prepend(html);
+            var error = "Imposible d'ajouter l'utilisateur";
+            buttonBehaviourSubmitError(button, error);
         }
+        buttonSubmitLoadStop(l);
+    });
 
+    $("a#addContact").on("click", function(e) {
+        var button = $("#formAddContact").find("button[type=submit]");
+        buttonBehaviourSubmitDefault(button);
     });
 });
+
+
