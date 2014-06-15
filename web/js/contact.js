@@ -26,7 +26,8 @@ $(document).ready(function() {
             title: "Confirmation requise",
             confirm: function() {
                 var contact = $(button).closest("li");
-                var email = contact.find('[data-role="email"]');
+                var email = contact.find('[data-role="email"]').html();
+                console.log(email);
                 if (removeContact(idUser, sessionId, email)) {
                     contact.remove();
                 }
