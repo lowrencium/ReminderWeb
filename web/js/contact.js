@@ -39,6 +39,9 @@ $(function() {
                 if (removeContact(idUser, sessionId, email)) {
                     contact.remove();
                 }
+                else {
+                    console.log("erreur SOAP removeContact");
+                }
             },
             confirmButton: "Oui",
             cancelButton: "Non",
