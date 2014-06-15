@@ -1,43 +1,56 @@
-{% extends "blocks/modal.twig" %}
+<div class="modal fade" id="shareEventModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <form role="form" id="formShareEvent">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h2>Partager des évènements</h2>
+                            <hr class="colorgraph">
 
-{% block idModal %}shareEventModal{% endblock %}
-{% block titleModal %}Partager des évènements{% endblock %}
-{% block idFormModal %}formShareEvent{% endblock %}
-{% block idContentModal %}shareEventContent{% endblock %}
-{% block bodyModal %}  
+                            <div id="shareEventContent">
+                                <div class="table-responsive">
+                                    <table id="tableShareEvents" class="table table-hover">
+                                        <thead>
+                                        <tr class="filters">
+                                            <th><i class="fa fa-share"></i></th>
+                                            <th>Titre</th>
+                                            <th>Début</th>
+                                            <th>Fin</th>
+                                            <th>Lieu</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
 
-<div class="table-responsive">
-    <table id="tableShareEvents" class="table table-hover">
-        <thead>
-            <tr class="filters">
-                <th><i class="fa fa-share"></i></th>
-                <th>Titre</th>
-                <th>Début</th>
-                <th>Fin</th>
-                <th>Lieu</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+
+                                <div hidden id='shareEventsContacts' class="table-responsive">
+                                    <table id="tableShareContacts" class="table table-hover">
+                                        <thead>
+                                        <tr class="filters">
+                                            <th><i class="fa fa-share"></i></th>
+                                            <th>Nom</th>
+                                            <th>Mail</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <hr class="colorgraph">
+                            <div class="row">
+                                <div class="col-xs-12"><button type="submit" id="do_shareEvent" class="btn btn-primary btn-block ladda-button" data-style="zoom-out" data-spinner-size="35"><span class="ladda-label">Sélectionner les contacts</span></button></div>
+                                <div hidden class="col-xs-12"><button type="submit" id="do_shareEventFinal" class="btn btn-primary btn-block ladda-button" data-style="zoom-out" data-spinner-size="35"><span class="ladda-label">Partager</span></button></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-<div hidden id='shareEventsContacts' class="table-responsive">
-    <table id="tableShareContacts" class="table table-hover">
-        <thead>
-            <tr class="filters">
-                <th><i class="fa fa-share"></i></th>
-                <th>Nom</th>
-                <th>Mail</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-</div>
-
-{% endblock %}
-
-{% block idSubmitModal %}do_shareEvent{% endblock %}
-{# empty Twig template #}
