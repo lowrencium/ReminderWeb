@@ -145,12 +145,13 @@ $(document).ready(function() {
         e.preventDefault();
         $("input:checkbox:checked").each(function()
         {
+            var event = $(this).closest("tr");
+            var rappelId = event.attr("id");
             //remove from the DOM
-            if (removeRappel(id, sessionId, rappelId)) {
-                $(this).closest("tr").remove();
+            if (removeRappel(idUser, sessionsId, rappelId)) {
+                event.remove();
             }
             //Launch WS to remove an event
-
         });
         document.location.reload();
     });
@@ -160,10 +161,11 @@ $(document).ready(function() {
 function getDayEvents(datePicked) {
     var dayEvents = [];
     //Convert into date
-    datePicked = new Date(datePicked);
+    datePicked = getRawDate(new Date(datePicked));
     for (var i = 0; i < events.length; i++) {
-        var startDate = events[i].start.d;
-        var endDate = events[i].end.d;
+        var startDate = getRawDate(events[i].start.d);
+        var endDate = getRawDate(events[i].end.d);
+
         if (datePicked >= startDate && datePicked <= endDate) {
             dayEvents.push(events[i]);
         }
@@ -190,17 +192,21 @@ function getRawHours(date) {
 
 
 function getRowEvent(event) {
-    var checkbox = '<input id=' + event.id + ' type="checkbox">';
-    var id = event.id;
-    var title = event.title;
-    var startDate = getFancyDate((event.start.d));
-    var endDate = getFancyDate(event.end.d);
-    var location = event.location;
-    var templateEvent = "<tr id='"+id+"'><td>" + checkbox + "</td><td>" + title + "</td><td>" + startDate + "</td><td>" + endDate + "</td><td>" + location + "</td></tr>";
-            return templateEvent;
+    var source = $("#event-table-template").html();
+    var context = {
+        id: event.id,
+        title: event.title,
+        start: getFancyDate((event.start.d)),
+        end: getFancyDate(event.end.d),
+        location: event.location
+    };
+    var template = Handlebars.compile(source);
+    var html = template(context);
+    return html;
 }
 
 function getRowContact(contact) {
+    
     var checkbox = '<input id=' + contact.id + ' type="checkbox">';
     var name = contact.name;
     var email = contact.mail;
