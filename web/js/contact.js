@@ -53,7 +53,7 @@ $(function() {
         });
     });
 
-    $("ul#demande-list").on("click", ".accept", function(e) {
+    $("ul#demande-list .accept").on("click", function(e) {
         var button = $(this);
 
         var demande = $(button).closest("li");
@@ -69,7 +69,7 @@ $(function() {
         }
     });
 
-    $("ul#demande-list").on("click", ".decline", function(e) {
+    $("ul#demande-list .decline").on("click", function(e) {
         var button = $(this);
 
         var demande = $(button).closest("li");
