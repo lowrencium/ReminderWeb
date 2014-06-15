@@ -102,10 +102,12 @@ function getContacts(id, sessionId)
         result.find("Contacts").find("item").each(function(index) {
             array.push(
                 {
+                    "id": $(this).find('Id').text(),
                     "name": $(this).find('Nom').text(),
                     "email": $(this).find('Email').text(),
                     "phone": $(this).find('Telephone').text(),
-                    "location": $(this).find('Adresse').text()
+                    "location": $(this).find('Adresse').text(),
+                    "type": $(this).find('Type').text()
                 }
             );
         });
@@ -147,9 +149,9 @@ function removeContact(id, sessionId, contactId, type)
     }
 }
 
-function validateContact(id, sessionId, contactId)
+function validateContact(id, sessionId, contactId, bool)
 {
-    var result = SoapManager("ValiderContact", {"id": id, "token": sessionId, "contactId": contactId});
+    var result = SoapManager("ValiderContact", {"id": id, "token": sessionId, "contactId": contactId, "valider": bool});
     var resultat = result.find("Resultat");
     var erreur = result.find("Erreur");
     if (resultat.text() == "true" && erreur.text() == "")
@@ -159,6 +161,31 @@ function validateContact(id, sessionId, contactId)
     else
     {
         return 0;
+    }
+}
+
+function getContactRequest(id, sessionId)
+{
+    var result = SoapManager("RecupererDemandesContact", {"id": id, "token": sessionId});
+    var resultat = result.find("Resultat");
+    var erreur = result.find("Erreur");
+    if (resultat.text() == "true" && erreur.text() == "")
+    {
+        var array = new Array();
+        result.find("Contacts").find("item").each(function(index) {
+            array.push(
+                {
+                    "id": $(this).find('Id').text(),
+                    "name": $(this).find('Nom').text(),
+                    "type": $(this).find('Type').text()
+                }
+            );
+        });
+        return array;
+    }
+    else
+    {
+        console.log(erreur.html());
     }
 }
 
