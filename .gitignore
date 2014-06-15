@@ -15,5 +15,3 @@ Config/config.yml
 
 # Git file
 !.gitkeep
-
-web/js/SoapManager.js
