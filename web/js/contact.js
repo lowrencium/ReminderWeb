@@ -3,7 +3,6 @@ $(function() {
     var idUser = 1;
     var sessionId = "token";
 
-    var modalAddContact = "#addContactModal";
     var contacts = getContacts(idUser, sessionId);
 
     if (typeof contacts != 'undefined') {
@@ -69,6 +68,7 @@ $(function() {
         var button = $(this).find('button[type=submit]');
         var l = buttonSubmitLoadStart(button);
 
+
         var name = $('#name').val();
         var email = $('#mail').val();
         var phone = $("#phone").val();
@@ -85,12 +85,14 @@ $(function() {
             var source = $("#contact-template").html();
             var context = contact;
 
-            $("#addContactModal").modal("toggle");
             $("#contact-list").fadeIn().prepend(useTemplates(source, context));
-            $(modalAddContact).modal('toggle');
+            //$(modalAddContact).modal('toggle');
+            var message = "Contact créé avec succès";
+            buttonBehaviourSubmitSuccess(button, message);
+            
         }
         else {
-            var error = "Imposible d'ajouter l'utilisateur";
+            var error = "Imposible d'ajouter le contact";
             buttonBehaviourSubmitError(button, error);
         }
         buttonSubmitLoadStop(l);
