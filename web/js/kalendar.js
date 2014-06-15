@@ -143,7 +143,6 @@ var dmn = "",
     var i = n.domain;
     e.fn.kalendar = function(t) {
         t = typeof t == "undefined" ? {} : t;
-        var toto = t;
         return this.each(function() {
             if (t.events !== r) {
                 t.eventsParsed = [];
