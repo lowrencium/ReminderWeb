@@ -66,7 +66,7 @@ $(document).ready(function() {
             var title = $(this.title).val();
             var location = $(this.location).val();
 
-            if (addRappel(idUser, sessionsId, title, location, begin, end)) {
+            if (addRappel(idUser, sessionId, title, location, begin, end)) {
                 var message = "Le rappel a été ajouté avec succès";
                 buttonBehaviourSubmitSuccess(button, message);
             }
@@ -82,7 +82,7 @@ $(document).ready(function() {
         e.preventDefault();
         var button = $("#formShareEvent").find("button[type=submit]");
         buttonBehaviourSubmitDefault(button);
-        
+
         var dayEvents = getDayEvents(selectedDate);
         var shareContentTableModal = $("#shareEventContent #tableShareEvents tbody");
         var eventsTable = $("div#shareEventsTable");
@@ -105,14 +105,21 @@ $(document).ready(function() {
                 $("input:checkbox:not(:checked)").each(function()
                 {
                     //remove from the DOM
-                    $(this).closest("tr").remove();                   
+                    $(this).closest("tr").remove();
                 });
                 button.html('Partager');
                 $("div#shareEventsContacts tbody").empty();
-                for (var i = 0; i < contacts.length; i++) {
-                    var templateContact = getRowContact(contacts[i]);
-                    $("div#shareEventsContacts tbody").append(templateContact);
+                var contacts = getContacts(idUser, sessionId);
+                if (typeof contacts != 'undefined') {
+                    for (var i = 0; i < contacts.length; i++) {
+                        var templateContact = getRowContact(contacts[i]);
+                        $("div#shareEventsContacts tbody").append(templateContact);
+                    }
                 }
+                else{
+                    $("div#shareEventsContacts table").remove();
+                }
+
                 $("div#shareEventsContacts").fadeIn();
             }
         });
@@ -143,12 +150,12 @@ $(document).ready(function() {
             var event = $(this).closest("tr");
             var rappelId = event.attr("id");
             //remove from the DOM
-            if (removeRappel(idUser, sessionsId, rappelId)) {
+            if (removeRappel(idUser, sessionId, rappelId)) {
                 event.remove();
                 var message = "Veuillez recharger la page pour avoir le calendrier à jour";
                 buttonBehaviourSubmitSuccess(button, message);
             }
-            else{
+            else {
                 var error = "Les rappels n'ont pas pu être supprimés";
                 buttonBehaviourSubmitError(button, error);
             }
@@ -206,7 +213,6 @@ function getRowEvent(event) {
 }
 
 function getRowContact(contact) {
-
     var checkbox = '<input id=' + contact.id + ' type="checkbox">';
     var name = contact.name;
     var email = contact.mail;
