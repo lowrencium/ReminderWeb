@@ -1,0 +1,32 @@
+{% extends 'admin/layout.twig' %}
+{% set title = user.id ? user.username : 'Nouvel utilisateur' %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('admin') }}">Accueil</a></li>
+        <li><a href="{{ path('admin.user') }}">Utilisateurs</a></li>
+        <li class="active">{{ title }}</li>
+    </ol>
+{% endblock %}
+
+{% block title_prefix %}
+    {% if app.request.attributes.get('_route') != 'admin.user.add' %}
+    <div class="pull-right">
+        <ul class="nav nav-pills">
+            <li {% if app.request.attributes.get('_route') == 'admin.user.edit' %}class="active"{% endif %}>
+                <a href="{{ path('admin.user.edit', {id: user.id}) }}">
+                    <span class="glyphicon glyphicon-pencil"></span> Profil
+                </a>
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block title %}
+    <span class="glyphicon glyphicon-user"></span> {{ title }}
+{% endblock %}
+
+{% block content %}
+    {{ block('subcontent') }}
+{% endblock %}

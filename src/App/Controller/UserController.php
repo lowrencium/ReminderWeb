@@ -150,6 +150,98 @@ class UserController implements ControllerProviderInterface
     
     /**
      * @param Application $app
+     * @param Request $request
+     * @return mixed
+     */
+    public function register(Application $app, Request $request)
+    {        
+        // Building the form
+        $builder = $app['form.factory']->createBuilder('form')
+            ->add('email', 'text',
+              array(
+                'label' => 'E-mail',
+                'constraints' => new Assert\Regex("/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/"),
+                'required' => true
+              )
+            )
+            ->add('password', 'repeated', array(
+                'mapped' => false,
+                'type' => 'password',
+                'invalid_message' => 'Les mots de passe doivent correspondre',
+                'required' => true,
+                'first_options'  => array('label' => 'Mot de passe'),
+                'second_options' => array('label' => 'Confirmation')
+            ))
+            ->add('role','select', array(
+                'label' => 'Type de compte'
+            ));
+
+        $processed = false;
+        $form = $builder->getForm();
+        if ($request->isMethod('POST')) {
+            $form->get('email')->setData("none");
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em = $app["orm.em"];
+                $processed = 1;
+                $timestamp = time();
+                
+                // Retrieving data
+                $email = $form->get('email')->getData();
+                $password = $form->get('password')->getData();
+                $site = $form->get('site')->getData();
+                
+                // Verify if the user already exist
+                $user = $em->getRepository('App\\Entity\\User')->findOneBy(array('email' => $email));
+                if($user){
+                    $app['session']->getFlashBag()->add('danger', "L'email est déjà utilisé. Voulez vous demander un nouveau mot de passe ?");
+                    //return $app->redirect($app['url_generator']->generate('user.password'));
+                }
+                
+                // Creating the user and disable it
+                $user = new User();
+                $user->setEmail($email);
+                $user->setUsername($email);
+                $encoderFactory = $app['security.encoder_factory'];
+                $encoder = $encoderFactory->getEncoder($user);
+                $password = $encoder->encodePassword($password, $user->getSalt());
+                $user->setPassword($password);
+                $user->setSite($site);
+                $user->setActive(false);
+                $user->setRole("ROLE_USER");
+
+                // Generating link with token
+                $token = sha1('register-request-'.$email.'-'.$timestamp.'}');
+                $link = $app->url('user.register.confirm', array('token' => $token, 'email' => $email, 'timestamp' => $timestamp));
+                
+                // Sending link
+                $text = "Bonjour,\r\n"
+                        . "\r\n"
+                        . "Veuillez utiliser ce lien pour confirmer votre inscription et activer votre compte : \r\n"
+                        . $link . "\r\n"
+                        . "\r\n"
+                        . "Merci.";
+                $message = \Swift_Message::newInstance()
+                        ->setSubject('[Remind Me] Inscription')
+                        ->setFrom(array('register@remindme.com'=>'Remind Me'))
+                        ->setTo(array($user->getEmail()))
+                        ->setBcc(array('amineamanzou@gmail.com'))
+                        ->setBody(sprintf("%s",$text));
+                if(preg_match("/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/", $user->getEmail())){
+                    $em->persist($user);
+                    $em->flush();
+                    $app['mailer']->send($message);
+                }
+            }
+        }
+
+        return $app['twig']->render('user/register.twig', array(
+            'form' => $form->createView(),
+            'processed' => $processed,
+            'link' => isset($link) ? $link : false //todo : remove
+        ));
+    }
+    
     /**
      * @param Application $app
      * @param Request $request
