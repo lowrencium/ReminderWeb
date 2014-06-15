@@ -154,25 +154,30 @@ $(document).ready(function() {
         e.preventDefault();
         var button = $(this);
         if (isAtLeastOneCheckedBoxChecked('#shareEventsContacts')) {
-            var status = true;
-            $("#tableShareEvents input:checkbox:checked").each(function() { // each event
-                var event = $(this);
-                $("#tableShareContacts input:checkbox:checked").each(function(){ // each contact
-                    var contact = $(this);
-                    var rappelId = event.parent().parent().attr('id');
-                    var contactId = contact.parent().parent().attr('id');
-                    var contactType= contact.parent().parent().attr('data-type');
-                    if(!shareRappel(idUser, sessionId, rappelId, contactId, contactType)){
-                        status = false;
-                    }
+            if (isAtLeastOneCheckedBoxChecked('#tableShareEvents')) {
+                var status = true;
+                $("#tableShareEvents input:checkbox:checked").each(function() { // each event
+                    var event = $(this);
+                    $("#tableShareContacts input:checkbox:checked").each(function(){ // each contact
+                        var contact = $(this);
+                        var rappelId = event.parent().parent().attr('id');
+                        var contactId = contact.parent().parent().attr('id');
+                        var contactType= contact.parent().parent().attr('data-type');
+                        if(!shareRappel(idUser, sessionId, rappelId, contactId, contactType)){
+                            status = false;
+                        }
+                    });
                 });
-            });
-            if(status){
-                var message = "Rappels partagés avec succès";
-                buttonBehaviourSubmitSuccess(button, message);
-            }
-            else{
-                var error = "Echec du partage";
+                if(status){
+                    var message = "Rappels partagés avec succès";
+                    buttonBehaviourSubmitSuccess(button, message);
+                }
+                else{
+                    var error = "Echec du partage";
+                    buttonBehaviourSubmitError(button, error);
+                }
+            }else{
+                var error = "Aucun évènement sélectionné";
                 buttonBehaviourSubmitError(button, error);
             }
         }
