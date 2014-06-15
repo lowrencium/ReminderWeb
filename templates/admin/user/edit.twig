@@ -1,0 +1,37 @@
+{% extends 'admin/user/layout.twig' %}
+
+{% block subcontent %}
+    <form class="form-horizontal" action="" method="post">
+        {{ form_row(form.username) }}
+        {{ form_row(form.email) }}
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="form-group{{ form.password.first.vars.errors|length>0 ? " has-error" : "" }}">
+                {{ form_label(form.password.first) }}
+                <div class="col-sm-5">
+                    {{ form_widget(form.password.first) }}
+                    {{ form_errors(form.password.first) }}
+                </div>
+                <div class="col-sm-5">
+                    {{ form_widget(form.password.second) }}
+                    {{ form_errors(form.password.second) }}
+                </div>
+            </div>
+            {{ form_row(form.roles) }}
+        {% endif %}
+        {{ form_row(form.active) }}
+        {{ form_row(form._token) }}
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                {% if is_granted('ROLE_ADMIN') %}
+                    {% if user.id and isSelf is defined and not isSelf %}
+                        <a href="{{ path('admin.user.delete', {id: user.id}) }}" class="btn btn-danger pull-right">Supprimer</a>
+                    {% endif %}
+                {% endif %}
+                <button type="submit" class="btn btn-success">Enregistrer</button>
+                <a href="{{ path('admin.user') }}" class="btn btn-default">Annuler</a>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+

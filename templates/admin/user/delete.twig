@@ -1,0 +1,25 @@
+{% extends 'admin/layout.twig' %}
+{% set title = 'Confirmation de suppression' %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('admin') }}">Accueil</a></li>
+        <li><a href="{{ path('admin.user') }}">Utilisateurs</a></li>
+        <li><a href="{{ path('admin.user.edit', {id: user.id}) }}">{{ user.username }}</a></li>
+        <li class="active">{{ title }}</li>
+    </ol>
+{% endblock %}
+
+{% block title %}
+    <span class="glyphicon glyphicon-remove-circle"></span> Êtes-vous certain de vouloir supprimer l'utilisateur <em>{{ user.username }}</em> ?
+{% endblock %}
+
+{% block content %}
+    <div class="alert alert-danger">Cette action irréversible va également supprimer l'ensemble des statistiques associées !</div>
+    <form class="form-horizontal" action="" method="post">
+        <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+        <a href="{{ path('admin.user.edit', {id: user.id}) }}" class="btn btn-default">Annuler</a>
+    </form>
+{% endblock %}
+
+
