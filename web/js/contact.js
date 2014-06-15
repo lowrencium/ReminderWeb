@@ -37,9 +37,10 @@ $(function() {
             title: "Confirmation requise",
             confirm: function() {
                 var contact = $(button).closest("li");
-                var email = contact.find('[data-role="email"]').html();
+                var id = contact.attr('id');
+                var type = contact.attr('data-type');
 
-                if (removeContact(idUser, sessionId, email)) {
+                if (removeContact(idUser, sessionId, id, type)) {
                     contact.remove();
                 }
                 else {
