@@ -1,15 +1,18 @@
-$(document).ready(function() {
+$(function() {
 
     var idUser = 1;
     var sessionId = "token";
 
+    var modalAddContact = "#addContactModal";
     var contacts = getContacts(idUser, sessionId);
+    
     var source = $("#contact-template").html();
-    var template = Handlebars.compile(source);
-    var context = contacts;
-    var html = template(context);
-    $("#contact-list").prepend(html);
-
+    for(var i=0; i< contacts.length; i++){
+        var context = contacts[i];
+        var html = useTemplates(source, context);
+    $("#contact-list").append(html);
+    }
+    
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-toggle="modal"]').tooltip();
 
