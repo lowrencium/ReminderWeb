@@ -214,12 +214,16 @@ function useTemplates(tmpl, context) {
 
 /**
  * 
- * @param {button} button
+ * @param {type} button
+ * @param {type} message
  * @returns {undefined}
  */
-function buttonBehaviourSubmitDefault(button) {
-    var message = "Valider";
+function buttonBehaviourSubmitDefault(button, message) {
+    if(typeof message == "undefined"){
+        message = "Valider";
+    }
     $(button).removeClass("btn-danger");
+    $(button).removeClass("btn-success");
     $(button).addClass("btn-primary");
     $(button).html(message);
 }
@@ -232,6 +236,7 @@ function buttonBehaviourSubmitDefault(button) {
  */
 function buttonBehaviourSubmitError(button, error) {
     $(button).removeClass("btn-primary");
+    $(button).removeClass("btn-success");
     $(button).addClass("btn-danger");
     $(button).html(error);
 }
@@ -244,6 +249,7 @@ function buttonBehaviourSubmitError(button, error) {
  */
 function buttonBehaviourSubmitSuccess(button, success) {
     $(button).removeClass("btn-primary");
+    $(button).removeClass("btn-danger");
     $(button).addClass("btn-success");
     $(button).html(success);
 }
