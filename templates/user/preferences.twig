@@ -20,4 +20,17 @@
         <input type="submit" name="submit" id="submit" value="Mettre à jour les préférences" class="btn btn-info">
     </form>
 
+    <div class="row">
+        <div class="warningMsg" data-ng-show="!isSupported" style="display: none;">
+            Les notifications ne sont pas actuellement supportées par votre navigateur.
+            <p>
+                Ouvrez la page avec Chrome(version 23+), Safari(version6+), Firefox(avec le plugin ff-html5notifications) et IE9+.
+        </div>
+
+        <a type="button" class="col-lg-4 col-md-offset-4 btn notificationLevel" ng-class="getClassName()" data-ng-click="requestPermissions()" data-ng-pluralize data-count="permissionLevel" when="{
+                                                                '0': 'Notifications activées.',
+                                                                '1': 'Notifications desactivées.',
+                                                                '2': 'Notifications bloquées par le navigateur.'}">
+        </a>
+    </div>
 {% endblock %}

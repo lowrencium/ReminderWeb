@@ -1,5 +1,5 @@
 <!DOCTYPE html> 
-<html>
+<html data-ng-app>
     <head>
         <title>{% block title '' %} - RemindMe</title>
         <meta charset="UTF-8">
@@ -13,8 +13,9 @@
         <link href="{{ asset('/css/general.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('/css/register.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('/css/contacts.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('/css/notifications.css') }}" rel="stylesheet" type="text/css">
     </head>
-    <body>
+    <body data-ng-controller="NotificationCenter">
         {% include 'blocks/top_menu.twig' %}
         <div class="container">
             <div class="row">
@@ -26,7 +27,7 @@
                     {% else %}
                         <div class="well">
                         {% endif %}
-                    {% block content %}{% endblock %}
+                    {% block content %} {% endblock %}
                 </div>
             </div>
         </div>
@@ -54,7 +55,9 @@
     {% include 'alert/templatesAlert.html' %}
     
     <script src="{{ asset('/js/jquery-1.10.2.min.js') }}"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular.min.js"></script>
     <script src="{{ asset('/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('/js/desktop-notify-min.js') }}"></script>
     <script src="{{ asset('/js/jquery.datetimepicker.js') }}"></script>
     <script src="{{ asset('/js/datepicker-fr.js') }}"></script>
     <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
@@ -71,5 +74,6 @@
     <script src="{{ asset('/js/functions.js') }}"></script>
     <script src="{{ asset('/js/calendar.js') }}"></script>
     <script src="{{ asset('/js/contact.js') }}"></script>
+    <script src="{{ asset('/js/notifications.js') }}"></script>
 </body>
 </html>
