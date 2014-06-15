@@ -208,7 +208,7 @@ $(document).ready(function() {
     $("#formDeleteEvent").on("submit", function(e) {
         e.preventDefault();
         var button = $(this).find('button[type=submit]');
-        if (isAtLeastOneCheckedBoxChecked("tableDeleteEvent")) {
+        if (isAtLeastOneCheckedBoxChecked("#tableDeleteEvent")) {
             $("input:checkbox:checked").each(function()
             {
                 var event = $(this).closest("tr");
