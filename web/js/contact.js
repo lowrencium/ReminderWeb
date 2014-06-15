@@ -118,11 +118,11 @@ $(function() {
             var source = $("#contact-template").html();
             var context = contact;
 
-            $("#contact-list").fadeIn().prepend(useTemplates(source, context));
+            $("#contact-list").fadeIn().append(useTemplates(source, context));
+            $("#contact-list li:last-child .gravatar").empty().html($.gravatar(contact.email, {size: 120}));
             //$(modalAddContact).modal('toggle');
             var message = "Contact créé avec succès";
             buttonBehaviourSubmitSuccess(button, message);
-            
         }
         else {
             var error = "Imposible d'ajouter le contact";
