@@ -118,11 +118,11 @@ $(function() {
             var source = $("#contact-template").html();
             var context = contact;
 
-            $("#contact-list").fadeIn().prepend(useTemplates(source, context));
+            $("#contact-list").fadeIn().append(useTemplates(source, context));
+            $("#contact-list li:last-child .gravatar").empty().html($.gravatar(contact.email, {size: 120}));
             //$(modalAddContact).modal('toggle');
             var message = "Contact créé avec succès";
             buttonBehaviourSubmitSuccess(button, message);
-            
         }
         else {
             var error = "Imposible d'ajouter le contact";
@@ -146,7 +146,9 @@ function loadContacts(idUser, sessionId)
         for (var i = 0; i < contacts.length; i++) {
             var context = contacts[i];
             var html = useTemplates(source, context);
+
             $("#contact-list").append(html);
+            $("#contact-list li[id="+contacts[i].id+"][data-type="+contacts[i].type+"] .gravatar").empty().html($.gravatar(contacts[i].email, {size: 120}));
         }
     }
 }
