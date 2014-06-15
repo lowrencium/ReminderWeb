@@ -15,6 +15,17 @@ $(function() {
         }
     }
 
+    var demandes = getContactRequest(idUser, sessionId);
+    console.log(demandes);
+    if(typeof demandes != 'undefined') {
+        var source = $("#demande-template").html();
+        for(var i = 0; i < demandes.length; i++) {
+            var context = demandes[i];
+            var html = useTemplates(source, context);
+            $("#demande-list").append(html);
+        }
+    }
+
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-toggle="modal"]').tooltip();
 
