@@ -1,10 +1,25 @@
 <script id="success-template" type="text/x-handlebars-template">
-     {% raw %}
-      <div class="alert alert-success"><span class="fa fa-send fa-fw"></span><strong>{{message}}</strong></div>	  
-     {% endraw %}
+    {% raw %}
+    <div class="alert alert-success"><span class="fa fa-send fa-fw"></span><strong>{{message}}</strong></div>	  
+    {% endraw %}
 </script>
 <script id="danger-template" type="text/x-handlebars-template">
+    {% raw %}
+    <div class="alert alert-danger"><span class="fa fa-bolt fa-fw"></span><strong>{{message}}</strong></div>	  
+    {% endraw %}
+</script>
+<script id="button-primary-template" type="text/x-handlebars-template">
      {% raw %}
-      <div class="alert alert-danger"><span class="fa fa-bolt fa-fw"></span><strong>{{message}}</strong></div>	  
+    <butto type="submit" id="{{id}}" class="btn btn-primary btn-block">
+    {{message}}
+    </button>	  
+     {% endraw %}
+</script>
+
+<script id="button-danger-template" type="text/x-handlebars-template">
+     {% raw %}
+    <button disabled type="submit" id="{{id}}" class="btn btn-danger btn-block">
+        {{message}}
+    </button>	  
      {% endraw %}
 </script>

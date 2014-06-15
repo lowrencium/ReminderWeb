@@ -2,8 +2,6 @@ $(document).ready(function() {
     
     var idUser = 1;
     var sessionId = "token";
-    
-    Ladda.bind('button[type=submit]', {timeout: 2000});
 
     $("#login").on("click", function() {
         console.log("login");
@@ -162,4 +160,57 @@ function validateContact(id, sessionId, contactId)
     {
         return 0;
     }
+}
+
+function useTemplates(tmpl, context) {
+    var template = Handlebars.compile(tmpl);
+    var html = template(context);
+    return html;
+}
+
+
+/**
+ * 
+ * @param {button} button
+ * @returns {undefined}
+ */
+function buttonBehaviourSubmitDefault(button) {
+    var message = "Valider";
+    $(button).removeClass("btn-danger");
+    $(button).addClass("btn-primary");
+    $(button).html(message);
+}
+
+/**
+ * 
+ * @param {button} button
+ * @param {String} error
+ * @returns {undefined}
+ */
+function buttonBehaviourSubmitError(button, error) {
+    $(button).removeClass("btn-primary");
+    $(button).addClass("btn-danger");
+    $(button).html(error);
+}
+
+/**
+ * 
+ * @param {button} button
+ * @param {String} success
+ * @returns {undefined}
+ */
+function buttonBehaviourSubmitSuccess(button, success) {
+    $(button).removeClass("btn-primary");
+    $(button).addClass("btn-success");
+    $(button).html(success);
+}
+
+function buttonSubmitLoadStart(button) {
+    var l = Ladda.create(button[0]);
+    l.start();
+    return l;
+}
+
+function buttonSubmitLoadStop(l) {
+    l.stop();
 }

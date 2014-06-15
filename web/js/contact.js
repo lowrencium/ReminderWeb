@@ -1,14 +1,19 @@
-$(document).ready(function() {
+$(function() {
 
     var idUser = 1;
     var sessionId = "token";
 
+    var modalAddContact = "#addContactModal";
     var contacts = getContacts(idUser, sessionId);
-    var source = $("#contact-template").html();
-    var template = Handlebars.compile(source);
-    var context = contacts;
-    var html = template(context);
-    $("#contact-list").prepend(html);
+
+    if (typeof contacts != 'undefined') {
+        var source = $("#contact-template").html();
+        for (var i = 0; i < contacts.length; i++) {
+            var context = contacts[i];
+            var html = useTemplates(source, context);
+            $("#contact-list").append(html);
+        }
+    }
 
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-toggle="modal"]').tooltip();
@@ -36,6 +41,9 @@ $(document).ready(function() {
                 if (removeContact(idUser, sessionId, email)) {
                     contact.remove();
                 }
+                else {
+                    console.log("erreur SOAP removeContact");
+                }
             },
             confirmButton: "Oui",
             cancelButton: "Non",
@@ -55,17 +63,12 @@ $(document).ready(function() {
         }
     });
 
-    $('#addContact').on("click", function() {
-        $("#formAddContact").find('.alert').remove();
-    });
-
-
-
-
     $('form#formAddContact').on('submit', function(e) {
         e.preventDefault();
 
-        // je récupère les valeurs
+        var button = $(this).find('button[type=submit]');
+        var l = buttonSubmitLoadStart(button);
+
         var name = $('#name').val();
         var email = $('#mail').val();
         var phone = $("#phone").val();
@@ -78,23 +81,25 @@ $(document).ready(function() {
             location: location
         };
 
-        // Use contact template for rendering
-        var source = $("#contact-template").html();
-        var template = Handlebars.compile(source);
-        var context = contact;
-        var html = template(context);
-
         if (addContact(idUser, sessionId, name, email, phone, location)) {
+            var source = $("#contact-template").html();
+            var context = contact;
+
             $("#addContactModal").modal("toggle");
-            $("#contact-list").fadeIn().prepend(html);
+            $("#contact-list").fadeIn().prepend(useTemplates(source, context));
+            $(modalAddContact).modal('toggle');
         }
         else {
-            var source = $("#danger-template").html();
-            var template = Handlebars.compile(source);
-            var context = {message: "Impossible d'ajouter l'utilisateur"};
-            var html = template(context);
-            $("#contentAddContact").prepend(html);
+            var error = "Imposible d'ajouter l'utilisateur";
+            buttonBehaviourSubmitError(button, error);
         }
+        buttonSubmitLoadStop(l);
+    });
 
+    $("a#addContact").on("click", function(e) {
+        var button = $("#formAddContact").find("button[type=submit]");
+        buttonBehaviourSubmitDefault(button);
     });
 });
+
+

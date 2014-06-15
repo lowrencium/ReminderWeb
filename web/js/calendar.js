@@ -49,49 +49,42 @@ $(document).ready(function() {
     $("#startDate, #endDate").datetimepicker();
 
     $("#addEvent").on("click", function() {
-        $("#formAddEvent").find(".alert").remove();
+        var button = $("#formAddEvent").find("button[type=submit]");
+        buttonBehaviourSubmitDefault(button);
     });
 
     $("#formAddEvent").on("submit", function(e) {
         e.preventDefault();
+        var button = $(this).find("button[type=submit]");
         var begin = new Date($(this.startDate).val()).getTime();
         var end = new Date($(this.endDate).val()).getTime();
-        var source;
-        var context;
         if (begin > end) {
-            source = $("#danger-template").html();
-            context = {
-                message: "La date de fin doit être supérieure ou égale à la date de début"
-            };
+            var error = "La date de fin doit être supérieure à celle de début";
+            buttonBehaviourSubmitError(button, error);
         }
         else {
             var title = $(this.title).val();
             var location = $(this.location).val();
 
             if (addRappel(idUser, sessionsId, title, location, begin, end)) {
-                source = $("#success-template").html();
-                context = {
-                    message: "Le rappel a été ajouté avec succès"
-                };
+                var message = "Le rappel a été ajouté avec succès";
+                buttonBehaviourSubmitSuccess(button, message);
             }
             else {
-                source = $("#danger-template").html();
-                context = {
-                    message: "Problème lors de l'ajout de l'évènement"
-                };
+                var error = "Problème lors de l'ajout de l'évènement";
+                buttonBehaviourSubmitError(button, error);
             }
         }
-        var template = Handlebars.compile(source);
-        var html = template(context);
-        $("#contentAddEvent").prepend(html);
     });
 
     $('button#shareEvent').on('click', function(e)
     {
         e.preventDefault();
+        var button = $("#formShareEvent").find("button[type=submit]");
+        buttonBehaviourSubmitDefault(button);
+        
         var dayEvents = getDayEvents(selectedDate);
         var shareContentTableModal = $("#shareEventContent #tableShareEvents tbody");
-        var buttonShareEvent = $("button#do_shareEvent");
         var eventsTable = $("div#shareEventsTable");
 
         $("#shareEventsContacts").hide();
@@ -104,18 +97,17 @@ $(document).ready(function() {
             shareContentTableModal.append(templateEvent);
         }
 
-        buttonShareEvent.html('Passer à la sélection des contacts');
+        $(button).html('Passer à la sélection des contacts');
 
-        $(buttonShareEvent).on("click", function(e) {
+        $(button).on("click", function(e) {
             e.preventDefault();
             if (isAtLeastOneCheckedBoxChecked('tableShareEvents')) {
                 $("input:checkbox:not(:checked)").each(function()
                 {
                     //remove from the DOM
-                    $(this).closest("tr").remove();
-                    //Launch WS to remove an event
+                    $(this).closest("tr").remove();                   
                 });
-                buttonShareEvent.html('Partager');
+                button.html('Partager');
                 $("div#shareEventsContacts tbody").empty();
                 for (var i = 0; i < contacts.length; i++) {
                     var templateContact = getRowContact(contacts[i]);
@@ -139,10 +131,13 @@ $(document).ready(function() {
 
             deleteContentModal.append(templateEvent);
         }
+        var button = $("#formDeleteEvent").find("button[type=submit]");
+        buttonBehaviourSubmitDefault(button);
     });
 
-    $("#do_deleteEvent").on("click", function(e) {
+    $("#formDeleteEvent").on("submit", function(e) {
         e.preventDefault();
+        var button = $(this).find('button[type=submit]');
         $("input:checkbox:checked").each(function()
         {
             var event = $(this).closest("tr");
@@ -150,10 +145,15 @@ $(document).ready(function() {
             //remove from the DOM
             if (removeRappel(idUser, sessionsId, rappelId)) {
                 event.remove();
+                var message = "Veuillez recharger la page pour avoir le calendrier à jour";
+                buttonBehaviourSubmitSuccess(button, message);
             }
-            //Launch WS to remove an event
+            else{
+                var error = "Les rappels n'ont pas pu être supprimés";
+                buttonBehaviourSubmitError(button, error);
+            }
         });
-        document.location.reload();
+        //document.location.reload();
     });
 });
 
@@ -206,7 +206,7 @@ function getRowEvent(event) {
 }
 
 function getRowContact(contact) {
-    
+
     var checkbox = '<input id=' + contact.id + ' type="checkbox">';
     var name = contact.name;
     var email = contact.mail;
