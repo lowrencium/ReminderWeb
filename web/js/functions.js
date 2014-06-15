@@ -169,3 +169,29 @@ function useTemplates(tmpl, context) {
     var html = template(context);
     return html;
 }
+
+
+/**
+ * 
+ * @param {type} button
+ * @returns {undefined}
+ */
+function buttonBehaviourSubmitDefault(button) {
+    var message = "Valider";
+    $(button).removeClass("btn-danger");
+    $(button).addClass("btn-primary");
+    $(button).html(message);
+    $(button).disable(false);
+}
+
+/**
+ * 
+ * @param {button} button
+ * @param {string} error
+ * @returns {undefined}
+ */
+function buttonBehaviourSubmitError(button, error) {
+    $(button).removeClass("btn-primary");
+    $(button).addClass("btn-danger");
+    $(button).html(error);
+}
