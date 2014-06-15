@@ -5,6 +5,16 @@ $(document).ready(function() {
 
     events = getRappels(idUser, sessionId);
     
+    events = [{
+        title: "Olympics",
+        location: "Sochi",
+        start: {
+            date: "20140607", time: "17.00"
+        },
+        end: {
+            date: "20140623", time: "17.00"
+        }}]
+    
     var selectedDate;
 
     var options = {
@@ -78,6 +88,7 @@ $(document).ready(function() {
         }
     });
 
+    //SHARE
     $('button#shareEvent').on('click', function(e)
     {
         e.preventDefault();
@@ -85,7 +96,7 @@ $(document).ready(function() {
         buttonBehaviourSubmitDefault(button);
 
         var dayEvents = getDayEvents(selectedDate);
-        var shareContentTableModal = $("#shareEventContent #tableShareEvents tbody");
+        var shareContentTableModal = $("#shareEventContent tbody");
         var eventsTable = $("div#shareEventsTable");
 
         $("#shareEventsContacts").hide();
@@ -99,51 +110,73 @@ $(document).ready(function() {
         }
 
         var message = 'Sélectionner les contacts';
+        button.attr('id', 'shareFirstStep');
         buttonBehaviourSubmitDefault(button, message);
 
-        $(button).on("click", function(e) {
+        
+        $("button#shareFirstStep").on("click", function(e){
             e.preventDefault();
-            if (isAtLeastOneCheckedBoxChecked('tableShareEvents')) {
+            console.log("test");
+            var button = $(this);
+
+            // At least one event is checked
+            if (isAtLeastOneCheckedBoxChecked('#tableShareEvents')) {
                 $("input:checkbox:not(:checked)").each(function()
-                {
-                    //remove from the DOM
-                    $(this).closest("tr").remove();
-                });
-                var message = "Partager";
-                buttonBehaviourSubmitDefault(button, message);
+                                                       {
+                                                           $(this).closest("tr").remove();
+                                                       });
                 $("div#shareEventsContacts tbody").empty();
+                $("div#shareEventsContacts").fadeIn(); // Display contacts
+
+                var message = "Partager";
+                button.attr('id', 'shareSecondStep');
+                buttonBehaviourSubmitDefault(button, message);
+
+                var contacts = getContacts(idUser, sessionId);
+                contacts = [{
+                    id: 1,
+                    name: 'franck',
+                    email: 'test@lol'
+                }];
                 // if at leasts 1 contact
                 if (typeof contacts != 'undefined') {                  
                     for (var i = 0; i < contacts.length; i++) {
                         var templateContact = getRowContact(contacts[i]);
-                        $("div#shareEventsContacts tbody").append(templateContact);
+                        $("table#tableShareContacts tbody").append(templateContact);
                     }
-                    $("div#shareEventsContacts").fadeIn();
-                    $(button).on("click", function(e) {
-                  
-                        var status = true;
-                        $("#tableShareEvents input:checkbox:checked").each(function() {
-                            console.log($(this));
-                            $("#tableShareContacts input:checkbox:checked").each(function(){
-                                var rappelId;
-                                var contactId;
-                                var contactType;
-                                if(!shareRappel(idUser, sessionId, rappelId, contactId, contactType)){
-                                    status = false;
-                                }
-                            });                           
-                        });   
-                        if(status){
-                            var message = "Rappels partagés avec succès";
-                            buttonBehaviourSubmitSuccess(button, message);
+                    
+                    $("button#shareSecondStep").on("click", function(e) {
+                        e.preventDefault();
+
+                        if (isAtLeastOneCheckedBoxChecked('#shareEventsContacts')) {
+
+                            var status = true;
+                            $("#tableShareEvents input:checkbox:checked").each(function() { // each event
+                                console.log(this);
+                                $("#tableShareContacts input:checkbox:checked").each(function(){ // each contact
+                                    console.log("salut2");
+                                    var rappelId;
+                                    var contactId;
+                                    var contactType;
+                                    //if(!shareRappel(idUser, sessionId, rappelId, contactId, contactType)){
+                                    //  status = false;
+                                    //}
+                                });                           
+                            });   
+                            if(status){
+                                var message = "Rappels partagés avec succès";
+                                buttonBehaviourSubmitSuccess(button, message);
+                            }
+                            else{
+                                var error = "Echec du partage";
+                                buttonBehaviourSubmitError(button, error);
+                            }
                         }
-                        else{
-                            var error = "Echec du partage";
+                        else{ // No contact checked
+                            var error = "Aucun contact sélectionné";
                             buttonBehaviourSubmitError(button, error);
                         }
                     });
-                   
-                   
                 }
                 else {
                     $("div#shareEventsContacts table").remove();
@@ -151,14 +184,17 @@ $(document).ready(function() {
                     buttonBehaviourSubmitError(button, error);
                 }
 
-                
+
             }
-            else {
+            else { // No event checked
                 var error = "Sélectionner au moins un rappel";
                 buttonBehaviourSubmitError(button, error);
             }
         });
+        
     });
+    
+    
 
 
     $('button#deleteEvent').on('click', function()
@@ -253,15 +289,19 @@ function getRowEvent(event) {
 }
 
 function getRowContact(contact) {
-    var checkbox = '<input id=' + contact.id + ' type="checkbox">';
-    var name = contact.name;
-    var email = contact.email;
-    var templateContact = "<tr><td>" + checkbox + "</td><td>" + name + "</td><td>" + email + "</td></tr>";
-    return templateContact;
+    var source = $("#contact-table-template").html();
+    var context = {
+        id: contact.id,
+        name: contact.name,
+        email: contact.email
+    }
+    var template = Handlebars.compile(source);
+    var html = template(context);
+    return html;
 }
 
-function isAtLeastOneCheckedBoxChecked(containerId) {
-    var atLeastOneIsChecked = $('#' + containerId + ' :checkbox:checked').length > 0;
+function isAtLeastOneCheckedBoxChecked(container) {
+    var atLeastOneIsChecked = $(container + ' :checkbox:checked').length > 0;
     return atLeastOneIsChecked;
 }
 
