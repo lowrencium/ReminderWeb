@@ -39,14 +39,8 @@
                         {% if is_granted('ROLE_SUPER_ADMIN') %}
                             {{ macros.menu_link('Rappels', 'admin', 'tags') }}
                         {% endif %}
-                        {{ macros.menu_link('Utilisateurs', 'admin.user', 'user') }}
-                        {% if not is_granted('ROLE_ADMIN') %}
-                            <li class="{{ app.request.attributes.get('_route')|slice(0, 'admin.monsite'|length) == 'admin.monsite' ? "active" : "" }}" data-toggle="modal" data-target=".bs-example-modal-sm">    
-                                <a href="{{ path('admin.monsite') }}">
-                                    <span class="glyphicon glyphicon-map-marker"></span>
-                                    {{ 'Mon Site' }}
-                                </a>
-                            </li>
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            {{ macros.menu_link('Utilisateurs', 'admin.user', 'user') }}
                         {% endif %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
