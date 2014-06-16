@@ -73,6 +73,16 @@ class User implements AdvancedUserInterface, \Serializable
     private $active;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $token;
+    
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $session_expire;
+    
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $created;
@@ -273,6 +283,38 @@ class User implements AdvancedUserInterface, \Serializable
         return $this->active;
     }
 
+    /**
+     * @param $token
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+    
+    /**
+     * @param $token
+     */
+    public function setSessionExpire($sessionExpire)
+    {
+        $this->session_expire = $sessionExpire;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSessionExpire()
+    {
+        return $this->session_expire;
+    }
+    
     /**
      * @param $email
      */

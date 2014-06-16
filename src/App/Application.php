@@ -4,6 +4,7 @@ namespace App;
 
 use App\Doctrine\Persistence\ManagerRegistry;
 use App\Entity\UserRepository;
+use App\Entity\UserLogin;
 use App\Routing\Generator\UrlGenerator;
 use Silex\Application as SilexApplication;
 use Silex\Provider\TwigServiceProvider;
@@ -19,7 +20,9 @@ use Entea\Twig\Extension\AssetExtension;
 use Symfony\Bridge\Doctrine\Form\DoctrineOrmExtension;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Silex\Provider\SwiftmailerServiceProvider;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Yosymfony\Silex\ConfigServiceProvider\ConfigServiceProvider;
 
 class Application extends SilexApplication
@@ -39,6 +42,11 @@ class Application extends SilexApplication
         # Url generator
         $this->register(new UrlGeneratorServiceProvider());
 
+        # Webservices
+        $this->after(function (Request $request, Response $response) {
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+        });
+        
         # Validator
         $this->register(new ValidatorServiceProvider(), array(
             'validator.validator_service_ids' => array('doctrine.orm.validator.unique' => 'security.validator.unique_entity_validator')
@@ -135,7 +143,7 @@ class Application extends SilexApplication
             return new UniqueEntityValidator($app['orm.manager_registry']);
         });
 
-        # Security
+        // Security
         $this->register(
             new SecurityServiceProvider(),
             array(
@@ -180,7 +188,26 @@ class Application extends SilexApplication
                 )
             )
         );
-
+        
+        # log des connexions
+        $this['dispatcher']->addListener('security.interactive_login', function (InteractiveLoginEvent $event) use ($app) {
+            if(strcmp($app['request']->getPathInfo(),"/user/dologin") === 0){
+                /** @var User $user */
+                $user = $app['security']->getToken()->getUser();
+                $userLogin = new UserLogin();
+                $userLogin->setUser($user);
+                $userLogin->setAction("Login");
+                $userLogin->setContext("Web Application");
+                $user->setLastLogin($userLogin->getCreated());
+                $user->setNbLogin($user->getLogins()->count() + 1);
+                $user->setToken(hash('sha256',$user->getUsername().time()));
+                $user->setSessionExpire(date("Y-m-d H:i:s", strtotime( date('Y-m-d H:i:s') . " + 8 hours")));
+                $app['orm.em']->persist($userLogin);
+                $app['orm.em']->persist($user);
+                $app['orm.em']->flush();
+            }
+        });
+        
         # Managing Errors
         $this->error(function (\Exception $e, $code) use ($app) {
             if ($app['debug']) {
