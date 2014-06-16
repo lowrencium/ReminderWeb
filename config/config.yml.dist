@@ -14,3 +14,5 @@ mail:
     from:
         "noreply@mydomain.com": "FROMNAME"
     to: ["xxx@gmail.com"]
+webservice:
+    host: "webservice.domain"
