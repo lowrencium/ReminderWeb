@@ -48,6 +48,7 @@ $(document).ready(function() {
     $("#addEvent").on("click", function() {
         var button = $("#formAddEvent").find("button[type=submit]");
         buttonBehaviourSubmitDefault(button);
+		
     });
 
     $("#formAddEvent").on("submit", function(e) {
@@ -66,6 +67,7 @@ $(document).ready(function() {
             if (addRappel(title, location, begin, end)) {
                 var message = "Le rappel a été ajouté avec succès";
                 buttonBehaviourSubmitSuccess(button, message);
+				setTimeout(function(){document.location.reload(true)}, 1000);
             }
             else {
                 var error = "Problème lors de l'ajout de l'évènement";
@@ -167,6 +169,7 @@ $(document).ready(function() {
                 if(status){
                     var message = "Rappels partagés avec succès";
                     buttonBehaviourSubmitSuccess(button, message);
+					setTimeout(function(){document.location.reload(true)}, 1000);
                 }
                 else{
                     var error = "Echec du partage";
@@ -212,8 +215,9 @@ $(document).ready(function() {
                 //remove from the DOM
                 if (removeRappel(rappelId)) {
                     event.remove();
-                    var message = "Recharger la page pour avoir le calendrier à jour";
+                    var message = "Supprimé avec succès";
                     buttonBehaviourSubmitSuccess(button, message);
+					setTimeout(function(){document.location.reload(true)}, 1000);
                 }
                 else {
                     var error = "Les rappels n'ont pas pu être supprimés";
