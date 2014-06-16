@@ -123,10 +123,9 @@ $(function() {
 
         if (addContact(name, email, phone, location)) {
             $("#contact-list").empty();
-            loadContacts();
-            //$(modalAddContact).modal('toggle');
             var message = "Contact créé avec succès";
             buttonBehaviourSubmitSuccess(button, message);
+			reloadPage();
         }
         else {
             var error = "Imposible d'ajouter le contact";
@@ -140,7 +139,7 @@ $(function() {
         buttonBehaviourSubmitDefault(button);
     });
 });
-
+	
 function loadContacts()
 {
     var contacts = getContacts();

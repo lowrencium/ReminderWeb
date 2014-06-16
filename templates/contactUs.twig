@@ -6,36 +6,36 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9">
-                <div class="alert alert-success"><strong><span class="glyphicon glyphicon-send"></span> Success! Message sent. (If form ok!)</strong></div>	  
-                <div class="alert alert-danger"><span class="glyphicon glyphicon-alert"></span><strong> Error! Please check the inputs. (If form error!)</strong></div>
+                <div hidden class="alert alert-success"><strong><span class="glyphicon glyphicon-send"></span> Success! Message sent. (If form ok!)</strong></div>	  
+                <div hidden class="alert alert-danger"><span class="glyphicon glyphicon-alert"></span><strong> Error! Please check the inputs. (If form error!)</strong></div>
             </div>
         </div>
         <div class="row">
             <form role="form" action="" method="post" >
                 <div class="col-lg-6">
-                    <div class="well well-sm"><strong><i class="glyphicon glyphicon-ok form-control-feedback"></i> Required Field</strong></div>
+					<h3>Contactez-nous</h3>				
                     <div class="form-group">
-                        <label for="InputName">Your Name</label>
+                        <label for="InputName">Votre nom</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" name="InputName" id="InputName" placeholder="Enter Name" required>
+                            <input type="text" class="form-control" name="InputName" id="InputName" placeholder="Votre nom" required>
                             <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span></div>
                     </div>
                     <div class="form-group">
-                        <label for="InputEmail">Your Email</label>
+                        <label for="InputEmail">Votre email</label>
                         <div class="input-group">
-                            <input type="email" class="form-control" id="InputEmail" name="InputEmail" placeholder="Enter Email" required  >
+                            <input type="email" class="form-control" id="InputEmail" name="InputEmail" placeholder="Votre email" required  >
                             <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span></div>
                     </div>
                     <div class="form-group">
                         <label for="InputMessage">Message</label>
                         <div class="input-group">
-                            <textarea name="InputMessage" id="InputMessage" class="form-control" rows="5" required></textarea>
+                            <textarea name="InputMessage" id="InputMessage" class="form-control" rows="5" required placeholder="Entrez votre message ici"></textarea>
                             <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span></div>
                     </div>
                     <div class="form-group">
-                        <label for="InputReal">What is 4+3? (Simple Spam Checker)</label>
+                        <label for="InputReal">Quel est le résultat de 6-2 ?</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" name="InputReal" id="InputReal" required>
+                            <input type="text" class="form-control" name="InputReal" id="InputReal" placeholder="Entrez un nombre" required>
                             <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span></div>
                     </div>
                     <input type="submit" name="submit" id="submit" value="Submit" class="btn btn-info pull-right">
@@ -44,7 +44,7 @@
             <hr class="featurette-divider hidden-lg">
             <div class="col-lg-5 col-md-push-1">
                 <address>
-                    <h3>Office Location</h3>
+                    <h3>Localisation</h3>
                     <p class="lead"><a href="https://www.google.com/maps/place/Universit%C3%A9+Paris+1+Panth%C3%A9on+Sorbonne+%28Centre+Pierre+Mendes+France%29/@48.8261674,2.3605343,17z/data=!4m7!1m4!3m3!1s0x47e67188d5bf337b:0xce5fef08077a5204!2sRue+de+Tolbiac!3b1!3m1!1s0x0:0xa2c235055f1ee4cd">La Sorbonne<br>
                             Paris 13ème<br />
                             75013</a><br>

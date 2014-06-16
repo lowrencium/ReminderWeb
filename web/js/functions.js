@@ -68,12 +68,13 @@ function getRappels()
 
 
 function addRappel(title, location, begin, end)
-{console.log(localStorage.getItem("id"));
+{
     var result = SoapManager("CreerRappel", {"id": localStorage.getItem("id"), "token": localStorage.getItem("token"), "titre": title, "lieu": location, "debut": begin, "fin": end});
     var resultat = result.find("Resultat");
     var erreur = result.find("Erreur");
     if (resultat.text() == "true" && erreur.text() == "")
     {
+		
         return 1;
     }
     return 0;
@@ -86,10 +87,12 @@ function removeRappel(rappelId)
     var erreur = result.find("Erreur");
     if (resultat.text() == "true" && erreur.text() == "")
     {
+		console.log("remove ok");
         return 1;
     }
     else
     {
+		console.log("remove fail");
         return 0;
     }
 }

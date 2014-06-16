@@ -67,7 +67,7 @@ $(document).ready(function() {
             if (addRappel(title, location, begin, end)) {
                 var message = "Le rappel a été ajouté avec succès";
                 buttonBehaviourSubmitSuccess(button, message);
-				setTimeout(function(){document.location.reload(true)}, 1000);
+				reloadPage();
             }
             else {
                 var error = "Problème lors de l'ajout de l'évènement";
@@ -169,7 +169,7 @@ $(document).ready(function() {
                 if(status){
                     var message = "Rappels partagés avec succès";
                     buttonBehaviourSubmitSuccess(button, message);
-					setTimeout(function(){document.location.reload(true)}, 1000);
+					reloadPage();
                 }
                 else{
                     var error = "Echec du partage";
@@ -217,7 +217,7 @@ $(document).ready(function() {
                     event.remove();
                     var message = "Supprimé avec succès";
                     buttonBehaviourSubmitSuccess(button, message);
-					setTimeout(function(){document.location.reload(true)}, 1000);
+					reloadPage();
                 }
                 else {
                     var error = "Les rappels n'ont pas pu être supprimés";

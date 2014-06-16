@@ -4,33 +4,40 @@
 
 {% block content %}
     <form id="add-contact" role="form" action="" method="post" >
-        <h2>Changer de langue</h2>
-        <div class="radio">
-            <label class="radio">
-                <input type="radio" name="optionsRadios" id="lgEnglish" value="english" checked>
-                Anglais
-            </label>
-        </div>
-        <div class="radio">
-            <label class="radio">
-                <input type="radio" name="optionsRadios" id="lgFrench" value="french">
-                Français
-            </label>
-        </div>
-        <input type="submit" name="submit" id="submit" value="Mettre à jour les préférences" class="btn btn-info">
+		<div class="row">
+			<div class="col-xs-12 col-md-6">
+				<h3>Changer de langue</h3>
+				<div class="radio">
+					<label class="radio">
+						<input type="radio" name="optionsRadios" id="lgEnglish" value="english" checked>
+						Anglais
+					</label>
+				</div>
+				<div class="radio">
+					<label class="radio">
+						<input type="radio" name="optionsRadios" id="lgFrench" value="french">
+						Français
+					</label>
+				</div>
+				
+			</div>
+			<div class="col-xs-12 col-md-6">
+				<h3>Notifications</h3>
+				<p>Vous pouvez activer les notifications</p>
+					<div class="warningMsg" data-ng-show="!isSupported" style="display: none;">
+					Les notifications ne sont pas actuellement supportées par votre navigateur.
+					<p>
+						Ouvrez la page avec Chrome(version 23+), Safari(version6+), Firefox(avec le plugin ff-html5notifications) et IE9+.
+				</div>
+			</div>
+		</div>    	
+		<div class="row">
+			<input type="submit" name="submit" id="submit" value="Enregistrer" class="btn btn-info col-sm-3 col-sm-offset-1">
+			<a type="button" class="col-sm-3 col-sm-offset-3 btn notificationLevel" ng-class="getClassName()" data-ng-click="requestPermissions()" data-ng-pluralize data-count="permissionLevel" when="{
+																		'0': 'Notifications activées.',
+																		'1': 'Notifications desactivées.',
+																		'2': 'Notifications bloquées par le navigateur.'}">
+				</a>
+		</div>
     </form>
-
-    <div class="row">
-        <div class="warningMsg" data-ng-show="!isSupported" style="display: none;">
-            Les notifications ne sont pas actuellement supportées par votre navigateur.
-            <p>
-                Ouvrez la page avec Chrome(version 23+), Safari(version6+), Firefox(avec le plugin ff-html5notifications) et IE9+.
-        </div>
-
-        <a type="button" class="col-lg-4 col-md-offset-4 btn notificationLevel" ng-class="getClassName()" data-ng-click="requestPermissions()" data-ng-pluralize data-count="permissionLevel" when="{
-                                                                '0': 'Notifications activées.',
-                                                                '1': 'Notifications desactivées.',
-                                                                '2': 'Notifications bloquées par le navigateur.'}">
-        </a>
-    </div>
 {% endblock %}
