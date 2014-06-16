@@ -155,7 +155,6 @@ class UserController implements ControllerProviderInterface
      */
     public function register(Application $app, Request $request)
     {        
-        // Building the form
         $builder = $app['form.factory']->createBuilder('form')
             ->add('email', 'text',
               array(
@@ -164,16 +163,17 @@ class UserController implements ControllerProviderInterface
                 'required' => true
               )
             )
-            ->add('password', 'repeated', array(
+            ->add('password', 'password', array(
                 'mapped' => false,
-                'type' => 'password',
+                //'type' => 'password',
                 'invalid_message' => 'Les mots de passe doivent correspondre',
                 'required' => true,
-                'first_options'  => array('label' => 'Mot de passe'),
-                'second_options' => array('label' => 'Confirmation')
+                //'first_options'  => array('label_attr' => array('style' => 'display:none;'), 'attr' => array('placeholder' => 'Mot de passe')),
             ))
-            ->add('role','select', array(
-                'label' => 'Type de compte'
+            ->add('role','choice', array(
+                'label' => 'Compte',
+                'choices' => array( 1 => 'Classique', 2 => 'Organisation/Entreprises'),
+                'expanded' => true,
             ));
 
         $processed = false;
@@ -189,7 +189,7 @@ class UserController implements ControllerProviderInterface
                 // Retrieving data
                 $email = $form->get('email')->getData();
                 $password = $form->get('password')->getData();
-                $site = $form->get('site')->getData();
+                $role = $form->get('role')->getData();
                 
                 // Verify if the user already exist
                 $user = $em->getRepository('App\\Entity\\User')->findOneBy(array('email' => $email));
@@ -206,13 +206,13 @@ class UserController implements ControllerProviderInterface
                 $encoder = $encoderFactory->getEncoder($user);
                 $password = $encoder->encodePassword($password, $user->getSalt());
                 $user->setPassword($password);
-                $user->setSite($site);
+                $user->setRole($role);
                 $user->setActive(false);
                 $user->setRole("ROLE_USER");
 
                 // Generating link with token
                 $token = sha1('register-request-'.$email.'-'.$timestamp.'}');
-                $link = $app->url('user.register.confirm', array('token' => $token, 'email' => $email, 'timestamp' => $timestamp));
+                $link = $app->url('user.confirm.registration', array('token' => $token, 'email' => $email, 'timestamp' => $timestamp));
                 
                 // Sending link
                 $text = "Bonjour,\r\n"
@@ -235,11 +235,49 @@ class UserController implements ControllerProviderInterface
             }
         }
 
-        return $app['twig']->render('user/register.twig', array(
-            'form' => $form->createView(),
-            'processed' => $processed,
-            'link' => isset($link) ? $link : false //todo : remove
-        ));
+        return $app->redirect($app['url_generator']->generate('index'));
+    }
+    
+    /**
+     * @param Application $app
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function confirmRegistration(Application $app, Request $request)
+    {
+        $em = $app["orm.em"];
+        // Retrieving data
+        $timestamp = $request->get('timestamp');
+        $email = $request->get('email');
+        $token = $request->get('token');
+
+        if(!$timestamp || !$email || !$token) {
+            $app['session']->getFlashBag()->add('danger', "La demande est corrompus.");
+            return $app->redirect($app['url_generator']->generate('user.register'));
+        }
+
+        // Validating token
+        if($token != sha1('register-request-'.$email.'-'.$timestamp.'}')) {
+            $app['session']->getFlashBag()->add('danger', "La demande est invalide.");
+            return $app->redirect($app['url_generator']->generate('user.register'));
+        }
+
+        // No timestamp verification for registration mail
+
+        // Retrieving the user
+        $user = $em->getRepository('App\\Entity\\User')->findOneBy(array('email' => $email));
+        if(!$user) {
+            $app['session']->getFlashBag()->add('danger', "L'email est invalide.");
+            return $app->redirect($app['url_generator']->generate('user.register'));
+        }
+        
+        // Activating the user
+        $user->setActive(true);
+        $em->persist($user);
+        $em->flush();
+        $message = "Votre compte a bien été activé. ";
+        $app['session']->getFlashBag()->add('success', $message."Vous pouvez maintenant vous connecter avec vos identifiants.");
+        return $app->redirect($app['url_generator']->generate('index'));
     }
     
     /**
@@ -266,6 +304,7 @@ class UserController implements ControllerProviderInterface
         $index->match("/signin", array($this, "signin"))->bind('user.signin');
         $index->match("/signup", array($this, "signup"))->bind('user.signup');
         $index->match("/preferences", array($this, "preferences"))->bind('user.preferences');
+        $index->match("/confirm", array($this, "confirmRegistration"))->bind('user.confirm.registration');
         return $index;
     }
 }
