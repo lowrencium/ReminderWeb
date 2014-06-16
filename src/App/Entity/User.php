@@ -43,17 +43,17 @@ class User implements AdvancedUserInterface, \Serializable
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=60, unique=true)
+     * @ORM\Column(type="string", length=60, nullable=true)
      */
     private $firstname;
     
     /**
-     * @ORM\Column(type="string", length=60, unique=true)
+     * @ORM\Column(type="string", length=60, nullable=true)
      */
     private $lastname;
     
     /**
-     * @ORM\Column(type="string", length=60, unique=true)
+     * @ORM\Column(type="string", length=60, unique=true, nullable=true)
      */
     private $phone;
     
@@ -78,7 +78,7 @@ class User implements AdvancedUserInterface, \Serializable
     private $token;
     
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $session_expire;
     
