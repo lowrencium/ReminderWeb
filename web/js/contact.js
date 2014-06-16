@@ -141,7 +141,7 @@ function loadContacts()
             var html = useTemplates(source, context);
 
             $("#contact-list").append(html);
-            $("#contact-list li[id="+contacts[i].id+"][data-type="+contacts[i].type+"] .gravatar").empty().html($.gravatar(contacts[i].email, {size: 120}));
+            $("#contact-list li[id="+contacts[i].id+"][data-type="+contacts[i].type+"] .gravatar").empty().html($.gravatar(contacts[i].email, {size: 120, classes: "img-rounded img-responsive"}));
         }
     }
 }
