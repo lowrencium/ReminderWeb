@@ -62,7 +62,7 @@
         Vous pouvez très facilement ajouter et supprimer des évènements dans votre agenda personnel.
     </p>
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-    <div style="display: none;">
+    <div id="auth-info" style="display: none;">
         <span>{{ user.token }}</span>
         <span>{{ user.sessionexpire }}</span>
         <span>{{ user.id }}</span>

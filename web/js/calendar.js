@@ -1,9 +1,5 @@
 $(document).ready(function() {
-
-    var idUser = 1;
-    var sessionId = "token";
-
-    events = getRappels(idUser, sessionId);
+    events = getRappels();
 
     var selectedDate;
 
@@ -68,7 +64,7 @@ $(document).ready(function() {
             var title = $(this.title).val();
             var location = $(this.location).val();
 
-            if (addRappel(idUser, sessionId, title, location, begin, end)) {
+            if (addRappel(title, location, begin, end)) {
                 var message = "Le rappel a été ajouté avec succès";
                 buttonBehaviourSubmitSuccess(button, message);
 				setTimeout(function(){document.location.reload(true)}, 1000);
@@ -126,7 +122,7 @@ $(document).ready(function() {
             $("div#shareEventsContacts tbody").empty();
             $("div#shareEventsContacts").fadeIn(); // Display contacts
 
-            var contacts = getContacts(idUser, sessionId);
+            var contacts = getContacts();
 
             // if at leasts 1 contact
             if (typeof contacts != 'undefined') {
@@ -165,7 +161,7 @@ $(document).ready(function() {
                         var rappelId = event.parent().parent().attr('id');
                         var contactId = contact.parent().parent().attr('id');
                         var contactType= contact.parent().parent().attr('data-type');
-                        if(!shareRappel(idUser, sessionId, rappelId, contactId, contactType)){
+                        if(!shareRappel(rappelId, contactId, contactType)){
                             status = false;
                         }
                     });
@@ -217,7 +213,7 @@ $(document).ready(function() {
                 var event = $(this).closest("tr");
                 var rappelId = event.attr("id");
                 //remove from the DOM
-                if (removeRappel(idUser, sessionId, rappelId)) {
+                if (removeRappel(rappelId)) {
                     event.remove();
                     var message = "Supprimé avec succès";
                     buttonBehaviourSubmitSuccess(button, message);
