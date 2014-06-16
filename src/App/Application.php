@@ -183,7 +183,7 @@ class Application extends SilexApplication
                     array('^/user/register', 'IS_AUTHENTICATED_ANONYMOUSLY'),
                     array('^/user/password', 'IS_AUTHENTICATED_ANONYMOUSLY'),
                     array('^/user/logout', 'IS_AUTHENTICATED_ANONYMOUSLY'),
-                    array('^/admin/$', 'ROLE_ADMIN'),
+                    array('^/admin/$', 'ROLE_ORGANISATION'),
                     array('^.*$', 'IS_AUTHENTICATED_ANONYMOUSLY'),
                 )
             )
@@ -205,6 +205,7 @@ class Application extends SilexApplication
                 $app['orm.em']->persist($userLogin);
                 $app['orm.em']->persist($user);
                 $app['orm.em']->flush();
+                $app['session']->getFlashBag()->add('success', "Vous êtes bien connecté.");
             }
         });
         
