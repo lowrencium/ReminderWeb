@@ -64,7 +64,7 @@ class AdminController implements ControllerProviderInterface
      */
     public function index(Application $app)
     {
-        if(!$app['security']->isGranted('ROLE_ADMIN')){
+        if($app['security']->isGranted('ROLE_ADMIN')){
             return $app->redirect($app['url_generator']->generate('admin.user'));
         }
         return $app['twig']->render('admin/index.twig', array());
