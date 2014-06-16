@@ -14,7 +14,6 @@
 
 {% block content %}
     <form class="form-horizontal" action="" method="post">
-        {{ form_row(form.site) }}
 
         <div class="form-group{{ form.password.first.vars.errors|length>0 ? " has-error" : "" }}">
             {{ form_label(form.password.first) }}
