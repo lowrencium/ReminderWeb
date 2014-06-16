@@ -21,7 +21,7 @@ $(document).ready(function() {
 });
 
 function getFullPartDate(number) {
-    return ((number + 1) < 10 ? "0" + (number + 1) : (number + 1));
+    return (number < 10 ? "0" + number : number);
 }
 
 function getRappels(id, sessionId)
@@ -42,12 +42,12 @@ function getRappels(id, sessionId)
                         "title": $(this).find('Titre').text(),
                         "location": $(this).find('Lieu').text(),
                         "start": {
-                            date: debut.getFullYear() + "" + getFullPartDate(debut.getMonth() ) + "" + getFullPartDate(debut.getDate() - 1),
-                            time: getFullPartDate(debut.getHours()) + ":" + getFullPartDate(debut.getMinutes())
+                            date: debut.getFullYear() + "" + getFullPartDate(debut.getMonth() + 1) + "" + debut.getDate(),
+                            time: getFullPartDate(debut.getHours()) + ":" + (debut.getMinutes() + 1)
                         },
                         "end": {
-                            date: fin.getFullYear() + "" + getFullPartDate(fin.getMonth()) + "" + getFullPartDate(fin.getDate() - 1).toString(),
-                            time: (getFullPartDate(fin.getHours()) + ":" + getFullPartDate(fin.getMinutes())).toString()
+                            date: fin.getFullYear() + "" + getFullPartDate(fin.getMonth() + 1) + "" + fin.getDate(),
+                            time: getFullPartDate(fin.getHours()) + ":" + (fin.getMinutes() + 1)
                         }
                     }
             );

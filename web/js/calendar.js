@@ -297,8 +297,3 @@ function isAtLeastOneCheckedBoxChecked(container) {
     var atLeastOneIsChecked = $(container + ' :checkbox:checked').length > 0;
     return atLeastOneIsChecked;
 }
-
-function getFullPartDate(number) {
-    return ((number + 1) < 10 ? "0" + (number + 1) : (number + 1));
-}
-

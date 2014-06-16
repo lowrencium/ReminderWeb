@@ -3,6 +3,8 @@ function showNotification(title, message, icon) {
 }
 
 $(document).ready(function() {
+    var refresh = 10000;
+    var icon = "http://127.0.0.1/reminderweb/web/images/warning.ico";
     var rappels = getRappels(1, "token");
 
     setInterval(function()
@@ -14,21 +16,18 @@ $(document).ready(function() {
             var start = new Date(rappels[i].start.date.substr(0, 4), rappels[i].start.date.substr(4, 2) - 1, rappels[i].start.date.substr(6, 2), rappels[i].start.time.substr(0, 2), rappels[i].start.time.substr(3, 2), 0);
             var end = new Date(rappels[i].end.date.substr(0, 4), rappels[i].end.date.substr(4, 2) - 1, rappels[i].end.date.substr(6, 2), rappels[i].end.time.substr(0, 2), rappels[i].end.time.substr(3, 2), 0);
 
-            if(start.getTime() <= now.getTime() && start.getTime() > now.getTime() - 10000)
-            {console.log("ok");
+            if(start.getTime() <= now.getTime() && start.getTime() > now.getTime() - refresh)
+            {
                 var start = start.getDate() +"/"+(start.getMonth() + 1) +"/"+start.getFullYear()+" "+getFullPartDate(start.getHours()) + ":" + getFullPartDate(start.getMinutes());
                 var end = end.getDate() +"/"+ (end.getMonth() + 1) +"/"+end.getFullYear()+" "+getFullPartDate(end.getHours()) + ":" + getFullPartDate(end.getMinutes());
 
-                showNotification("Rappel en cours : "+rappels[i].title, rappels[i].title+"\nDebut : "+start+"\nFin : "+end, "images/warning.ico");
+                showNotification("Nouveau rappel : "+rappels[i].title, rappels[i].title+"\nDebut : "+start+"\nFin : "+end+"\nLieu : "+rappels[i].location, icon);
             }
-
-            rappels.splice(i, 1);
-            i--;
         }
-    }, 10000);
+    }, refresh);
 });
 
-function showCurrentRappel()
+function showCurrentRappel(icon)
 {
     var rappels = getRappels(1, "token");
 
@@ -44,10 +43,7 @@ function showCurrentRappel()
             var start = start.getDate() +"/"+(start.getMonth() + 1) +"/"+start.getFullYear()+" "+getFullPartDate(start.getHours()) + ":" + getFullPartDate(start.getMinutes());
             var end = end.getDate() +"/"+ (end.getMonth() + 1) +"/"+end.getFullYear()+" "+getFullPartDate(end.getHours()) + ":" + getFullPartDate(end.getMinutes());
 
-            showNotification("Rappel en cours : "+rappels[i].title, rappels[i].title+"\nDebut : "+start+"\nFin : "+end, "images/warning.ico");
+            showNotification("Rappel en cours : "+rappels[i].title, rappels[i].title+"\nDebut : "+start+"\nFin : "+end+"\nLieu : "+rappels[i].location, icon);
         }
-
-        rappels.splice(i, 1);
-        i--;
     }
 }
