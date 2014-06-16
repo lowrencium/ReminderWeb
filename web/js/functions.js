@@ -198,6 +198,34 @@ function getContactRequest()
     }
 }
 
+function getMyContactRequest()
+{
+    var result = SoapManager("RecupererMesDemandesContact", {"id": localStorage.getItem("id"), "token": localStorage.getItem("token")});
+    if(result != false)
+    {
+        var resultat = result.find("Resultat");
+        var erreur = result.find("Erreur");
+        if (resultat.text() == "true" && erreur.text() == "")
+        {
+            var array = new Array();
+            result.find("Contacts").find("item").each(function(index) {
+                array.push(
+                    {
+                        "id": $(this).find('Id').text(),
+                        "name": $(this).find('Nom').text(),
+                        "type": $(this).find('Type').text()
+                    }
+                );
+            });
+            return array;
+        }
+        else
+        {
+            console.log(erreur.html());
+        }
+    }
+}
+
 function shareRappel(rappelId, contactId, contactType)
 {
     var result = SoapManager("PartagerRappel", {"id": localStorage.getItem("id"), "token": localStorage.getItem("token"), "rappelId": rappelId, "contactId": contactId, "type": contactType});

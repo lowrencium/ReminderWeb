@@ -12,6 +12,17 @@ $(function() {
         }
     }
 
+    var mesDemandes = getMyContactRequest();
+
+    if(typeof mesDemandes != 'undefined') {
+        var source = $("#mesDemandes-template").html();
+        for(var i = 0; i < mesDemandes.length; i++) {
+            var context = mesDemandes[i];
+            var html = useTemplates(source, context);
+            $("#demande-list").append(html);
+        }
+    }
+
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-toggle="modal"]').tooltip();
 
