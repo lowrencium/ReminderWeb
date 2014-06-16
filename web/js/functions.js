@@ -1,4 +1,4 @@
-$(document).ready(function() {
+﻿$(document).ready(function() {
     
     var idUser = 1;
     var sessionId = "token";
@@ -24,49 +24,52 @@ function getFullPartDate(number) {
     return (number < 10 ? "0" + number : number);
 }
 
-function getRappels(id, sessionId)
+function getRappels()
 {
-    var result = SoapManager("RecupererRappel", {"id": id, "token": sessionId});
-    var resultat = result.find("Resultat");
-    var erreur = result.find("Erreur");
-    if (resultat.text() === "true" && erreur.text() === "")
+    var result = SoapManager("RecupererRappel", {"id": localStorage.getItem("id"), "token": localStorage.getItem("token")});
+    if(result != false)
     {
-        var array = new Array();
-        result.find("Rappels").find("item").each(function(index) {
-            var debut = new Date($(this).find('Debut').text().trim() * 1000);
-            var fin = new Date($(this).find('Fin').text().trim() * 1000);
+        var resultat = result.find("Resultat");
+        var erreur = result.find("Erreur");
+        if (resultat.text() === "true" && erreur.text() === "")
+        {
+            var array = new Array();
+            result.find("Rappels").find("item").each(function(index) {
+                var debut = new Date($(this).find('Debut').text().trim() * 1000);
+                var fin = new Date($(this).find('Fin').text().trim() * 1000);
 
-            array.push(
-                    {
-                        "id": $(this).find('Id').text(),
-                        "title": $(this).find('Titre').text(),
-                        "location": $(this).find('Lieu').text(),
-                        "start": {
-                            date: debut.getFullYear() + "" + getFullPartDate(debut.getMonth() + 1) + "" + debut.getDate(),
-                            time: getFullPartDate(debut.getHours()) + ":" + (debut.getMinutes() + 1)
-                        },
-                        "end": {
-                            date: fin.getFullYear() + "" + getFullPartDate(fin.getMonth() + 1) + "" + fin.getDate(),
-                            time: getFullPartDate(fin.getHours()) + ":" + (fin.getMinutes() + 1)
+                array.push(
+                        {
+                            "id": $(this).find('Id').text(),
+                            "title": $(this).find('Titre').text(),
+                            "location": $(this).find('Lieu').text(),
+                            "start": {
+                                date: debut.getFullYear() + "" + getFullPartDate(debut.getMonth() + 1) + "" + debut.getDate(),
+                                time: getFullPartDate(debut.getHours()) + ":" + (debut.getMinutes() + 1)
+                            },
+                            "end": {
+                                date: fin.getFullYear() + "" + getFullPartDate(fin.getMonth() + 1) + "" + fin.getDate(),
+                                time: getFullPartDate(fin.getHours()) + ":" + (fin.getMinutes() + 1)
+                            }
                         }
-                    }
-            );
-        });
-        return array;
-        
-    }
-    else
-    {
-        //Erreur
-        console.log(erreur.html());
+                );
+            });
+            return array;
+
+        }
+        else
+        {
+            //Erreur
+            console.log(erreur.html());
+        }
     }
 }
 
 
 
-function addRappel(id, sessionId, title, location, begin, end)
-{
-    var result = SoapManager("CreerRappel", {"id": id, "token": sessionId, "titre": title, "lieu": location, "debut": begin, "fin": end});
+function addRappel(title, location, begin, end)
+{console.log(localStorage.getItem("id"));
+    var result = SoapManager("CreerRappel", {"id": localStorage.getItem("id"), "token": localStorage.getItem("token"), "titre": title, "lieu": location, "debut": begin, "fin": end});
     var resultat = result.find("Resultat");
     var erreur = result.find("Erreur");
     if (resultat.text() == "true" && erreur.text() == "")
@@ -76,9 +79,9 @@ function addRappel(id, sessionId, title, location, begin, end)
     return 0;
 }
 
-function removeRappel(id, sessionId, rappelId)
+function removeRappel(rappelId)
 {
-    var result = SoapManager("SupprimerRappel", {"id": id, "token": sessionId, "rappelId": rappelId});
+    var result = SoapManager("SupprimerRappel", {"id": localStorage.getItem("id"), "token": localStorage.getItem("token"), "rappelId": rappelId});
     var resultat = result.find("Resultat");
     var erreur = result.find("Erreur");
     if (resultat.text() == "true" && erreur.text() == "")
@@ -91,52 +94,40 @@ function removeRappel(id, sessionId, rappelId)
     }
 }
 
-function getContacts(id, sessionId)
+function getContacts()
 {
-    var result = SoapManager("RecupererContacts", {"id": id, "token": sessionId});
-    var resultat = result.find("Resultat");
-    var erreur = result.find("Erreur");
-    if (resultat.text() == "true" && erreur.text() == "")
+    var result = SoapManager("RecupererContacts", {"id": localStorage.getItem("id"), "token": localStorage.getItem("token")});
+    if(result != false)
     {
-        var array = new Array();
-        result.find("Contacts").find("item").each(function(index) {
-            array.push(
-                {
-                    "id": $(this).find('Id').text(),
-                    "name": $(this).find('Nom').text(),
-                    "email": $(this).find('Email').text(),
-                    "phone": $(this).find('Telephone').text(),
-                    "location": $(this).find('Adresse').text(),
-                    "type": $(this).find('Type').text()
-                }
-            );
-        });
-        return array;
-    }
-    else
-    {
-        console.log(erreur.html());
+        var resultat = result.find("Resultat");
+        var erreur = result.find("Erreur");
+        if (resultat.text() == "true" && erreur.text() == "")
+        {
+            var array = new Array();
+            result.find("Contacts").find("item").each(function(index) {
+                array.push(
+                    {
+                        "id": $(this).find('Id').text(),
+                        "name": $(this).find('Nom').text(),
+                        "email": $(this).find('Email').text(),
+                        "phone": $(this).find('Telephone').text(),
+                        "location": $(this).find('Adresse').text(),
+                        "type": $(this).find('Type').text()
+                    }
+                );
+            });
+            return array;
+        }
+        else
+        {
+            console.log(erreur.html());
+        }
     }
 }
 
-function addContact(id, sessionId, name, email, phone, location)
+function addContact(name, email, phone, location)
 {
-    var result = SoapManager("AjouterContact", {"id": id, "token": sessionId, "nom": name, "email": email, "telephone": phone, "adresse": location});
-    var resultat = result.find("Resultat");
-    var erreur = result.find("Erreur");
-    if (resultat.text() == "true" && erreur.text() == "")
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
-}
-
-function removeContact(id, sessionId, contactId, type)
-{
-    var result = SoapManager("SupprimerContact", {"id": id, "token": sessionId, "contactId": contactId, "type": type});
+    var result = SoapManager("AjouterContact", {"id": localStorage.getItem("id"), "token": localStorage.getItem("token"), "nom": name, "email": email, "telephone": phone, "adresse": location});
     var resultat = result.find("Resultat");
     var erreur = result.find("Erreur");
     if (resultat.text() == "true" && erreur.text() == "")
@@ -149,9 +140,9 @@ function removeContact(id, sessionId, contactId, type)
     }
 }
 
-function validateContact(id, sessionId, contactId, bool)
+function removeContact(contactId, type)
 {
-    var result = SoapManager("ValiderContact", {"id": id, "token": sessionId, "contactId": contactId, "valider": bool});
+    var result = SoapManager("SupprimerContact", {"id": localStorage.getItem("id"), "token": localStorage.getItem("token"), "contactId": contactId, "type": type});
     var resultat = result.find("Resultat");
     var erreur = result.find("Erreur");
     if (resultat.text() == "true" && erreur.text() == "")
@@ -164,34 +155,52 @@ function validateContact(id, sessionId, contactId, bool)
     }
 }
 
-function getContactRequest(id, sessionId)
+function validateContact(contactId, bool)
 {
-    var result = SoapManager("RecupererDemandesContact", {"id": id, "token": sessionId});
+    var result = SoapManager("ValiderContact", {"id": localStorage.getItem("id"), "token": localStorage.getItem("token"), "contactId": contactId, "valider": bool});
     var resultat = result.find("Resultat");
     var erreur = result.find("Erreur");
     if (resultat.text() == "true" && erreur.text() == "")
     {
-        var array = new Array();
-        result.find("Contacts").find("item").each(function(index) {
-            array.push(
-                {
-                    "id": $(this).find('Id').text(),
-                    "name": $(this).find('Nom').text(),
-                    "type": $(this).find('Type').text()
-                }
-            );
-        });
-        return array;
+        return 1;
     }
     else
     {
-        console.log(erreur.html());
+        return 0;
     }
 }
 
-function shareRappel(id, sessionId, rappelId, contactId, contactType)
+function getContactRequest()
 {
-    var result = SoapManager("PartagerRappel", {"id": id, "token": sessionId, "rappelId": rappelId, "contactId": contactId, "type": contactType});
+    var result = SoapManager("RecupererDemandesContact", {"id": localStorage.getItem("id"), "token": localStorage.getItem("token")});
+    if(result != false)
+    {
+        var resultat = result.find("Resultat");
+        var erreur = result.find("Erreur");
+        if (resultat.text() == "true" && erreur.text() == "")
+        {
+            var array = new Array();
+            result.find("Contacts").find("item").each(function(index) {
+                array.push(
+                    {
+                        "id": $(this).find('Id').text(),
+                        "name": $(this).find('Nom').text(),
+                        "type": $(this).find('Type').text()
+                    }
+                );
+            });
+            return array;
+        }
+        else
+        {
+            console.log(erreur.html());
+        }
+    }
+}
+
+function shareRappel(rappelId, contactId, contactType)
+{
+    var result = SoapManager("PartagerRappel", {"id": localStorage.getItem("id"), "token": localStorage.getItem("token"), "rappelId": rappelId, "contactId": contactId, "type": contactType});
     var resultat = result.find("Resultat");
     var erreur = result.find("Erreur");
     if (resultat.text() == "true" && erreur.text() == "")

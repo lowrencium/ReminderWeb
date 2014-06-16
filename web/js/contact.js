@@ -1,11 +1,7 @@
 $(function() {
+    loadContacts();
 
-    var idUser = 1;
-    var sessionId = "token";
-
-    loadContacts(idUser, sessionId);
-
-    var demandes = getContactRequest(idUser, sessionId);
+    var demandes = getContactRequest();
 
     if(typeof demandes != 'undefined') {
         var source = $("#demande-template").html();
@@ -40,7 +36,7 @@ $(function() {
                 var id = contact.attr('id');
                 var type = contact.attr('data-type');
 
-                if (removeContact(idUser, sessionId, id, type)) {
+                if (removeContact(id, type)) {
                     contact.remove();
                 }
                 else {
@@ -59,10 +55,10 @@ $(function() {
         var demande = $(button).closest("li");
         var id = demande.attr('id');
 
-        if(validateContact(idUser, sessionId, id, true)) {
+        if(validateContact(id, true)) {
             demande.remove();
             $("#contact-list").html("");
-            loadContacts(idUser, sessionId);
+            loadContacts();
         }
         else {
             console.log("erreur SOAP removeContact");
@@ -75,7 +71,7 @@ $(function() {
         var demande = $(button).closest("li");
         var id = demande.attr('id');
 
-        if(validateContact(idUser, sessionId, id, false)) {
+        if(validateContact(id, false)) {
             demande.remove();
         }
         else {
@@ -114,9 +110,9 @@ $(function() {
             location: location
         };
 
-        if (addContact(idUser, sessionId, name, email, phone, location)) {
+        if (addContact(name, email, phone, location)) {
             $("#contact-list").empty();
-            loadContacts(idUser, sessionId);
+            loadContacts();
             //$(modalAddContact).modal('toggle');
             var message = "Contact créé avec succès";
             buttonBehaviourSubmitSuccess(button, message);
@@ -134,9 +130,9 @@ $(function() {
     });
 });
 
-function loadContacts(idUser, sessionId)
+function loadContacts()
 {
-    var contacts = getContacts(idUser, sessionId);
+    var contacts = getContacts();
 
     if (typeof contacts != 'undefined') {
         var source = $("#contact-template").html();
