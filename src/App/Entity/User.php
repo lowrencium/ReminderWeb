@@ -43,12 +43,12 @@ class User implements AdvancedUserInterface, \Serializable
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=60, unique=true, nullable=true)
+     * @ORM\Column(type="string", length=60, nullable=true)
      */
     private $firstname;
     
     /**
-     * @ORM\Column(type="string", length=60, unique=true, nullable=true)
+     * @ORM\Column(type="string", length=60, nullable=true)
      */
     private $lastname;
     
