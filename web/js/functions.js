@@ -302,3 +302,7 @@ function NotificationCenter($scope) {
         })
     }
 }
+
+function reloadPage(){
+    setTimeout(function(){document.location.reload(true)}, 1000);
+}
