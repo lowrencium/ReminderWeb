@@ -25,8 +25,16 @@
                     </div>
                     <div class="col-xs-12 col-lg-10 well">
                     {% else %}
-                        <div class="well">
-                        {% endif %}
+                    <div class="well">
+                    {% endif %}
+                    {% for type, flashMessages in app.session.flashbag.all() %}
+                        {% for flashMessage in flashMessages %}
+                            <div class="alert alert-{{ type }}">
+                                <button class="close" data-dismiss="alert">×</button>
+                                {{ flashMessage|raw }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
                     {% block content %} {% endblock %}
                 </div>
             </div>
