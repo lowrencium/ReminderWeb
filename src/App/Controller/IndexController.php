@@ -21,12 +21,16 @@ class IndexController implements ControllerProviderInterface
     public function index(Application $app)
     {
         $this->generateForms($app);
+        $user = $app['security']->getToken()->getUser();
+        $config = $app['configuration']->load(__DIR__ . "/../../../config/config.yml");
         
         return $app['twig']->render(
                 'home.twig',
                 array(
                     'formlogin' => $this->formLogin->createView(),
                     'formregister' => $this->formRegister->createView(),
+                    'user' => $user,
+                    'webservice' => $config->get('webservice',array())
                 )
         );
     }
